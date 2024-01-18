@@ -18,20 +18,20 @@ import {
 } from "@mui/joy";
 import Link from "next/link";
 import DrawerItem from "@/types/DrawerItem";
-import { KeyboardArrowDown } from "@mui/icons-material";
+import { CloseSharp, KeyboardArrowDown } from "@mui/icons-material";
 
 function Toggler({
   defaultExpanded = false,
   renderToggle,
   children,
 }: {
-  defaultExpanded?: boolean;
-  children: React.ReactNode;
-  renderToggle: (params: {
-    open: boolean;
-    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  }) => React.ReactNode;
-}) {
+    defaultExpanded?: boolean;
+    children: React.ReactNode;
+    renderToggle: (params: {
+      open: boolean;
+      setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    }) => React.ReactNode;
+  }) {
   const [open, setOpen] = React.useState(defaultExpanded);
   return (
     <>
@@ -59,14 +59,16 @@ function MainComponent({
   drawerItems,
   aboutTitle,
   aboutDescription,
+  setVisibility,
 }: {
-  title: string;
-  width: number;
-  icon: JSX.Element;
-  drawerItems: DrawerItem[];
-  aboutTitle: string;
-  aboutDescription: string;
-}) {
+    title: string;
+    width: number;
+    icon: JSX.Element;
+    drawerItems: DrawerItem[];
+    aboutTitle: string;
+    aboutDescription: string;
+    setVisibility : Function
+  }) {
   return (
     <Sheet
       className="Sidebar"
@@ -82,7 +84,7 @@ function MainComponent({
         backgroundColor: "background.surface",
       }}
     >
-      <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+      <Box sx={{ display: "flex", gap: 1, alignItems: "center"}}>
         <IconButton variant="soft" color="primary" size="sm">
           {icon}
         </IconButton>
@@ -92,7 +94,12 @@ function MainComponent({
         >
           {title}
         </Typography>
-      </Box>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', flexGrow: 1 }}>
+       <IconButton onClick={() => setVisibility(false)}>
+          <CloseSharp />
+        </IconButton>
+        </Box>
+       </Box>
       <Box
         sx={{
           minHeight: 0,
@@ -120,42 +127,42 @@ function MainComponent({
               </ListSubheader>
               {e.data.map((f, j) => {
                 if (f.container)
-                  return (
-                    <Toggler
-                      key={j}
-                      renderToggle={({ open, setOpen }) => (
-                        <ListItemButton onClick={() => setOpen(!open)}>
-                          {f.icon}
-                          <ListItemContent>
-                            <Typography level="title-sm">{f.text}</Typography>
-                          </ListItemContent>
-                          <KeyboardArrowDown
-                            sx={{ transform: open ? "none" : "rotate(180deg)" }}
-                          />
-                        </ListItemButton>
-                      )}
-                    >
-                      <List sx={{ gap: 0.5 }}>
-                        {f.data.map((g, k) => (
-                          <ListItem key={k}>
-                            <Link
-                              href={g.path}
-                              style={{ textDecoration: "none", width: "100%" }}
-                            >
-                              <ListItemButton>
-                                {g.icon}
-                                <ListItemContent>
-                                  <Typography level="title-sm">
-                                    {g.text}
-                                  </Typography>
-                                </ListItemContent>
-                              </ListItemButton>
-                            </Link>
-                          </ListItem>
-                        ))}
-                      </List>
-                    </Toggler>
-                  );
+                return (
+                  <Toggler
+                    key={j}
+                    renderToggle={({ open, setOpen }) => (
+                      <ListItemButton onClick={() => setOpen(!open)}>
+                        {f.icon}
+                        <ListItemContent>
+                          <Typography level="title-sm">{f.text}</Typography>
+                        </ListItemContent>
+                        <KeyboardArrowDown
+                          sx={{ transform: open ? "none" : "rotate(180deg)" }}
+                        />
+                      </ListItemButton>
+                    )}
+                  >
+                    <List sx={{ gap: 0.5 }}>
+                      {f.data.map((g, k) => (
+                        <ListItem key={k}>
+                          <Link
+                            href={g.path}
+                            style={{ textDecoration: "none", width: "100%" }}
+                          >
+                            <ListItemButton>
+                              {g.icon}
+                              <ListItemContent>
+                                <Typography level="title-sm">
+                                  {g.text}
+                                </Typography>
+                              </ListItemContent>
+                            </ListItemButton>
+                          </Link>
+                        </ListItem>
+                      ))}
+                    </List>
+                  </Toggler>
+                );
                 return (
                   <ListItem key={i}>
                     <Link
@@ -211,15 +218,15 @@ export default function Sidebar({
   aboutTitle,
   aboutDescription,
 }: {
-  title: string;
-  width: number;
-  icon: JSX.Element;
-  drawerItems: DrawerItem[];
-  visibilityState: boolean;
-  setVisibility: Function;
-  aboutTitle: string;
-  aboutDescription: string;
-}) {
+    title: string;
+    width: number;
+    icon: JSX.Element;
+    drawerItems: DrawerItem[];
+    visibilityState: boolean;
+    setVisibility: Function;
+    aboutTitle: string;
+    aboutDescription: string;
+  }) {
   return (
     <>
       <Box
@@ -237,6 +244,7 @@ export default function Sidebar({
           drawerItems={drawerItems}
           aboutTitle={aboutTitle}
           aboutDescription={aboutDescription}
+          setVisibility={setVisibility}
         />
       </Box>
     </>

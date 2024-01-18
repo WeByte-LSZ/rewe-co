@@ -4,6 +4,7 @@ import {
   Button,
   CssBaseline,
   CssVarsProvider,
+  ListItemDecorator,
   Typography,
 } from "@mui/joy";
 import { useState } from "react";
@@ -14,14 +15,17 @@ import {
   DownloadRounded,
   HexagonSharp,
   SummarizeSharp,
+  Videocam,
 } from "@mui/icons-material";
 import Navigation from "@/components/Header";
 import theme from "@/theme";
 import Sidebar from "@/components/Sidebar";
 import BreadCrumbs from "@/components/Breadcrumbs";
+import SearchModal from "@/components/modal/SearchModal";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [sidebarVisibility, setSidebarVisibility] = useState(true);
+  const [modalVisibility, setModalVisibility] = useState(false);
 
   const drawerItems = [
     {
@@ -65,11 +69,11 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <CssVarsProvider disableTransitionOnChange theme={theme}>
       <CssBaseline />
-      <Box sx={{ display: "flex", flexDirection: "row", Height: "100vh" }}>
+      <Box sx={{ display: "flex", flexDirection: "row", height: "100vh" }}>
         <Sidebar
           icon={<HexagonSharp />}
           width={sidebarWidth}
-          title={"DataVis Framework"}
+          title={"Framework"}
           visibilityState={sidebarVisibility}
           setVisibility={setSidebarVisibility}
           drawerItems={drawerItems}
@@ -82,8 +86,8 @@ export default function App({ Component, pageProps }: AppProps) {
           sx={{
             marginLeft: {
               xs: 0,
-              md: sidebarVisibility ? `${sidebarWidth}px` : 0, 
-            }, 
+              md: sidebarVisibility ? `${sidebarWidth}px` : 0,
+            },
             transition: "all 0.5s",
             display: "flex",
             flexDirection: "column",
@@ -95,6 +99,7 @@ export default function App({ Component, pageProps }: AppProps) {
             setSidebarVisibility={() => {
               setSidebarVisibility(() => !sidebarVisibility);
             }}
+            setModalVisibility={() => { setModalVisibility(true) }}
           />
           <Box
             sx={{
@@ -102,11 +107,11 @@ export default function App({ Component, pageProps }: AppProps) {
               display: "flex",
               position: "relative",
               justifyContent: "center",
+              overflow: 'auto'
             }}
           >
             <Box
               sx={{
-                overflow: "auto",
                 display: "flex",
                 flexDirection: "column",
                 flexBasis: "75%",
@@ -133,10 +138,40 @@ export default function App({ Component, pageProps }: AppProps) {
                   Export
                 </Button>
               </Box>
+              <Component {...pageProps} />
             </Box>
           </Box>
         </Box>
       </Box>
+
+      <SearchModal title="Search"
+        visibility={modalVisibility}
+        setVisibility={setModalVisibility}
+        dataPoints={[{ id: 'nigga' },
+        { id: 'elem1' },
+        { id: 'elem2' },
+        { id: 'elem3' },
+        { id: 'elem4' },
+        { id: 'elem5' },
+        { id: 'elem6' },
+        { id: 'elem7' },
+        { id: 'elem8' },
+        { id: 'elem9' },
+        { id: 'elem10' },
+        { id: 'elem11' },
+        { id: 'elem12' },
+        ]}
+        setDatapoints={() => { }}
+        keys={['id']}
+        setKeys={() => { }}
+        dataToBeDisplayed={(e: any) => (
+          <>
+            <ListItemDecorator>
+              <Videocam />
+            </ListItemDecorator>
+            {e.item.id}
+          </>
+        )} />
     </CssVarsProvider>
   );
 }

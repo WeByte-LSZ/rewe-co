@@ -7,12 +7,15 @@ import {
   SettingsRounded,
 } from "@mui/icons-material";
 import { Box, IconButton, Input, Stack, Typography } from "@mui/joy";
+import ColorSchemeToggle from "./decorative/ColorSchemeToggle";
 
 export default function Navbar({
   sidebarVisibility,
   setSidebarVisibility,
+  setModalVisibility
 }: {
   sidebarVisibility: boolean;
+  setModalVisibility: Function;
   setSidebarVisibility: Function;
 }) {
   return (
@@ -21,7 +24,6 @@ export default function Navbar({
         zIndex: 900,
         width: "100%",
         display: "flex",
-        position: "sticky",
         justifyContent: "space-between",
         backgroundColor: "background.surface",
         padding: 1,
@@ -49,6 +51,16 @@ export default function Navbar({
           variant="outlined"
           placeholder="Search..."
           startDecorator={<SearchRounded color="primary" />}
+          sx={{
+            alignSelf: "center",
+            display: {
+              xs: "none",
+              sm: "flex",
+            },
+          }}
+          onClick={
+            () => { setModalVisibility() }
+          }
           endDecorator={
             <IconButton
               variant="outlined"
@@ -60,13 +72,6 @@ export default function Navbar({
               </Typography>
             </IconButton>
           }
-          sx={{
-            alignSelf: "center",
-            display: {
-              xs: "none",
-              sm: "flex",
-            },
-          }}
         />
         <IconButton
           size="sm"
@@ -95,6 +100,7 @@ export default function Navbar({
         <IconButton variant="plain" color="neutral">
           <SettingsRounded />
         </IconButton>
+        <ColorSchemeToggle />
       </Stack>
     </Box>
   );
