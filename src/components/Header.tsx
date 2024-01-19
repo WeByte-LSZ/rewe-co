@@ -18,6 +18,21 @@ export default function Navbar({
   setModalVisibility: Function;
   setSidebarVisibility: Function;
 }) {
+  React.useEffect(() => {
+    const handleKeyDown = (event:any) => {
+      if (event.ctrlKey && event.key === "k") {
+        setModalVisibility();
+        event.preventDefault();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [setModalVisibility]);
+
   return (
     <Box
       sx={{
@@ -58,9 +73,9 @@ export default function Navbar({
               sm: "flex",
             },
           }}
-          onClick={
-            () => { setModalVisibility() }
-          }
+          onClick={() => {
+            setModalVisibility();
+          }}
           endDecorator={
             <IconButton
               variant="outlined"
