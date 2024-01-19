@@ -147,19 +147,15 @@ export default function App({ Component, pageProps }: AppProps) {
       <SearchModal title="Search"
         visibility={modalVisibility}
         setVisibility={setModalVisibility}
-        dataPoints={[{ id: 'nigga' },
-        { id: 'elem1' },
-        { id: 'elem2' },
-        { id: 'elem3' },
-        { id: 'elem4' },
-        { id: 'elem5' },
-        { id: 'elem6' },
-        { id: 'elem7' },
-        { id: 'elem8' },
-        { id: 'elem9' },
-        { id: 'elem10' },
-        { id: 'elem11' },
-        { id: 'elem12' },
+        dataPoints={[{ id: 'Scarlamaus' },
+        { id: 'Ankush' },
+        { id: 'Serg' },
+        { id: 'Austria' },
+        { id: 'German' },
+        { id: 'Kevin' },
+        { id: 'Bedna' },
+        { id: 'Falsche' },
+        { id: 'Dahmaen' },
         ]}
         setDatapoints={() => { }}
         keys={['id']}
