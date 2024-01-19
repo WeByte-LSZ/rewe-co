@@ -99,7 +99,7 @@ export default function App({ Component, pageProps }: AppProps) {
             setSidebarVisibility={() => {
               setSidebarVisibility(() => !sidebarVisibility);
             }}
-            setModalVisibility={() => { setModalVisibility(true) }}
+            setModalVisibility={() => { setModalVisibility((old) => !old)}}
           />
           <Box
             sx={{
