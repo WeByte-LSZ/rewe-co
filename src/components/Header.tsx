@@ -19,7 +19,7 @@ export default function Navbar({
   setSidebarVisibility: Function;
 }) {
   React.useEffect(() => {
-    const handleKeyDown = (event:any) => {
+    const handleKeyDown = (event: any) => {
       if (event.ctrlKey && event.key === "k") {
         setModalVisibility();
         event.preventDefault();
@@ -61,39 +61,11 @@ export default function Navbar({
         >
           <MenuRounded />
         </IconButton>
-        <Input
-          size="sm"
-          variant="outlined"
-          placeholder="Search..."
-          startDecorator={<SearchRounded color="primary" />}
-          sx={{
-            alignSelf: "center",
-            display: {
-              xs: "none",
-              sm: "flex",
-            },
-          }}
-          onClick={() => {
-            setModalVisibility();
-          }}
-          endDecorator={
-            <IconButton
-              variant="outlined"
-              color="neutral"
-              sx={{ bgcolor: "background.level1" }}
-            >
-              <Typography level="title-sm" textColor="text.icon">
-                Ctrl + K
-              </Typography>
-            </IconButton>
-          }
-        />
         <IconButton
           size="sm"
           variant="outlined"
           color="neutral"
           sx={{
-            display: { xs: "inline-flex", sm: "none" },
             alignSelf: "center",
           }}
         >
