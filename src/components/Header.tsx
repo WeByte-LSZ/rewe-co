@@ -68,6 +68,9 @@ export default function Navbar({
           sx={{
             alignSelf: "center",
           }}
+          onClick={() => {
+            setModalVisibility();
+          }}
         >
           <SearchRounded />
         </IconButton>
