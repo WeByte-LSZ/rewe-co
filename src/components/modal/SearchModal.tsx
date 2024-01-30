@@ -19,11 +19,13 @@ export default function SearchModal({ visibility, setVisibility, dataPoints, key
     return new FuzzyFinder(dataPoints, keys);
   }, [dataPoints, keys])
   const [searchResults, setSearchResults] = useState<object[]>([]);
+  const [query, setQuery] = useState<string>("")
   return (
     <Modal open={visibility} onClose={() => { setVisibility(false) }}>
       <ModalDialog size='lg' sx={{ backgroundColor: 'background.body' }}>
-        <Input size='md' placeholder="Search" startDecorator={<SearchRounded color="primary" />} onChange={(e) => {
-          setSearchResults(fuzzyFinder.search(e.target.value))
+        <Input size='md' placeholder="Search" value={query} startDecorator={<SearchRounded color="primary" />} onChange={(e) => {
+          setQuery(e.target.value);
+          setSearchResults(fuzzyFinder.search(query))
         }} />
         <List
           component="nav"

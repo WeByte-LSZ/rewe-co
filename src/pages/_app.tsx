@@ -7,7 +7,7 @@ import {
   ListItemDecorator,
   Typography,
 } from "@mui/joy";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AppProps } from "next/app";
 import { usePathname } from "next/navigation";
 import {
@@ -26,6 +26,12 @@ import SearchModal from "@/components/modal/SearchModal";
 export default function App({ Component, pageProps }: AppProps) {
   const [sidebarVisibility, setSidebarVisibility] = useState(true);
   const [modalVisibility, setModalVisibility] = useState(false);
+  const [searchData, setSearchData] = useState([]);
+  const [graphData, setGraphData] = useState([]);
+
+  useEffect(() => {
+    fetch('/api/getAllKeys').then(response => response.json()).then(data => setSearchData(data.data.map((e: string) => { return { id: e } })))
+  }, [])
 
   const drawerItems = [
     {
@@ -99,7 +105,7 @@ export default function App({ Component, pageProps }: AppProps) {
             setSidebarVisibility={() => {
               setSidebarVisibility(() => !sidebarVisibility);
             }}
-            setModalVisibility={() => { setModalVisibility((old) => !old)}}
+            setModalVisibility={() => { setModalVisibility((old) => !old) }}
           />
           <Box
             sx={{
@@ -147,16 +153,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <SearchModal title="Search"
         visibility={modalVisibility}
         setVisibility={setModalVisibility}
-        dataPoints={[{ id: 'Scarlamaus' },
-        { id: 'Ankush' },
-        { id: 'Serg' },
-        { id: 'Austria' },
-        { id: 'German' },
-        { id: 'Kevin' },
-        { id: 'Bedna' },
-        { id: 'Falsche' },
-        { id: 'Dahmaen' },
-        ]}
+        dataPoints={searchData}
         setDatapoints={() => { }}
         keys={['id']}
         setKeys={() => { }}
