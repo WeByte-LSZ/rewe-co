@@ -7,7 +7,7 @@ export default class FuzzyFinder {
     isCaseSensitive: false,
     includeScore: false,
     shouldSort: true,
-    includeMatches: false,
+    includeMatches: true,
     findAllMatches: false,
     minMatchCharLength: 1,
     location: 0,

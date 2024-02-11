@@ -1,6 +1,7 @@
 {
   "name": "datavis",
   "version": "0.1.0",
+  "description": "Dashboard generation software with dynamic & static endpoints.",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -16,7 +17,8 @@
     "fuse.js": "^7.0.0",
     "next": "14.0.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "recharts": "^2.11.0"
   },
   "devDependencies": {
     "@types/node": "^20",

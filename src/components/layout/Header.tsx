@@ -6,22 +6,26 @@ import {
   SearchRounded,
   SettingsRounded,
 } from "@mui/icons-material";
-import { Box, IconButton, Input, Stack, Typography } from "@mui/joy";
-import ColorSchemeToggle from "./decorative/ColorSchemeToggle";
+import { Box, Dropdown, IconButton, Link, Menu, MenuButton, MenuItem, Stack } from "@mui/joy";
+
+import ColorSchemeToggle from "../utils/ColorSchemeToggle";
+import config from "../../../configuration";
 
 export default function Navbar({
   sidebarVisibility,
-  setSidebarVisibility,
-  setModalVisibility
+  toggleSidebarVisibility,
+  toggleSearchModalVisibility,
+  toggleInformationModalVisibility
 }: {
   sidebarVisibility: boolean;
-  setModalVisibility: Function;
-  setSidebarVisibility: Function;
+  toggleSearchModalVisibility: Function;
+  toggleSidebarVisibility: Function;
+  toggleInformationModalVisibility: Function
 }) {
   React.useEffect(() => {
     const handleKeyDown = (event: any) => {
       if (event.ctrlKey && event.key === "k") {
-        setModalVisibility();
+        toggleSearchModalVisibility();
         event.preventDefault();
       }
     };
@@ -31,7 +35,7 @@ export default function Navbar({
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [setModalVisibility]);
+  }, [toggleSearchModalVisibility]);
 
   return (
     <Box
@@ -56,7 +60,7 @@ export default function Navbar({
           variant={sidebarVisibility ? "plain" : "soft"}
           color="neutral"
           onClick={() => {
-            setSidebarVisibility();
+            toggleSidebarVisibility();
           }}
         >
           <MenuRounded />
@@ -69,7 +73,7 @@ export default function Navbar({
             alignSelf: "center",
           }}
           onClick={() => {
-            setModalVisibility();
+            toggleSearchModalVisibility();
           }}
         >
           <SearchRounded />
@@ -81,14 +85,16 @@ export default function Navbar({
         alignItems="center"
         spacing={1}
       >
-        <IconButton variant="plain" color="neutral">
-          <LanguageSharp />
-        </IconButton>
-        <IconButton variant="plain" color="neutral">
+        <Link href={config.userConfiguration.homepageLink} style={{ display: config.userConfiguration.homepageLink ? 'inline-flex' : 'none' }} >
+          <IconButton variant="plain" color="neutral">
+            <LanguageSharp />
+          </IconButton>
+        </Link>
+        <IconButton variant="plain" color="neutral" onClick={() => { toggleInformationModalVisibility() }} >
           <InfoSharp />
         </IconButton>
         <IconButton variant="plain" color="neutral">
-          <SettingsRounded />
+          <SettingsRounded sx={{ '&:hover': { rotate: '360deg' }, transition: 'rotate 1s' }} />
         </IconButton>
         <ColorSchemeToggle />
       </Stack>
