@@ -1,0 +1,11 @@
+import React, { PureComponent } from 'react';
+import { Treemap, ResponsiveContainer } from 'recharts';
+
+
+export default function TreemapWrapper({data} : {data: any}) {
+    return (
+        <ResponsiveContainer width="100%" height="100%">
+          <Treemap width={400} height={200} data={data} dataKey="size" aspectRatio={4 / 3} stroke="#fff" fill="#8884d8" />
+        </ResponsiveContainer>
+      );
+}
