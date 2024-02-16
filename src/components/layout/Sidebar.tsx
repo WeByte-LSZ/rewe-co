@@ -70,7 +70,7 @@ const TitleComponent = ({ title, icon, closeSidebar }: { title: string, icon: JS
   </Box>
 )
 
-const NestedListComponent = ({ items }: { items: DrawerPage[] }) => {
+const NestedListComponent = ({ items, setCurrentPageID }: { items: DrawerPage[], setCurrentPageID: Function }) => {
   return items.map((e, i) => {
     if (e.subItems.length > 0) return (
       <Toggler key={i} renderToggle={({ open, setOpen }) => (
@@ -91,14 +91,14 @@ const NestedListComponent = ({ items }: { items: DrawerPage[] }) => {
           }}>
 
           <ListItem nested>
-            <NestedListComponent items={e.subItems} />
+            <NestedListComponent items={e.subItems} setCurrentPageID={setCurrentPageID} />
           </ListItem>
         </List>
-      </Toggler >
+      </Toggler>
     )
     return (
       <ListItem key={i}>
-        <ListItemButton>
+        <ListItemButton onClick={() => { setCurrentPageID(e.id) }}>
           {e.icon}
           <ListItemContent>
             <Typography level="title-sm">{e.label}</Typography>
@@ -115,12 +115,14 @@ function MainComponent({
   width,
   drawerItems,
   setVisibility,
+  setCurrentPageID
 }: {
   title: string;
   width: number;
   icon: JSX.Element;
   drawerItems: DrawerItem[];
-  setVisibility: Function
+  setVisibility: Function;
+  setCurrentPageID: Function
 }) {
   return (
     <Sheet
@@ -163,7 +165,7 @@ function MainComponent({
                 <ListSubheader sx={{ letterSpacing: "2px", fontWeight: "800" }}>
                   {e.label}
                 </ListSubheader>
-                <NestedListComponent items={e.subItems} />
+                <NestedListComponent setCurrentPageID={setCurrentPageID} items={e.subItems} />
               </ListItem>
             ))
           }
@@ -180,6 +182,7 @@ export default function Sidebar({
   drawerItems,
   visibilityState,
   setVisibility,
+  setCurrentPageID
 }: {
   title: string;
   width: number;
@@ -187,6 +190,7 @@ export default function Sidebar({
   drawerItems: DrawerItem[];
   visibilityState: boolean;
   setVisibility: Function;
+  setCurrentPageID: Function;
 }) {
   return (
     <>
@@ -204,6 +208,7 @@ export default function Sidebar({
           icon={icon}
           drawerItems={drawerItems}
           setVisibility={setVisibility}
+          setCurrentPageID={setCurrentPageID}
         />
       </Box>
     </>

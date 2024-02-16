@@ -1,29 +1,51 @@
 import Head from "next/head";
 import * as React from "react";
 import {
+  Box,
   ListItemDecorator,
   Typography,
 } from "@mui/joy";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   KeyboardReturn,
 } from "@mui/icons-material";
 import SearchModal from "@/components/modal/SearchModal";
 import config from "@/../configuration"
 import DrawerItem, { DrawerPage } from "@/types/Drawer";
-import { Page } from "@/types/Configuration";
+import { Component, Page } from "@/types/Configuration";
 import Layout from "@/components/layout/Layout";
 import { FuseResult, RangeTuple } from "fuse.js";
 
-function prepareDrawerItems(list: Page[], modalData: { data: object[] }, depthMarker: string = ""): DrawerPage[] {
+interface PageContents {
+  [id: string]: JSX.Element
+}
+
+function pageStateGeneration(componentList: Array<JSX.Element | Component>): JSX.Element[] {
+  return componentList.map((e) => {
+    if ("contents" in e) {
+      return (
+        <Box sx={{ display: 'flex', flexDirection: e.layout, flexGrow: 1, flexWrap: 'wrap' }}>
+          {pageStateGeneration(e.contents)}
+        </Box>
+      );
+    };
+    return <Box sx={{ display: 'flex', flexDirection: e.layout, flexGrow: 1, flexWrap: 'wrap' }}>{e}</Box>;
+
+  })
+}
+
+function prepareDrawerItems(list: Page[], modalData: { data: object[] }, pageContentsRef: PageContents, depthMarker: string = ""): DrawerPage[] {
   depthMarker = (depthMarker.length > 0 ? depthMarker + "/" : "")
   return list.map((e) => {
     modalData.data.push({ id: depthMarker + e.title, icon: e.icon })
+    pageContentsRef[depthMarker + e.title] = ("contents" in e.content) ?
+      <Box sx={{ display: 'flex', flexGrow: 1, flexDirection: e.content.layout, width: '100%', height: '100%' }}>{pageStateGeneration(e.content.contents)}</Box>
+      : e.content
     return {
       label: e.title,
       icon: e.icon,
-      id: "",
-      subItems: prepareDrawerItems(e.subpages, modalData, depthMarker + e.title)
+      id: depthMarker + e.title,
+      subItems: prepareDrawerItems(e.subpages, modalData, pageContentsRef, depthMarker + e.title)
     }
   })
 }
@@ -54,18 +76,22 @@ export default function Home() {
   const [modalData, setModalData] = useState<Object[]>([]);
   const [sidebarData, setSidebarData] = useState<DrawerItem[]>([]);
   const [modalVisibility, setSearchModalVisibility] = useState(false);
+  const [currentPageID, setCurrentPageID] = useState('Upper Austria');
+  const [pageContentStore, setPageContentStore] = useState<PageContents>({});
 
   useEffect(() => {
     // emulate pass by reference
     setSidebarData(() => {
-      let ref: { data: Object[] } = { data: [] }
+      let modalRef: { data: Object[] } = { data: [] }
+      let pageContentsRef: PageContents = {};
       const tmp = (config.categories.map((e) => {
         return {
           label: e.title,
-          subItems: prepareDrawerItems(e.pages, ref)
+          subItems: prepareDrawerItems(e.pages, modalRef, pageContentsRef)
         }
       }))
-      setModalData(ref.data);
+      setModalData(modalRef.data);
+      setPageContentStore(pageContentsRef);
       return tmp;
     })
   }, [])
@@ -82,7 +108,9 @@ export default function Home() {
         <Layout
           sidebarData={sidebarData}
           toggleSearchModalVisibility={() => { setSearchModalVisibility((old) => !old) }}
-          breadcrumbsPath={[]}
+          breadcrumbsPath={currentPageID.split('/')}
+          content={pageContentStore[currentPageID]}
+          setCurrentPageID={setCurrentPageID}
         />
         <SearchModal title="Search"
           visibility={modalVisibility}

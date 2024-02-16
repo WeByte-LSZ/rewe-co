@@ -1,5 +1,6 @@
 import { Configuration } from "@/types/Configuration";
 import { BarChartSharp, HexagonRounded, PieChartSharp } from "@mui/icons-material";
+import { Typography } from "@mui/joy";
 
 let config: Configuration = {
   title: 'DataVis E-Waste',
@@ -16,7 +17,7 @@ let config: Configuration = {
       title: 'General',
       pages: [
         {
-          title: 'Germany',
+          title: 'Austria',
           description: '',
           icon: <BarChartSharp />,
           subpages: [
@@ -30,34 +31,84 @@ let config: Configuration = {
                   description: '',
                   icon: <BarChartSharp />,
                   subpages: [],
-                  contents: []
+                  content: {
+                    layout: 'column',
+                    contents: [
+                      <Typography>
+                        Felix Dahmen 4DHIT
+                      </Typography>,
+                      {
+                        layout: 'column',
+                        contents: [
+                          {
+                            layout: 'row',
+                            contents: [
+                              <Typography>
+                                r32r
+                              </Typography>,
+                              <Typography>
+                                r32r
+                              </Typography>
+                            ]
+                          },
+                          {
+                            layout: 'row',
+                            contents: [
+                              <Typography>
+                                r32r
+                              </Typography>,
+                              <Typography>
+                                r32r
+                              </Typography>
+                            ]
+                          },
+                        ]
+                      }
+                    ]
+                  }
                 },
                 {
                   title: '10. District',
                   description: '',
                   icon: <BarChartSharp />,
                   subpages: [],
-                  contents: []
+                  content: {
+                    layout: 'row',
+                    contents: []
+                  }
                 },
               ],
-              contents: []
+              content: {
+                layout: 'row',
+                contents: []
+              }
+
             },
           ],
-          contents: []
+          content: {
+            layout: 'row',
+            contents: []
+          }
         },
         {
           title: 'Lower Austria',
           description: '',
           icon: <BarChartSharp />,
           subpages: [],
-          contents: []
+          content: {
+            layout: 'row',
+            contents: []
+          }
         },
         {
           title: 'Upper Austria',
           description: '',
           icon: <BarChartSharp />,
           subpages: [],
-          contents: []
+          content: {
+            layout: 'row',
+            contents: []
+          }
         },
       ],
     }

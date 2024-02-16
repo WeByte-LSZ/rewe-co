@@ -10,7 +10,7 @@ import DrawerItem from "@/types/Drawer";
 import config from "../../../configuration";
 import InformationModal from "../modal/InformationModal";
 
-export default function Layout({ sidebarData, toggleSearchModalVisibility, breadcrumbsPath }: { sidebarData: DrawerItem[], toggleSearchModalVisibility: Function, breadcrumbsPath: string[] }) {
+export default function Layout({ sidebarData, toggleSearchModalVisibility, breadcrumbsPath, content, setCurrentPageID }: { sidebarData: DrawerItem[], toggleSearchModalVisibility: Function, breadcrumbsPath: string[], content: JSX.Element, setCurrentPageID: Function }) {
 
   const sidebarWidth = '300px';
   const [sidebarVisibility, setSidebarVisibility] = useState<boolean>(true);
@@ -33,6 +33,7 @@ export default function Layout({ sidebarData, toggleSearchModalVisibility, bread
           visibilityState={sidebarVisibility}
           setVisibility={setSidebarVisibility}
           drawerItems={sidebarData}
+          setCurrentPageID={setCurrentPageID}
         />
         <Box
           sx={{
@@ -73,6 +74,7 @@ export default function Layout({ sidebarData, toggleSearchModalVisibility, bread
               }}
             >
               <BreadCrumbs path={breadcrumbsPath} />
+              {content}
             </Box>
           </Box>
         </Box>
