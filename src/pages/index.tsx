@@ -29,18 +29,32 @@ function pageStateGeneration(componentList: Array<JSX.Element | Component>): JSX
         </Box>
       );
     };
-    return <Box sx={{ display: 'flex', flexDirection: e.layout, flexGrow: 1, flexWrap: 'wrap' }}>{e}</Box>;
+    return (
+      <Box sx={{ display: 'flex', flexGrow: 1, flexWrap: 'wrap' }}>
+        {e}
+      </Box>
+    );
 
   })
 }
 
 function prepareDrawerItems(list: Page[], modalData: { data: object[] }, pageContentsRef: PageContents, depthMarker: string = ""): DrawerPage[] {
   depthMarker = (depthMarker.length > 0 ? depthMarker + "/" : "")
+
   return list.map((e) => {
     modalData.data.push({ id: depthMarker + e.title, icon: e.icon })
-    pageContentsRef[depthMarker + e.title] = ("contents" in e.content) ?
-      <Box sx={{ display: 'flex', flexGrow: 1, flexDirection: e.content.layout, width: '100%', height: '100%' }}>{pageStateGeneration(e.content.contents)}</Box>
-      : e.content
+    pageContentsRef[depthMarker + e.title] = (
+      <Box sx={{ display: 'flex', flexDirection: 'column' }} >
+        <Typography level="h1">{e.title}</Typography>
+        {("contents" in e.content) ?
+          <Box sx={{ display: 'flex', flexGrow: 1, flexDirection: e.content.layout, width: '100%', height: '100%' }}>
+            {pageStateGeneration(e.content.contents)}
+          </Box>
+          : e.content
+        }
+      </Box>
+    );
+
     return {
       label: e.title,
       icon: e.icon,
