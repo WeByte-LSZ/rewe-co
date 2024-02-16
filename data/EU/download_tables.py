@@ -31,6 +31,9 @@ for country in countries:
             # Extract datapoints as arrays of objects
             current_directory = os.path.dirname(os.path.realpath(__file__))
             datapoints = [{str(row['TIME_PERIOD']): row['OBS_VALUE']} for index, row in filtered_data.iterrows()]
+ 
+            if (len(datapoints) == 0): # Filter out tables with no data
+                continue
             
             # Export datapoints to JSON file
             filename = f"{current_directory}/{country}:{waste_operation}:{unit}.json"  # Example file name: "US_kg_COL.json"
