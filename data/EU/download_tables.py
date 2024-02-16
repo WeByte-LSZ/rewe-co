@@ -1,6 +1,7 @@
 import pandas as pd
 import json
 import requests
+import os
 from io import StringIO
 
 # Define the URL for the CSV file
@@ -28,10 +29,11 @@ for country in countries:
         for waste_operation in waste_operations:
             filtered_data = filter_data(country, unit, waste_operation)
             # Extract datapoints as arrays of objects
+            current_directory = os.path.dirname(os.path.realpath(__file__))
             datapoints = [{str(row['TIME_PERIOD']): row['OBS_VALUE']} for index, row in filtered_data.iterrows()]
             
             # Export datapoints to JSON file
-            filename = f"{country}_{waste_operation}_{unit}.json"  # Example file name: "US_kg_COL.json"
+            filename = f"{current_directory}/{country}:{waste_operation}:{unit}.json"  # Example file name: "US_kg_COL.json"
             with open(filename, 'w') as file:
                 json.dump(datapoints, file)
 
