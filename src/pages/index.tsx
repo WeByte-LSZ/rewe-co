@@ -21,16 +21,15 @@ interface PageContents {
 }
 
 function pageStateGeneration(componentList: Array<JSX.Element | Component>): JSX.Element[] {
-  return componentList.map((e) => {
+  return componentList.map((e, i) => {
     if ("contents" in e) {
       return (
-        <Box sx={{ display: 'flex', flexDirection: e.layout, flexGrow: 1, flexWrap: 'wrap' }}>
+        <Box key={'pageWrapper' + i} sx={{ display: 'flex', flexDirection: e.layout, flexGrow: 1, flexWrap: 'wrap' }}>
           {pageStateGeneration(e.contents)}
         </Box>
       );
     };
-    return <Box sx={{ display: 'flex', flexDirection: e.layout, flexGrow: 1, flexWrap: 'wrap' }}>{e}</Box>;
-
+    return <Box key={'pageComponentWrapper' + i} sx={{ display: 'flex', flexGrow: 1, flexWrap: 'wrap' }}>{e}</Box>;
   })
 }
 
@@ -114,6 +113,7 @@ export default function Home() {
         />
         <SearchModal title="Search"
           visibility={modalVisibility}
+          setCurrentPageID={setCurrentPageID}
           setVisibility={setSearchModalVisibility}
           dataPoints={modalData}
           setDatapoints={() => { }}

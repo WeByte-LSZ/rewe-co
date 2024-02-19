@@ -6,6 +6,7 @@ import FuzzyFinder from '@/lib/fuzzyFinder'
 interface ModalProps {
   title: string;
   visibility: boolean;
+  setCurrentPageID: Function;
   setVisibility: Function;
   dataPoints: object[];
   setDatapoints: Function;
@@ -21,12 +22,13 @@ const modalItems = [
   { title: 'heading 4', items: ['Button 1', 'Button 2', 'Button 3'] }
 ]
 
-function SearchResultItem({ Item }: { Item: JSX.ElementType }) {
+function SearchResultItem({ Item, setCurrentPageID, id }: { Item: JSX.ElementType, setCurrentPageID: Function, id: string }) {
   const [hover, setHover] = useState(false);
   return (
     <ListItemButton
       onMouseOver={() => setHover(true)}
       onMouseOut={() => setHover(false)}
+      onClick={() => setCurrentPageID(id)}
       sx={{
         display: 'flex', fontWeight: 450, borderRadius: 8, marginY: 0.3, padding: 1.5,
         backgroundColor: 'background.surface', borderColor: 'neutral.outlinedBorder'
@@ -36,7 +38,7 @@ function SearchResultItem({ Item }: { Item: JSX.ElementType }) {
   )
 }
 
-export default function SearchModal({ visibility, setVisibility, dataPoints, keys, dataToBeDisplayed }: PropsWithChildren<ModalProps>) {
+export default function SearchModal({ visibility, setVisibility, setCurrentPageID, dataPoints, keys, dataToBeDisplayed }: PropsWithChildren<ModalProps>) {
   let fuzzyFinder = useRef<FuzzyFinder | null>(null);
   const [searchResults, setSearchResults] = useState<object[]>([]);
   const [query, setQuery] = useState<string>("")
@@ -62,7 +64,7 @@ export default function SearchModal({ visibility, setVisibility, dataPoints, key
         >
           {searchResults.length > 0 && query.length != 0 ? searchResults.map((e: any, i: number) => {
             return (
-              <SearchResultItem Item={({ isHovered }: { isHovered: boolean }) => dataToBeDisplayed(e, isHovered)} key={i} />
+              <SearchResultItem Item={({ isHovered }: { isHovered: boolean }) => dataToBeDisplayed(e, isHovered)} setCurrentPageID={setCurrentPageID} id={e.item.id} key={i} />
             )
           }) : (
             <Grid container rowSpacing={2} sx={{ maxWidth: '100%' }}>
