@@ -1,14 +1,9 @@
 // @NOTE: Data is assigned to each graph component
 // Adjustig by user will require own engine
 
-export interface Data {
-  [key: string]: {
-    [category: string]: Datapoint
-  };
-}
 
 export interface Datapoint {
-  [key: string]: number
+  [year: string]: number
 }
 
 export type Category = {
