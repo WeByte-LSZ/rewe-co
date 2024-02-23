@@ -9,12 +9,14 @@ import BreadCrumbs from "@/components/layout/Breadcrumbs";
 import DrawerItem from "@/types/Drawer";
 import config from "../../../configuration";
 import InformationModal from "../modal/InformationModal";
+import SettingsModal from "../modal/SettingsModal";
 
 export default function Layout({ sidebarData, toggleSearchModalVisibility, toggleActionModalVisibility, breadcrumbsPath, content, setCurrentPageID }: { sidebarData: DrawerItem[], toggleSearchModalVisibility: Function, toggleActionModalVisibility: Function, breadcrumbsPath: string[], content: JSX.Element, setCurrentPageID: Function }) {
 
   const sidebarWidth = '300px';
   const [sidebarVisibility, setSidebarVisibility] = useState<boolean>(true);
-  const [informationModalVisible, setInformationModalVisible] = useState<boolean>(false);
+  const [informationModalVisible, setInformationModalVisibility] = useState<boolean>(false);
+  const [settingsModalVisibility, setSettingsModalVisibility] = useState<boolean>(false);
   // in %
   const [layoutWidth, setLayoutWidth] = useState<number>(config.userConfiguration.defaultLayoutWidth || 75);
 
@@ -52,10 +54,11 @@ export default function Layout({ sidebarData, toggleSearchModalVisibility, toggl
             toggleSidebarVisibility={() => {
               setSidebarVisibility((old) => !old);
             }}
+            toggleSettingsModalVisibility={() => { setSettingsModalVisibility((old) => !old) }}
             toggleSearchModalVisibility={toggleSearchModalVisibility}
             toggleActionModalVisibility={toggleActionModalVisibility}
             toggleInformationModalVisibility={() => {
-              setInformationModalVisible((old) => !old)
+              setInformationModalVisibility((old) => !old)
             }}
           />
           <Box
@@ -80,6 +83,8 @@ export default function Layout({ sidebarData, toggleSearchModalVisibility, toggl
           </Box>
         </Box>
       </Box>
+      <InformationModal modalVisible={informationModalVisible} setModalVisible={setInformationModalVisibility} />
+      <SettingsModal visibility={settingsModalVisibility} setVisibility={setSettingsModalVisibility} />
     </>
   )
 }

@@ -18,13 +18,15 @@ export default function Navbar({
   toggleSidebarVisibility,
   toggleSearchModalVisibility,
   toggleActionModalVisibility,
-  toggleInformationModalVisibility
+  toggleInformationModalVisibility,
+  toggleSettingsModalVisibility
 }: {
   sidebarVisibility: boolean;
   toggleSearchModalVisibility: Function;
   toggleSidebarVisibility: Function;
   toggleActionModalVisibility: Function;
-  toggleInformationModalVisibility: Function
+  toggleInformationModalVisibility: Function;
+  toggleSettingsModalVisibility: Function;
 }) {
   React.useEffect(() => {
     const handleKeyDown = (event: any) => {
@@ -119,7 +121,7 @@ export default function Navbar({
         <IconButton variant="plain" color="neutral" onClick={() => { toggleInformationModalVisibility() }} >
           <InfoSharp />
         </IconButton>
-        <IconButton variant="plain" color="neutral">
+        <IconButton variant="plain" color="neutral" onClick={() => { toggleSettingsModalVisibility() }}>
           <SettingsRounded sx={{ '&:hover': { rotate: '360deg' }, transition: 'rotate 1s' }} />
         </IconButton>
         <ColorSchemeToggle />
