@@ -1,3 +1,4 @@
+"use client";
 import Head from "next/head";
 import * as React from "react";
 import {
@@ -24,12 +25,12 @@ function pageStateGeneration(componentList: Array<JSX.Element | Component>): JSX
   return componentList.map((e, i) => {
     if ("contents" in e) {
       return (
-        <Box key={'pageWrapper' + i} sx={{ display: 'flex', flexDirection: e.layout, flexGrow: 1, flexWrap: 'wrap' }}>
+        <Box key={'pageWrapper' + i} sx={{ display: 'flex', flexDirection: e.layout, flexGrow: 1, gap: 2 }}>
           {pageStateGeneration(e.contents)}
         </Box>
       );
     };
-    return <Box key={'pageComponentWrapper' + i} sx={{ display: 'flex', flexGrow: 1, flexWrap: 'wrap' }}>{e}</Box>;
+    return <Box key={'pageComponentWrapper' + i} sx={{ display: 'flex', flexWrap: 'wrap', flexGrow: 1, width: 0 }}>{e}</Box>;
   })
 }
 
@@ -45,7 +46,8 @@ function prepareDrawerItems(list: Page[], modalData: { data: object[] }, pageCon
           <Box sx={{ display: 'flex', flexGrow: 1, flexDirection: e.content.layout, width: '100%', height: '100%' }}>
             {pageStateGeneration(e.content.contents)}
           </Box>
-          : e.content
+          :
+          e.content
         }
       </Box>
     );
@@ -84,8 +86,10 @@ function underlineSearchResults(match: string, indices: readonly RangeTuple[]): 
 export default function Home() {
   const [modalData, setModalData] = useState<Object[]>([]);
   const [sidebarData, setSidebarData] = useState<DrawerItem[]>([]);
-  const [modalVisibility, setSearchModalVisibility] = useState(false);
+  const [searchModalVisibility, setSearchModalVisibility] = useState(false);
+  const [actionModalVisibility, setActionModalVisibility] = useState(false);
   const [currentPageID, setCurrentPageID] = useState('Upper Austria');
+  const [currentActionID, setCurrentActionID] = useState('Upper Austria');
   const [pageContentStore, setPageContentStore] = useState<PageContents>({});
 
   useEffect(() => {
@@ -105,6 +109,10 @@ export default function Home() {
     })
   }, [])
 
+  useEffect(() => {
+
+  }, [currentActionID])
+
   return (
     <>
       <Head>
@@ -117,14 +125,39 @@ export default function Home() {
         <Layout
           sidebarData={sidebarData}
           toggleSearchModalVisibility={() => { setSearchModalVisibility((old) => !old) }}
+          toggleActionModalVisibility={() => { setActionModalVisibility((old) => !old) }}
           breadcrumbsPath={currentPageID.split('/')}
           content={pageContentStore[currentPageID]}
           setCurrentPageID={setCurrentPageID}
         />
         <SearchModal title="Search"
-          visibility={modalVisibility}
+          visibility={searchModalVisibility}
           setCurrentPageID={setCurrentPageID}
           setVisibility={setSearchModalVisibility}
+          dataPoints={modalData}
+          setDatapoints={() => { }}
+          keys={['id']}
+          setKeys={() => { }}
+          dataToBeDisplayed={(e: FuseResult<any>, isHovered: boolean) => (
+            <>
+              <ListItemDecorator sx={{ justifyContent: 'flex-start' }}>
+                {e.item.icon}
+              </ListItemDecorator>
+              {
+                <Typography sx={{ color: isHovered ? 'primary.plainColor' : 'text.primary' }}>
+                  {underlineSearchResults(e.item.id, (e.matches) ? e.matches[0].indices : [])}
+                </Typography>
+              }
+              <ListItemDecorator sx={{ display: isHovered ? 'inline-flex' : 'none', justifyContent: 'flex-end', flexGrow: 1, paddingX: 1.5 }}>
+                <KeyboardReturn />
+              </ListItemDecorator>
+            </>
+          )} />
+
+        <SearchModal title="Search"
+          visibility={actionModalVisibility}
+          setCurrentPageID={setCurrentActionID}
+          setVisibility={setActionModalVisibility}
           dataPoints={modalData}
           setDatapoints={() => { }}
           keys={['id']}

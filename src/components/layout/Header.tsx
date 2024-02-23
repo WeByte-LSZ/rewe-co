@@ -1,25 +1,29 @@
 import * as React from "react";
 import {
+  BuildSharp,
   InfoSharp,
   LanguageSharp,
   MenuRounded,
   SearchRounded,
   SettingsRounded,
 } from "@mui/icons-material";
-import { Box, Dropdown, IconButton, Link, Menu, MenuButton, MenuItem, Stack } from "@mui/joy";
+import { Box, Dropdown, IconButton, Link, Menu, MenuButton, MenuItem, Stack, Tooltip } from "@mui/joy";
 
 import ColorSchemeToggle from "../utils/ColorSchemeToggle";
 import config from "../../../configuration";
+import StyledTooltip from "../styledComponents/StyledTooltip";
 
 export default function Navbar({
   sidebarVisibility,
   toggleSidebarVisibility,
   toggleSearchModalVisibility,
+  toggleActionModalVisibility,
   toggleInformationModalVisibility
 }: {
   sidebarVisibility: boolean;
   toggleSearchModalVisibility: Function;
   toggleSidebarVisibility: Function;
+  toggleActionModalVisibility: Function;
   toggleInformationModalVisibility: Function
 }) {
   React.useEffect(() => {
@@ -56,28 +60,50 @@ export default function Navbar({
         alignItems="center"
         spacing={1}
       >
-        <IconButton
-          variant={sidebarVisibility ? "plain" : "soft"}
-          color="neutral"
-          onClick={() => {
-            toggleSidebarVisibility();
-          }}
-        >
-          <MenuRounded />
-        </IconButton>
-        <IconButton
-          size="sm"
-          variant="outlined"
-          color="neutral"
-          sx={{
-            alignSelf: "center",
-          }}
-          onClick={() => {
-            toggleSearchModalVisibility();
-          }}
-        >
-          <SearchRounded />
-        </IconButton>
+        <StyledTooltip title="Toggle sidebar">
+          <IconButton
+            variant={sidebarVisibility ? "plain" : "soft"}
+            color="neutral"
+            onClick={() => {
+              toggleSidebarVisibility();
+            }}
+          >
+            <MenuRounded />
+          </IconButton>
+        </StyledTooltip>
+
+        <StyledTooltip title="Search for pages">
+          <IconButton
+            size="sm"
+            variant="outlined"
+            color="neutral"
+            sx={{
+              alignSelf: "center",
+            }}
+            onClick={() => {
+              toggleSearchModalVisibility();
+            }}
+          >
+            <SearchRounded />
+          </IconButton>
+        </StyledTooltip>
+
+        <StyledTooltip title="Perform Actions">
+          <IconButton
+            size="sm"
+            variant="outlined"
+            color="neutral"
+            sx={{
+              alignSelf: "center",
+            }}
+            onClick={() => {
+              toggleActionModalVisibility()
+            }}
+          >
+            <BuildSharp />
+          </IconButton>
+        </StyledTooltip>
+
       </Stack>
       <Stack
         direction="row"

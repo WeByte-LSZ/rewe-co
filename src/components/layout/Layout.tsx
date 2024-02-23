@@ -10,7 +10,7 @@ import DrawerItem from "@/types/Drawer";
 import config from "../../../configuration";
 import InformationModal from "../modal/InformationModal";
 
-export default function Layout({ sidebarData, toggleSearchModalVisibility, breadcrumbsPath, content, setCurrentPageID }: { sidebarData: DrawerItem[], toggleSearchModalVisibility: Function, breadcrumbsPath: string[], content: JSX.Element, setCurrentPageID: Function }) {
+export default function Layout({ sidebarData, toggleSearchModalVisibility, toggleActionModalVisibility, breadcrumbsPath, content, setCurrentPageID }: { sidebarData: DrawerItem[], toggleSearchModalVisibility: Function, toggleActionModalVisibility: Function, breadcrumbsPath: string[], content: JSX.Element, setCurrentPageID: Function }) {
 
   const sidebarWidth = '300px';
   const [sidebarVisibility, setSidebarVisibility] = useState<boolean>(true);
@@ -53,6 +53,7 @@ export default function Layout({ sidebarData, toggleSearchModalVisibility, bread
               setSidebarVisibility((old) => !old);
             }}
             toggleSearchModalVisibility={toggleSearchModalVisibility}
+            toggleActionModalVisibility={toggleActionModalVisibility}
             toggleInformationModalVisibility={() => {
               setInformationModalVisible((old) => !old)
             }}
@@ -79,7 +80,6 @@ export default function Layout({ sidebarData, toggleSearchModalVisibility, bread
           </Box>
         </Box>
       </Box>
-      <InformationModal modalVisible={informationModalVisible} setModalVisible={setInformationModalVisible} />
     </>
   )
 }
