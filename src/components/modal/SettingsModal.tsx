@@ -12,7 +12,7 @@ interface ModalProps {
 
 export default function SettingsModal({ visibility, setVisibility, toggleWidth, layoutWidth }: ModalProps) {
 
-  const handleChange = (event: Event, newValue: number | number[]) => {
+  const handleChange = (newValue: number | number[]) => {
     toggleWidth(newValue as number);
   };
 
@@ -32,16 +32,17 @@ export default function SettingsModal({ visibility, setVisibility, toggleWidth, 
             <Grid container spacing={2} alignItems="center" justifyContent="center" sx={{ width: '100%' }}>
                <h3>Titel-Seitenabstand</h3>
               <Grid item xs={10}>
-                <Slider
-                  value={layoutWidth}
-                  min={50}
-                  max={100}
-                  step={5}
-                  onChange={handleChange}
-                  aria-labelledby="layout-width-slider"
-                  valueLabelDisplay="auto"
-                  sx={{ width: '100%' }}
-                />
+              <Slider
+                value={layoutWidth}
+                min={50}
+                max={100}
+                step={5}
+                onChange={(event, value) => handleChange(value)}
+                onChangeCommitted={(event, value) => handleChange(value)}
+                aria-labelledby="layout-width-slider"
+                valueLabelDisplay="auto"
+                sx={{ width: '100%' }}
+              />
               </Grid>
             </Grid>
           </Typography>
