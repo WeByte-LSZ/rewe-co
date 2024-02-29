@@ -12,8 +12,8 @@ interface ModalProps {
 
 export default function SettingsModal({ visibility, setVisibility, toggleWidth, layoutWidth }: ModalProps) {
 
-  const handleChange = (newValue: number | number[]) => {
-    toggleWidth(newValue as number);
+  const handleChange = (event: any, newValue: number | number[]) => {
+    toggleWidth(newValue as number * (-1));
   };
 
   return (
@@ -33,14 +33,13 @@ export default function SettingsModal({ visibility, setVisibility, toggleWidth, 
                <h3>Titel-Seitenabstand</h3>
               <Grid item xs={10}>
               <Slider
-                value={layoutWidth}
-                min={50}
-                max={100}
+                value={-layoutWidth}
+                min={-100}
+                max={-50}
                 step={5}
-                onChange={(event, value) => handleChange(value)}
-                onChangeCommitted={(event, value) => handleChange(value)}
+                onChange={handleChange}
+                onChangeCommitted={handleChange}
                 aria-labelledby="layout-width-slider"
-                valueLabelDisplay="auto"
                 sx={{ width: '100%' }}
               />
               </Grid>
