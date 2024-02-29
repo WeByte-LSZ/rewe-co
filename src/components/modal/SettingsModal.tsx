@@ -1,13 +1,20 @@
 import * as React from 'react';
 import { Modal, ModalDialog, List, Typography } from "@mui/joy";
-import Button from '@mui/joy/Button';
+import Slider from '@mui/joy/Slider';
+import { Grid } from '@mui/material';
 
 interface ModalProps {
   visibility: boolean;
   setVisibility: Function;
+  toggleWidth: Function;
+  layoutWidth: number;
 }
 
-export default function SettingsModal({ visibility, setVisibility }: ModalProps) {
+export default function SettingsModal({ visibility, setVisibility, toggleWidth, layoutWidth }: ModalProps) {
+
+  const handleChange = (event: Event, newValue: number | number[]) => {
+    toggleWidth(newValue as number);
+  };
 
   return (
     <Modal open={visibility} onClose={() => { setVisibility(false) }}>
@@ -21,8 +28,22 @@ export default function SettingsModal({ visibility, setVisibility }: ModalProps)
           }}
         >
           <Typography>
-            <h2>Layout-Breite verändern</h2>
-            <Button onClick={() => React.useEffect}>Layout Breite wechseln</Button>
+            <h2>Optionen</h2>
+            <Grid container spacing={2} alignItems="center" justifyContent="center" sx={{ width: '100%' }}>
+               <h3>Titel-Seitenabstand</h3>
+              <Grid item xs={10}>
+                <Slider
+                  value={layoutWidth}
+                  min={50}
+                  max={100}
+                  step={5}
+                  onChange={handleChange}
+                  aria-labelledby="layout-width-slider"
+                  valueLabelDisplay="auto"
+                  sx={{ width: '100%' }}
+                />
+              </Grid>
+            </Grid>
           </Typography>
         </List>
       </ModalDialog>

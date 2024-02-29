@@ -20,11 +20,9 @@ export default function Layout({ sidebarData, toggleSearchModalVisibility, toggl
   // in %
   const [layoutWidth, setLayoutWidth] = useState<number>(config.userConfiguration.defaultLayoutWidth || 75);
 
-  // @TODO Implement layoutWidth caching
-  useEffect(() => {
-
-  }, [])
-
+  function toggleWidth(width: number) {
+    setLayoutWidth(width);
+  }
   return (
     <>
       <Box sx={{ display: "flex", flexDirection: "row", height: "100vh" }}>
@@ -84,7 +82,7 @@ export default function Layout({ sidebarData, toggleSearchModalVisibility, toggl
         </Box>
       </Box>
       <InformationModal modalVisible={informationModalVisible} setModalVisible={setInformationModalVisibility} />
-      <SettingsModal visibility={settingsModalVisibility} setVisibility={setSettingsModalVisibility} />
+      <SettingsModal visibility={settingsModalVisibility} setVisibility={setSettingsModalVisibility} toggleWidth={toggleWidth}  layoutWidth={layoutWidth}/>
     </>
   )
 }
