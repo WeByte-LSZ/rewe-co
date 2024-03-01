@@ -1,7 +1,8 @@
 import AreaChartWrapper from "@/components/charts/AreaChart";
+import PieChartWrapper from "@/components/charts/PieChart";
+import BarChartWrapper from "@/components/charts/BarChart";
 import { Configuration } from "@/types/Configuration";
 import { BarChartSharp, HexagonRounded, PieChartSharp } from "@mui/icons-material";
-import { AspectRatio, Box, Typography } from "@mui/joy";
 
 const data = [
   {
@@ -48,6 +49,37 @@ const data = [
   },
 ];
 
+const data2 = [
+  {
+    name: 'Page A',
+    value: 4000,
+  },
+  {
+    name: 'Page B',
+    value: 3000,
+  },
+  {
+    name: 'Page C',
+    value: 2000,
+  },
+  {
+    name: 'Page D',
+    value: 2780,
+  },
+  {
+    name: 'Page E',
+    value: 1890,
+  },
+  {
+    name: 'Page F',
+    value: 2390,
+  },
+  {
+    name: 'Page G',
+    value: 3490,
+  },
+];
+
 let config: Configuration = {
   title: 'DataVis E-Waste',
   sidebarTitle: 'DataVis E-Waste',
@@ -60,90 +92,42 @@ let config: Configuration = {
   },
   categories: [
     {
-      title: 'General',
+      title: 'Charts',
       pages: [
         {
-          title: 'Austria',
-          description: '',
-          icon: <BarChartSharp />,
-          subpages: [
-            {
-              title: 'Vienna',
-              description: '',
-              icon: <BarChartSharp />,
-              subpages: [
-                {
-                  title: '20. District',
-                  description: '',
-                  icon: <BarChartSharp />,
-                  subpages: [],
-                  content: {
-                    layout: 'column',
-                    contents: [
-                      {
-                        layout: 'column',
-                        contents: [
-                          {
-                            layout: 'row',
-                            contents: [
-                              <AreaChartWrapper data={data} xAxis="name" yAxies="uv" />,
-                            ]
-                          },
-                          {
-                            layout: 'row',
-                            contents: [
-                              <AreaChartWrapper data={data} xAxis="name" yAxies="uv" />, ,
-                              <Typography>
-                                r32r
-                              </Typography>
-                            ]
-                          },
-                        ]
-                      }
-                    ]
-                  }
-                },
-                {
-                  title: '10. District',
-                  description: '',
-                  icon: <BarChartSharp />,
-                  subpages: [],
-                  content: {
-                    layout: 'row',
-                    contents: []
-                  }
-                },
-              ],
-              content: {
-                layout: 'row',
-                contents: []
-              }
-
-            },
-          ],
-          content: {
-            layout: 'row',
-            contents: []
-          }
-        },
-        {
-          title: 'Lower Austria',
+          title: 'Area Chart',
           description: '',
           icon: <BarChartSharp />,
           subpages: [],
           content: {
             layout: 'row',
-            contents: []
+            contents: [
+              <AreaChartWrapper data={data} xAxis="name" yAxies="uv" />
+            ]
           }
         },
         {
-          title: 'Upper Austria',
+          title: 'Bar Chart',
           description: '',
           icon: <BarChartSharp />,
           subpages: [],
           content: {
             layout: 'row',
-            contents: []
+            contents: [
+              <BarChartWrapper data={data} xAxis="name" yAxies="uv" />
+            ]
+          }
+        },
+        {
+          title: 'Pie Chart',
+          description: '',
+          icon: <BarChartSharp />,
+          subpages: [],
+          content: {
+            layout: 'row',
+            contents: [
+              <PieChartWrapper data={data2} />
+            ]
           }
         },
       ],

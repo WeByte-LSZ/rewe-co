@@ -4,6 +4,7 @@ import { PieChart, Pie, Cell, Legend, Tooltip } from 'recharts';
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 export default function PieChartWrapper({ data }: { data: any }) {
+  console.log(data);
   return (
     <PieChart width={400} height={400}>
       <Pie
