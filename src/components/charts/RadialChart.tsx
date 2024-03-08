@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import { AspectRatio, Box, Stack } from "@mui/joy";
 import { RadialBarChart, RadialBar, Legend, ResponsiveContainer } from 'recharts';
 
 const style = {
@@ -10,15 +10,21 @@ const style = {
 
 export default function RadialChartWrapper({ data, xAxis, yAxis }: { data: any, xAxis: string, yAxis: string }) {
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <RadialBarChart cx="50%" cy="50%" innerRadius="10%" outerRadius="80%" barSize={10} data={data}>
-        <RadialBar
-          label={{ position: 'insideStart', fill: '#fff' }}
-          background
-          dataKey="uv"
-        />
-        <Legend iconSize={10} layout="vertical" verticalAlign="middle" wrapperStyle={style} />
-      </RadialBarChart>
-    </ResponsiveContainer>
+    <Stack sx={{ display: 'flex', flexGrow: 1, width: '100%', height: '100%', borderRadius: 5 }}>
+      <AspectRatio sx={{ display: 'flex', flexGrow: 1, width: '100%', height: '100%', borderRadius: 5 }} variant="soft">
+        <Box>
+          <ResponsiveContainer width="100%" height="100%">
+          <RadialBarChart cx="50%" cy="50%" innerRadius="10%" outerRadius="80%" barSize={10} data={data}>
+            <RadialBar
+              label={{ position: 'insideStart', fill: '#fff' }}
+              background
+              dataKey="uv"
+            />
+            <Legend iconSize={10} layout="vertical" verticalAlign="middle" wrapperStyle={style} />
+          </RadialBarChart>
+          </ResponsiveContainer>
+        </Box>
+      </AspectRatio>
+    </Stack>
   );
 }

@@ -30,7 +30,7 @@ export default function SettingsModal({ visibility, setVisibility, toggleWidth, 
           <Typography>
             <h2>Optionen</h2>
             <Grid container spacing={2} alignItems="center" justifyContent="center" sx={{ width: '100%' }}>
-               <h3>Titel-Seitenabstand</h3>
+               <h3>FlexBox bearbeiten</h3>
               <Grid item xs={10}>
               <Slider
                 value={-layoutWidth}
