@@ -1,52 +1,136 @@
 import * as React from 'react';
-import { Modal, ModalDialog, List, Typography } from "@mui/joy";
+import { Modal, ModalDialog, List, Typography, ModalClose, AccordionGroup, accordionDetailsClasses, accordionSummaryClasses, AccordionSummary, Accordion, Avatar, ListItemContent, FormControl, FormLabel, Switch, AccordionDetails, Stack, DialogTitle, Drawer, DialogContent } from "@mui/joy";
 import Slider from '@mui/joy/Slider';
 import { Grid } from '@mui/material';
+import { AirplanemodeActiveRounded, Colorize, WaterDrop, WindowSharp } from '@mui/icons-material';
 
 interface ModalProps {
   visibility: boolean;
   setVisibility: Function;
-  toggleWidth: Function;
   layoutWidth: number;
+  setLayoutWidth: Function;
 }
 
-export default function SettingsModal({ visibility, setVisibility, toggleWidth, layoutWidth }: ModalProps) {
+const settings = [
+  {
+    title: "Themes",
+    description: "Change your color scheme",
+    icon: <WaterDrop />,
+    content: <Stack spacing={1.5}>
+      <FormControl orientation="horizontal" sx={{ gap: 1 }}>
+        <AirplanemodeActiveRounded sx={{ mx: 1 }} />
+        <FormLabel>Airplane Mode</FormLabel>
+        <Switch size="sm" />
+      </FormControl>
 
-  const handleChange = (event: any, newValue: number | number[]) => {
-    toggleWidth(newValue as number * (-1));
-  };
+      <FormControl orientation="horizontal" sx={{ gap: 1 }}>
+        <AirplanemodeActiveRounded sx={{ mx: 1 }} />
+        <FormLabel>Wi-Fi</FormLabel>
+        <Switch size="sm" />
+      </FormControl>
 
+      <FormControl orientation="horizontal" sx={{ gap: 1 }}>
+        <AirplanemodeActiveRounded sx={{ mx: 1 }} />
+        <FormLabel>Bluetooth</FormLabel>
+        <Switch size="sm" />
+      </FormControl>
+    </Stack>
+  },
+  {
+    title: "Themes",
+    description: "Change your color scheme",
+    icon: <WaterDrop />,
+    content: <Stack spacing={1.5}>
+      <FormControl orientation="horizontal" sx={{ gap: 1 }}>
+        <AirplanemodeActiveRounded sx={{ mx: 1 }} />
+        <FormLabel>Airplane Mode</FormLabel>
+        <Switch size="sm" />
+      </FormControl>
+
+      <FormControl orientation="horizontal" sx={{ gap: 1 }}>
+        <AirplanemodeActiveRounded sx={{ mx: 1 }} />
+        <FormLabel>Wi-Fi</FormLabel>
+        <Switch size="sm" />
+      </FormControl>
+
+      <FormControl orientation="horizontal" sx={{ gap: 1 }}>
+        <AirplanemodeActiveRounded sx={{ mx: 1 }} />
+        <FormLabel>Bluetooth</FormLabel>
+        <Switch size="sm" />
+      </FormControl>
+    </Stack>
+  },
+  {
+    title: "Themes",
+    description: "Change your color scheme",
+    icon: <WaterDrop />,
+    content: <Stack spacing={1.5}>
+      <FormControl orientation="horizontal" sx={{ gap: 1 }}>
+        <AirplanemodeActiveRounded sx={{ mx: 1 }} />
+        <FormLabel>Airplane Mode</FormLabel>
+        <Switch size="sm" />
+      </FormControl>
+
+      <FormControl orientation="horizontal" sx={{ gap: 1 }}>
+        <AirplanemodeActiveRounded sx={{ mx: 1 }} />
+        <FormLabel>Wi-Fi</FormLabel>
+        <Switch size="sm" />
+      </FormControl>
+
+      <FormControl orientation="horizontal" sx={{ gap: 1 }}>
+        <AirplanemodeActiveRounded sx={{ mx: 1 }} />
+        <FormLabel>Bluetooth</FormLabel>
+        <Switch size="sm" />
+      </FormControl>
+    </Stack>
+  }
+
+
+]
+
+export default function SettingsModal({ visibility, setVisibility, layoutWidth, setLayoutWidth }: ModalProps) {
   return (
-    <Modal open={visibility} onClose={() => { setVisibility(false) }}>
-      <ModalDialog size='lg' sx={{ backgroundColor: 'background.body' }}>
-        <List
-          component="nav"
+    <Drawer size='sm' hideBackdrop anchor='right' open={visibility} onClose={() => { setVisibility(false) }}>
+      <ModalClose size='lg' />
+      <DialogTitle level='h3'>Settings</DialogTitle>
+      <DialogContent>
+        <AccordionGroup
+          variant="plain"
+          transition="0.2s"
           sx={{
-            width: 650,
-            height: 500,
-            overflowY: 'auto'
+            padding: 2,
+            borderRadius: 'md',
+            [`& .${accordionDetailsClasses.content}.${accordionDetailsClasses.expanded}`]:
+            {
+              paddingBlock: '1rem',
+            },
+            [`& .${accordionSummaryClasses.button}`]: {
+              paddingBlock: '1rem',
+            },
           }}
         >
-          <Typography>
-            <h2>Optionen</h2>
-            <Grid container spacing={2} alignItems="center" justifyContent="center" sx={{ width: '100%' }}>
-               <h3>Titel-Seitenabstand</h3>
-              <Grid item xs={10}>
-              <Slider
-                value={-layoutWidth}
-                min={-100}
-                max={-50}
-                step={5}
-                onChange={handleChange}
-                onChangeCommitted={handleChange}
-                aria-labelledby="layout-width-slider"
-                sx={{ width: '100%' }}
-              />
-              </Grid>
-            </Grid>
-          </Typography>
-        </List>
-      </ModalDialog>
-    </Modal>
+          {
+            settings.map((e, i) => (
+              <Accordion key={`settingsModalAccordion-${i}`}>
+                <AccordionSummary>
+                  <Avatar color="primary">
+                    {e.icon}
+                  </Avatar>
+                  <ListItemContent>
+                    <Typography level="body-lg">{e.title}</Typography>
+                    <Typography level="body-sm">
+                      {e.description}
+                    </Typography>
+                  </ListItemContent>
+                </AccordionSummary>
+                <AccordionDetails>
+                  {e.content}
+                </AccordionDetails>
+              </Accordion>
+            ))
+          }
+        </AccordionGroup>
+      </DialogContent>
+    </Drawer>
   )
 }
