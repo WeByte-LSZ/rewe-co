@@ -1,5 +1,5 @@
 import "@/style/globals.css"
-import theme from "@/theme";
+import theme from "@/themes/materialExtended";
 import { CssBaseline, CssVarsProvider } from "@mui/joy";
 import { AppProps } from "next/app";
 import config from "../../configuration";

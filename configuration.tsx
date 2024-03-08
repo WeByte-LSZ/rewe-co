@@ -1,4 +1,7 @@
 import AreaChartWrapper from "@/components/charts/AreaChart";
+import BarChartWrapper from "@/components/charts/BarChart";
+import LineChartWrapper from "@/components/charts/LineChart";
+import PieChartWrapper from "@/components/charts/PieChart";
 import { Configuration } from "@/types/Configuration";
 import { BarChartSharp, HexagonRounded, PieChartSharp } from "@mui/icons-material";
 import { AspectRatio, Box, Typography } from "@mui/joy";
@@ -86,7 +89,7 @@ let config: Configuration = {
                           {
                             layout: 'row',
                             contents: [
-                              <AreaChartWrapper data={data} xAxis="name" yAxies="uv" />,
+                              <PieChartWrapper data={data} xAxis="name" yAxies="uv" />,
                             ]
                           },
                           {
