@@ -8,8 +8,6 @@ import ScatterChartWrapper from "@/components/charts/ScatterChart";
 import StackedAreaChartWrapper from "@/components/charts/StackedAreaChart";
 import StackedBarChartWrapper from "@/components/charts/StackedBarChart";
 import TreeChartWrapper from "@/components/charts/Treemap";
-import BubbleChartWrapper from "@/components/charts/BubbleChart"
-
 
 import { Configuration } from "@/types/Configuration";
 import { BarChartSharp, HexagonRounded } from "@mui/icons-material";
