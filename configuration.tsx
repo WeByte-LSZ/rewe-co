@@ -1,10 +1,7 @@
 import AreaChartWrapper from "@/components/charts/AreaChart";
-import BarChartWrapper from "@/components/charts/BarChart";
-import LineChartWrapper from "@/components/charts/LineChart";
 import PieChartWrapper from "@/components/charts/PieChart";
 import { Configuration } from "@/types/Configuration";
-import { BarChartSharp, HexagonRounded, PieChartSharp } from "@mui/icons-material";
-import { AspectRatio, Box, Typography } from "@mui/joy";
+import { BarChartSharp, HexagonRounded } from "@mui/icons-material";
 
 const data = [
   {
@@ -63,7 +60,7 @@ let config: Configuration = {
   },
   categories: [
     {
-      title: 'General',
+      title: 'Charts',
       pages: [
         {
           title: 'Austria',
@@ -89,16 +86,13 @@ let config: Configuration = {
                           {
                             layout: 'row',
                             contents: [
-                              <PieChartWrapper data={data} xAxis="name" yAxies="uv" />,
+                              <PieChartWrapper data={data}/>
                             ]
                           },
                           {
                             layout: 'row',
                             contents: [
-                              <AreaChartWrapper data={data} xAxis="name" yAxies="uv" />, ,
-                              <Typography>
-                                r32r
-                              </Typography>
+                              <AreaChartWrapper data={data} xAxis="name" yAxies="uv" />,
                             ]
                           },
                         ]
@@ -136,17 +130,9 @@ let config: Configuration = {
           subpages: [],
           content: {
             layout: 'row',
-            contents: []
-          }
-        },
-        {
-          title: 'Upper Austria',
-          description: '',
-          icon: <BarChartSharp />,
-          subpages: [],
-          content: {
-            layout: 'row',
-            contents: []
+            contents: [
+              <AreaChartWrapper data={data} xAxis="name" yAxies="uv" />
+            ]
           }
         },
       ],

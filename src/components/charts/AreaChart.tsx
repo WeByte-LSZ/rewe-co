@@ -3,7 +3,7 @@ import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YA
 
 export default function AreaChartWrapper({ data, xAxis, yAxies }: { data: any, xAxis: string, yAxies: string }) {
   return (
-    <Stack sx={{ display: 'flex', flexGrow: 1, width: '100%', height: '100%', borderRadius: 5 }}>
+<Stack sx={{ display: 'flex', flexGrow: 1, width: '100%', height: '100%', borderRadius: 5 }}>
       <AspectRatio sx={{ display: 'flex', flexGrow: 1, width: '100%', height: '100%', borderRadius: 5 }} variant="soft">
         <Box>
           <ResponsiveContainer width="100%" height="100%">
@@ -27,7 +27,7 @@ export default function AreaChartWrapper({ data, xAxis, yAxies }: { data: any, x
               <Area type="monotone" dataKey={yAxies} />
             </AreaChart>
           </ResponsiveContainer>
-        </Box>
+          </Box>
       </AspectRatio>
     </Stack>
   );

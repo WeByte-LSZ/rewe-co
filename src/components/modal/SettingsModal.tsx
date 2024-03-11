@@ -109,6 +109,7 @@ export default function SettingsModal({ visibility, setVisibility, layoutWidth, 
             },
           }}
         >
+    
           {
             settings.map((e, i) => (
               <Accordion key={`settingsModalAccordion-${i}`}>

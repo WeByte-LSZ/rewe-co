@@ -1,12 +1,11 @@
 import { AspectRatio, Box, Stack } from "@mui/joy";
 import { Line, LineChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
-export default function LineChartWrapper({ data, xAxis, yAxies }: { data: any, xAxis: string, yAxies: string }) {
+export default function LineChartWrapper({ data, xAxis, yAxies }: | { data: any, xAxis: string, yAxies: string }) {
   return (
     <Stack sx={{ display: 'flex', flexGrow: 1, width: '100%', height: '100%', borderRadius: 5 }}>
       <AspectRatio sx={{ display: 'flex', flexGrow: 1, width: '100%', height: '100%', borderRadius: 5 }} variant="soft">
         <Box>
-
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
               width={500}
@@ -29,6 +28,5 @@ export default function LineChartWrapper({ data, xAxis, yAxies }: { data: any, x
         </Box>
       </AspectRatio>
     </Stack>
-
   );
 }
