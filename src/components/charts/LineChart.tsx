@@ -8,9 +8,9 @@ export default function LineChartWrapper({ data, xAxis, yAxies }: | { data: any,
         <Box>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
-              data={data}
               width={500}
               height={400}
+              data={data}
               margin={{
                 top: 10,
                 right: 30,
