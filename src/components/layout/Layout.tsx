@@ -26,10 +26,7 @@ export default function Layout({ sidebarData, toggleSearchModalVisibility, toggl
   const [content, setContent] = useState<JSX.Element[]>([])
 
   useEffect(() => {
-    fetch(`/api/getDataPoint?timestamp=${currentPageID}`).then((e) => e.json()).then((e: { data: Report }) => {
-      setContent([<ReportProvider data={e?.data || {}} timestamp={currentPageID} key={`item-${currentPageID}`} />])
-    })
-
+    setContent([<ReportProvider timestamp={currentPageID} setContent={setContent} content={content} index={content.length - 1} key={`item-${currentPageID}`} />])
   }, [currentPageID])
 
 

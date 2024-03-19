@@ -25,6 +25,7 @@ export default function LayoutProvider({ name, children }: { name: string, child
       height: '100%',
       flexGrow: 1,
       flexDirection: 'row',
+      gap: 10
     }}>
       {children}
     </Box>

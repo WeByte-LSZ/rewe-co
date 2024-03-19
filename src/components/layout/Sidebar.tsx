@@ -12,11 +12,10 @@ import {
   listItemButtonClasses,
 } from "@mui/joy";
 import DrawerItem from "@/types/Drawer";
-import { Clear, CloseSharp, KeyboardArrowDown } from "@mui/icons-material";
+import { Clear, CloseSharp } from "@mui/icons-material";
 import { useDrag } from "react-dnd";
 import { DropLocation } from "./LayoutProvider";
-import { useEffect } from "react";
-import Report from "./Report";
+import ReportProvider from "./Report";
 
 const TitleComponent = ({
   title,
@@ -74,7 +73,8 @@ const Item = ({
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult<DropLocation>()
       if (dropResult && dropResult.accepted) {
-        setContent((old: JSX.Element[]) => [...old, <Report title={item.id} />])
+        setContent((old: JSX.Element[]) => [...old, <ReportProvider timestamp={currentPageID} setContent={setContent} content={content} index={content.length - 1} key={`item-${item.id}`} />
+        ])
       }
     },
     collect: (monitor) => ({

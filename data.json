@@ -5,18 +5,20 @@
     "truck": [
       {
         "type": "Benziner",
-        "fuel_co2": 123124,
-        "cooling_co2": 12235
+        "co2": 123124
       }
     ],
-    "warehouse": [
-      {
+    "warehouse": {
+      "heating_co2": 13124,
+      "cooling_co2": 321412,
+      "light_co2": 234325,
+      "warehouses":   [{
         "location": "Wiener Neustadt",
         "heating_co2": 31244,
         "cooling_co2": 131245,
         "light_co2": 124135
-      }
-    ],
+      }]
+    },
     "products": {
       "co2": 12442,
       "items": [

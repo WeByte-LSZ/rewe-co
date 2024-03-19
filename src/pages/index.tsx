@@ -59,6 +59,7 @@ export default function Home({ setTheme, theme, themes }: { setTheme: Function; 
       prepareDrawerAndSidebar(e.data, modalRef, sidebarRef)
       setModalData(modalRef.data)
       setSidebarData(sidebarRef.data)
+      setCurrentPageID(e.data[0])
     })
   }, [])
 
