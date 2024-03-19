@@ -11,7 +11,7 @@ export type DropLocation = {
 export default function LayoutProvider({ name, children }: { name: string, children: React.ReactNode }) {
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
     accept: dragableItemId,
-    drop: () => ({ name: name, accepted: Children.count(children) < 3 }),
+    drop: () => ({ name: name, accepted: Children.count(children) < 4 }),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
@@ -24,7 +24,6 @@ export default function LayoutProvider({ name, children }: { name: string, child
       width: '100%',
       height: '100%',
       flexGrow: 1,
-      filter: '(100%)',
       flexDirection: 'row',
     }}>
       {children}

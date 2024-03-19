@@ -24,7 +24,7 @@ export default function Layout({ sidebarData, toggleSearchModalVisibility, toggl
   const [content, setContent] = useState<JSX.Element[]>([])
 
   useEffect(() => {
-    setContent([<h1>Hallo</h1>])
+    setContent([<h1 key={'first-element-page-0'}>{currentPageID}</h1>])
   }, [currentPageID])
 
   return (
@@ -84,7 +84,11 @@ export default function Layout({ sidebarData, toggleSearchModalVisibility, toggl
             >
               <BreadCrumbs path={breadcrumbsPath} />
               <LayoutProvider name={"Drag"}>
-                {content}
+                {content.map((e, i) => (
+                  <Box key={`flex-wrapper-content-${i}`} sx={{ display: 'flex', flexWrap: 'wrap', flexGrow: 1 }}>
+                    {e}
+                  </Box>
+                ))}
               </LayoutProvider>
             </Box>
           </Box>

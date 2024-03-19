@@ -45,10 +45,9 @@ const Item = ({ label, icon, id, setCurrentPageID, setContent, content }: { labe
       const dropResult = monitor.getDropResult<DropLocation>()
       if (item && dropResult && dropResult.accepted) {
         setContent([
-          <h1>Hallo</h1>,
+          <h1 key={`item-${id}`}>{id}</h1 >,
           ...content
         ])
-        alert(`You dropped ${item.id} into ${dropResult.name}!`)
       }
     },
     collect: (monitor) => ({
@@ -57,7 +56,7 @@ const Item = ({ label, icon, id, setCurrentPageID, setContent, content }: { labe
     }),
   }))
   return (<ListItem ref={drag}>
-    <ListItemButton onClick={() => { setCurrentPageID(id) }}>
+    <ListItemButton onClick={() => { setCurrentPageID(id); console.log("clicked") }}>
       {icon}
       <ListItemContent>
         <Typography level="title-sm">{label}</Typography>
@@ -122,9 +121,7 @@ function MainComponent({
           }}>
           {
             drawerItems.map((e, i) => (
-              <ListItem key={i} nested>
-                <Item setCurrentPageID={setCurrentPageID} label={e.label} id={e.id} icon={e.icon} setContent={setContent} content={content} />
-              </ListItem>
+              <Item key={`sidebar-item-${i}`} setCurrentPageID={setCurrentPageID} label={e.label} id={e.id} icon={e.icon} setContent={setContent} content={content} />
             ))
           }
         </List>

@@ -49,8 +49,6 @@ export default function Home({ setTheme, theme, themes }: { setTheme: Function; 
   const [modalVisibility, setSearchModalVisibility] = useState(false);
   const [currentPageID, setCurrentPageID] = useState('');
 
-
-
   useEffect(() => {
     let modalRef: { data: Object[] } = { data: [] };
     let sidebarRef: { data: DrawerItem[] } = { data: [] };
@@ -58,7 +56,6 @@ export default function Home({ setTheme, theme, themes }: { setTheme: Function; 
 
     fetch("/api/getTimestamps").then((e) => e.json()).then((e: { data: string[] }) => {
       prepareDrawerAndSidebar(e.data, modalRef, sidebarRef)
-      console.log(e.data)
       setModalData(modalRef.data)
       setSidebarData(sidebarRef.data)
       e.data.map((e) => {
