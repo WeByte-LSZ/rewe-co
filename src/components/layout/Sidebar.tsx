@@ -37,17 +37,14 @@ const TitleComponent = ({ title, icon, closeSidebar }: { title: string, icon: JS
 
 export const dragableItemId = "dragable-sidebar-item"
 
-const Item = ({ label, icon, id, setCurrentPageID, setContent, content }: { label: string; icon: JSX.Element; id: string; setCurrentPageID: Function, setContent: Function, content: JSX.Element[] }) => {
+const Item = ({ label, icon, id, currentPageID, setCurrentPageID, setContent, content }: { label: string; icon: JSX.Element; id: string; currentPageID: string; setCurrentPageID: Function, setContent: Function, content: JSX.Element[] }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: dragableItemId,
     item: { id },
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult<DropLocation>()
-      if (item && dropResult && dropResult.accepted) {
-        setContent([
-          <h1 key={`item-${id}`}>{id}</h1 >,
-          ...content
-        ])
+      if (dropResult && dropResult.accepted) {
+        setContent((old: JSX.Element[]) => [...old, <h1>{item.id}</h1>])
       }
     },
     collect: (monitor) => ({
@@ -56,7 +53,7 @@ const Item = ({ label, icon, id, setCurrentPageID, setContent, content }: { labe
     }),
   }))
   return (<ListItem ref={drag}>
-    <ListItemButton onClick={() => { setCurrentPageID(id); console.log("clicked") }}>
+    <ListItemButton sx={{ backgroundColor: id == currentPageID ? 'background.level2' : '' }} onClick={() => { setCurrentPageID(id) }}>
       {icon}
       <ListItemContent>
         <Typography level="title-sm">{label}</Typography>
@@ -73,6 +70,7 @@ function MainComponent({
   setVisibility,
   content,
   setContent,
+  currentPageID,
   setCurrentPageID
 }: {
   title: string;
@@ -82,6 +80,7 @@ function MainComponent({
   setVisibility: Function;
   setContent: Function;
   content: JSX.Element[];
+  currentPageID: string;
   setCurrentPageID: Function
 }) {
   return (
@@ -121,7 +120,7 @@ function MainComponent({
           }}>
           {
             drawerItems.map((e, i) => (
-              <Item key={`sidebar-item-${i}`} setCurrentPageID={setCurrentPageID} label={e.label} id={e.id} icon={e.icon} setContent={setContent} content={content} />
+              <Item key={`sidebar-item-${i}`} currentPageID={currentPageID} setCurrentPageID={setCurrentPageID} label={e.label} id={e.id} icon={e.icon} setContent={setContent} content={content} />
             ))
           }
         </List>
@@ -137,6 +136,7 @@ export default function Sidebar({
   drawerItems,
   visibilityState,
   setVisibility,
+  currentPageID,
   setCurrentPageID,
   content,
   setContent
@@ -147,6 +147,7 @@ export default function Sidebar({
   drawerItems: DrawerItem[];
   visibilityState: boolean;
   setVisibility: Function;
+  currentPageID: string;
   setCurrentPageID: Function;
   content: JSX.Element[]
   setContent: Function;
@@ -169,6 +170,7 @@ export default function Sidebar({
           drawerItems={drawerItems}
           setVisibility={setVisibility}
           setCurrentPageID={setCurrentPageID}
+          currentPageID={currentPageID}
           content={content}
           setContent={setContent}
         />

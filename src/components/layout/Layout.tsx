@@ -24,8 +24,9 @@ export default function Layout({ sidebarData, toggleSearchModalVisibility, toggl
   const [content, setContent] = useState<JSX.Element[]>([])
 
   useEffect(() => {
-    setContent([<h1 key={'first-element-page-0'}>{currentPageID}</h1>])
+    setContent([<h1 key={`item-${currentPageID}`}>{currentPageID}</h1>])
   }, [currentPageID])
+
 
   return (
     <>
@@ -37,6 +38,7 @@ export default function Layout({ sidebarData, toggleSearchModalVisibility, toggl
           visibilityState={sidebarVisibility}
           setVisibility={setSidebarVisibility}
           drawerItems={sidebarData}
+          currentPageID={currentPageID}
           setCurrentPageID={setCurrentPageID}
           content={content}
           setContent={setContent}

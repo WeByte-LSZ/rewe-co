@@ -7,7 +7,8 @@ import {
 } from "@mui/joy";
 import { useEffect, useState } from "react";
 import {
-  KeyboardReturn, ReportSharp,
+  DescriptionSharp,
+  KeyboardReturn, Report, ReportSharp,
 } from "@mui/icons-material";
 import SearchModal from "@/components/modal/SearchModal";
 import config from "@/../configuration"
@@ -23,8 +24,8 @@ interface PageContents {
 
 function prepareDrawerAndSidebar(pages: string[], modalData: { data: object[] }, drawerData: { data: DrawerItem[] }) {
   return pages.map((e) => {
-    modalData.data.push({ id: e, icon: <ReportSharp /> })
-    drawerData.data.push({ label: e, id: e, icon: <ReportSharp /> })
+    modalData.data.push({ id: e, icon: <DescriptionSharp /> })
+    drawerData.data.push({ label: e, id: e, icon: <DescriptionSharp /> })
   })
 }
 
@@ -58,8 +59,6 @@ export default function Home({ setTheme, theme, themes }: { setTheme: Function; 
       prepareDrawerAndSidebar(e.data, modalRef, sidebarRef)
       setModalData(modalRef.data)
       setSidebarData(sidebarRef.data)
-      e.data.map((e) => {
-      })
     })
   }, [])
 
