@@ -12,11 +12,20 @@ import {
   listItemButtonClasses,
 } from "@mui/joy";
 import DrawerItem from "@/types/Drawer";
-import { CloseSharp, KeyboardArrowDown } from "@mui/icons-material";
-import { useDrag } from 'react-dnd'
+import { Clear, CloseSharp, KeyboardArrowDown } from "@mui/icons-material";
+import { useDrag } from "react-dnd";
 import { DropLocation } from "./LayoutProvider";
+import { useEffect } from "react";
 
-const TitleComponent = ({ title, icon, closeSidebar }: { title: string, icon: JSX.Element, closeSidebar: Function }) => (
+const TitleComponent = ({
+  title,
+  icon,
+  closeSidebar,
+}: {
+  title: string;
+  icon: JSX.Element;
+  closeSidebar: Function;
+}) => (
   <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
     <IconButton variant="soft" color="primary" size="sm">
       {icon}
@@ -27,17 +36,37 @@ const TitleComponent = ({ title, icon, closeSidebar }: { title: string, icon: JS
     >
       {title}
     </Typography>
-    <Box sx={{ display: 'flex', justifyContent: 'flex-end', flexGrow: 1 }}>
+    <Box sx={{ display: "flex", justifyContent: "flex-end", flexGrow: 1 }}>
       <IconButton onClick={() => closeSidebar()}>
         <CloseSharp />
       </IconButton>
     </Box>
   </Box>
-)
+);
 
-export const dragableItemId = "dragable-sidebar-item"
+export const dragableItemId = "dragable-sidebar-item";
 
-const Item = ({ label, icon, id, currentPageID, setCurrentPageID, setContent, content }: { label: string; icon: JSX.Element; id: string; currentPageID: string; setCurrentPageID: Function, setContent: Function, content: JSX.Element[] }) => {
+const Item = ({
+  drawerItems,
+  setDrawerItems,
+  label,
+  icon,
+  id,
+  currentPageID,
+  setCurrentPageID,
+  setContent,
+  content,
+}: {
+  drawerItems: DrawerItem[];
+  setDrawerItems: Function;
+  label: string;
+  icon: JSX.Element;
+  id: string;
+  currentPageID: string;
+  setCurrentPageID: Function;
+  setContent: Function;
+  content: JSX.Element[];
+}) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: dragableItemId,
     item: { id },
@@ -52,6 +81,7 @@ const Item = ({ label, icon, id, currentPageID, setCurrentPageID, setContent, co
       handlerId: monitor.getHandlerId(),
     }),
   }))
+
   return (<ListItem ref={drag}>
     <ListItemButton sx={{ backgroundColor: id == currentPageID ? 'background.level2' : '' }} onClick={() => { setCurrentPageID(id) }}>
       {icon}
@@ -59,6 +89,19 @@ const Item = ({ label, icon, id, currentPageID, setCurrentPageID, setContent, co
         <Typography level="title-sm">{label}</Typography>
       </ListItemContent>
     </ListItemButton>
+    <IconButton
+      size="sm"
+      onClick={() => {
+        fetch(`/api/deleteTimestamp?timestamp=${label}`, {
+          method: "DELETE",
+        }).then((res) => {
+          let drawerWithoutId = drawerItems.filter((e) => e.id !== id);
+          setDrawerItems(drawerWithoutId);
+        });
+      }}
+    >
+      <Clear />
+    </IconButton>
   </ListItem>)
 }
 
@@ -71,17 +114,19 @@ function MainComponent({
   content,
   setContent,
   currentPageID,
-  setCurrentPageID
+  setCurrentPageID,
+  setDrawerItems,
 }: {
   title: string;
   width: number;
   icon: JSX.Element;
   drawerItems: DrawerItem[];
   setVisibility: Function;
-  setContent: Function;
   content: JSX.Element[];
   currentPageID: string;
   setCurrentPageID: Function
+  setContent: Function;
+  setDrawerItems: Function;
 }) {
   return (
     <Sheet
@@ -98,7 +143,11 @@ function MainComponent({
         backgroundColor: "background.surface",
       }}
     >
-      <TitleComponent title={title} icon={icon} closeSidebar={() => setVisibility(false)} />
+      <TitleComponent
+        title={title}
+        icon={icon}
+        closeSidebar={() => setVisibility(false)}
+      />
       <Box
         sx={{
           minHeight: 0,
@@ -117,15 +166,25 @@ function MainComponent({
             gap: 1,
             "--List-nestedInsetStart": "15px",
             "--ListItem-radius": (theme) => theme.vars.radius.sm,
-          }}>
-          {
-            drawerItems.map((e, i) => (
-              <Item key={`sidebar-item-${i}`} currentPageID={currentPageID} setCurrentPageID={setCurrentPageID} label={e.label} id={e.id} icon={e.icon} setContent={setContent} content={content} />
-            ))
-          }
+          }}
+        >
+          {drawerItems.map((e, i) => (
+            <Item
+              key={`sidebar-item-${i}`}
+              drawerItems={drawerItems}
+              setDrawerItems={setDrawerItems}
+              setCurrentPageID={setCurrentPageID}
+              label={e.label}
+              id={e.id}
+              icon={e.icon}
+              currentPageID={currentPageID}
+              setContent={setContent}
+              content={content}
+            />
+          ))}
         </List>
       </Box>
-    </Sheet >
+    </Sheet>
   );
 }
 
@@ -139,7 +198,8 @@ export default function Sidebar({
   currentPageID,
   setCurrentPageID,
   content,
-  setContent
+  setContent,
+  setDrawerItems,
 }: {
   title: string;
   width: number;
@@ -149,10 +209,10 @@ export default function Sidebar({
   setVisibility: Function;
   currentPageID: string;
   setCurrentPageID: Function;
-  content: JSX.Element[]
+  content: JSX.Element[];
   setContent: Function;
+  setDrawerItems: Function;
 }) {
-
   return (
     <>
       <Box
@@ -173,6 +233,7 @@ export default function Sidebar({
           currentPageID={currentPageID}
           content={content}
           setContent={setContent}
+          setDrawerItems={setDrawerItems}
         />
       </Box>
     </>

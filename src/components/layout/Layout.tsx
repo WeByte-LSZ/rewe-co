@@ -13,7 +13,7 @@ import SettingsModal from "../modal/SettingsModal";
 import { ThemesInterface } from "@/pages/_app";
 import LayoutProvider from "./LayoutProvider";
 
-export default function Layout({ sidebarData, toggleSearchModalVisibility, toggleActionModalVisibility, breadcrumbsPath, currentPageID, setCurrentPageID, setTheme, theme, themes }: { sidebarData: DrawerItem[], toggleSearchModalVisibility: Function, toggleActionModalVisibility: Function, breadcrumbsPath: string[], currentPageID: string; setCurrentPageID: Function, setTheme: Function; theme: keyof ThemesInterface; themes: ThemesInterface }) {
+export default function Layout({ sidebarData, toggleSearchModalVisibility, toggleActionModalVisibility, breadcrumbsPath, currentPageID, setCurrentPageID, setTheme, theme, themes , setDrawerItems}: { sidebarData: DrawerItem[], toggleSearchModalVisibility: Function, toggleActionModalVisibility: Function, breadcrumbsPath: string[], currentPageID: string; setCurrentPageID: Function, setTheme: Function; theme: keyof ThemesInterface; themes: ThemesInterface, setDrawerItems: Function; }) {
 
   const sidebarWidth = '300px';
   const [sidebarVisibility, setSidebarVisibility] = useState<boolean>(true);
@@ -42,6 +42,7 @@ export default function Layout({ sidebarData, toggleSearchModalVisibility, toggl
           setCurrentPageID={setCurrentPageID}
           content={content}
           setContent={setContent}
+          setDrawerItems={setDrawerItems}
         />
         <Box
           sx={{

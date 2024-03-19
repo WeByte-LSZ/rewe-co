@@ -81,6 +81,7 @@ export default function Home({ setTheme, theme, themes }: { setTheme: Function; 
           currentPageID={currentPageID}
           theme={theme}
           themes={themes}
+          setDrawerItems={setSidebarData}
         />
 
         <SearchModal title="Search"
