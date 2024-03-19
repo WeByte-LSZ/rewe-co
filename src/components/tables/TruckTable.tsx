@@ -1,5 +1,6 @@
-import { Truck } from "@/types/InputTypes";
-import { Box, Button, Checkbox, Input, Table } from "@mui/joy";
+import { CO2EmissionsFactor, ElecricityEmissionRate, Truck } from "@/types/InputTypes";
+import { Box, Button, Checkbox, Input, Option, Select, Table } from "@mui/joy";
+import { useEffect } from "react";
 
 export default function TruckTable({ truckData, setTruckData, setTruckRowData }: { truckData: Truck[], setTruckData: Function, setTruckRowData: Function }) {
     return (<>
@@ -17,6 +18,7 @@ export default function TruckTable({ truckData, setTruckData, setTruckRowData }:
                     <th style={{ width: 170 }}>Additional Weight&nbsp;(kg)</th>
                     <th style={{ width: 250 }}>Fuel Consumption&nbsp;(l/100km)</th>
                     <th style={{ width: 100 }}>Cooling</th>
+                    <th style={{ width: 100 }}>Solar</th>
                     <th style={{ width: 100 }}>Max Weight</th>
                     <th style={{ width: 100 }}>Max Volume</th>
                     <th style={{ width: 160 }}>Number of Trucks</th>
@@ -38,12 +40,15 @@ export default function TruckTable({ truckData, setTruckData, setTruckRowData }:
                             ></Input>
                         </td>
                         <td>
-                            <Input
-                                value={row.co2EmissionRate}
-                                onChange={(event) => {
-                                    setTruckRowData(index, "co2EmissionRate", event.target.value);
-                                }}
-                            ></Input>
+                            <Select onChange={(event) => {
+                                if(event == null) return;
+                                const target = event.target as HTMLSelectElement;
+                                setTruckRowData(index, "co2EmissionFactor", target.value);
+                            }}>
+                                <Option value={CO2EmissionsFactor.DIESEL}>Diesel</Option>
+                                <Option value={CO2EmissionsFactor.ULSD}>ULSD</Option>
+                                <Option value={CO2EmissionsFactor.BIO}>Bio</Option>
+                            </Select>
                         </td>
                         <td>
                             <Input
@@ -71,6 +76,11 @@ export default function TruckTable({ truckData, setTruckData, setTruckRowData }:
                         </td>
                         <td>
                             <Checkbox checked={row.cooled} onChange={(event) => {
+                                setTruckRowData(index, "cooled", event.target.checked)
+                            }}/>
+                        </td>
+                        <td>
+                            <Checkbox checked={row.solarPanels} onChange={(event) => {
                                 setTruckRowData(index, "cooled", event.target.checked)
                             }}/>
                         </td>

@@ -10,13 +10,44 @@ import DialogContent from "@mui/joy/DialogContent";
 import Stack from "@mui/joy/Stack";
 import Add from "@mui/icons-material/Add";
 import { Box, Table } from "@mui/joy";
-import { ProductType, Truck, Warehouse } from "@/types/InputTypes";
-import TruckTable from "../tables/truckTable";
+import { CO2EmissionsFactor, ProductType, Truck, Warehouse } from "@/types/InputTypes";
+import TruckTable from "../tables/TruckTable";
 import ProductTable from "../tables/ProductTable";
+import WarehouseTable from "../tables/WarehouseTable";
 
 export default function BasicModalDialog() {
   const [open, setOpen] = React.useState<boolean>(false);
-  const [truckData, setTruckData] = React.useState<Truck[]>([]);
+  const [truckData, setTruckData] = React.useState<Truck[]>([
+      {
+            type: "Generic Truck",
+            co2EmissionFactor: CO2EmissionsFactor.DIESEL,
+            distanceDriven: 0,
+            additionalWeight: 0,
+            fuelConsumptionRate: 0,
+            cooled: false,
+            solarPanels: false,
+            maxWeight: 0,
+            maxVolume: 0,
+            numtrucks: 0,
+            avarageDistanceFromWarehouseToSupermarket: 0,
+            isDefault: true
+        },
+        {
+            type: "Generic Cooled",
+            co2EmissionFactor: CO2EmissionsFactor.DIESEL,
+            distanceDriven: 0,
+            additionalWeight: 0,
+            fuelConsumptionRate: 0,
+            cooled: true,
+            solarPanels: false,
+            maxWeight: 0,
+            maxVolume: 0,
+            numtrucks: 0,
+            avarageDistanceFromWarehouseToSupermarket: 0,
+            isDefault: true
+        }
+
+  ]);
   const [productData, setProductData] = React.useState<ProductType[]>([]);
   const [warehouseData, setWarehouseData] = React.useState<Warehouse[]>([]);
 
@@ -53,8 +84,6 @@ export default function BasicModalDialog() {
     });
   };
 
-  
-
   return (
     <React.Fragment>
       <Button
@@ -87,8 +116,8 @@ export default function BasicModalDialog() {
               <Button type="submit">Erstellen</Button>
             </Stack>
             <TruckTable truckData={truckData} setTruckData={setTruckData} setTruckRowData={setTruckRowData} />
-
             <ProductTable productData={productData} setProductData={setProductData} setProductRowData={setProductRowData} />
+            <WarehouseTable warehouseData={warehouseData} setWarehouseData={setWarehouseData} setWarehouseRowData={setWarehouseRowData} />
           </form>
         </ModalDialog>
       </Modal>
