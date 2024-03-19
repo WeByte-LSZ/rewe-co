@@ -12,8 +12,10 @@ import InformationModal from "../modal/InformationModal";
 import SettingsModal from "../modal/SettingsModal";
 import { ThemesInterface } from "@/pages/_app";
 import LayoutProvider from "./LayoutProvider";
+import { Report } from "@/types/Report";
+import ReportProvider from "./Report";
 
-export default function Layout({ sidebarData, toggleSearchModalVisibility, toggleActionModalVisibility, breadcrumbsPath, currentPageID, setCurrentPageID, setTheme, theme, themes , setDrawerItems}: { sidebarData: DrawerItem[], toggleSearchModalVisibility: Function, toggleActionModalVisibility: Function, breadcrumbsPath: string[], currentPageID: string; setCurrentPageID: Function, setTheme: Function; theme: keyof ThemesInterface; themes: ThemesInterface, setDrawerItems: Function; }) {
+export default function Layout({ sidebarData, toggleSearchModalVisibility, toggleActionModalVisibility, breadcrumbsPath, currentPageID, setCurrentPageID, setTheme, theme, themes, setDrawerItems }: { sidebarData: DrawerItem[], toggleSearchModalVisibility: Function, toggleActionModalVisibility: Function, breadcrumbsPath: string[], currentPageID: string; setCurrentPageID: Function, setTheme: Function; theme: keyof ThemesInterface; themes: ThemesInterface, setDrawerItems: Function; }) {
 
   const sidebarWidth = '300px';
   const [sidebarVisibility, setSidebarVisibility] = useState<boolean>(true);
@@ -24,7 +26,10 @@ export default function Layout({ sidebarData, toggleSearchModalVisibility, toggl
   const [content, setContent] = useState<JSX.Element[]>([])
 
   useEffect(() => {
-    setContent([<h1 key={`item-${currentPageID}`}>{currentPageID}</h1>])
+    fetch(`/api/getDataPoint?timestamp=${currentPageID}`).then((e) => e.json()).then((e: { data: Report }) => {
+      setContent([<ReportProvider data={e?.data || {}} timestamp={currentPageID} key={`item-${currentPageID}`} />])
+    })
+
   }, [currentPageID])
 
 

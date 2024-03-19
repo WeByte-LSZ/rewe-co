@@ -16,6 +16,7 @@ import { Clear, CloseSharp, KeyboardArrowDown } from "@mui/icons-material";
 import { useDrag } from "react-dnd";
 import { DropLocation } from "./LayoutProvider";
 import { useEffect } from "react";
+import Report from "./Report";
 
 const TitleComponent = ({
   title,
@@ -73,7 +74,7 @@ const Item = ({
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult<DropLocation>()
       if (dropResult && dropResult.accepted) {
-        setContent((old: JSX.Element[]) => [...old, <h1>{item.id}</h1>])
+        setContent((old: JSX.Element[]) => [...old, <Report title={item.id} />])
       }
     },
     collect: (monitor) => ({
