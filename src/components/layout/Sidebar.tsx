@@ -13,6 +13,8 @@ import {
 } from "@mui/joy";
 import DrawerItem from "@/types/Drawer";
 import { CloseSharp, KeyboardArrowDown } from "@mui/icons-material";
+import { useDrag } from 'react-dnd'
+import { DropLocation } from "./LayoutProvider";
 
 const TitleComponent = ({ title, icon, closeSidebar }: { title: string, icon: JSX.Element, closeSidebar: Function }) => (
   <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
@@ -33,16 +35,36 @@ const TitleComponent = ({ title, icon, closeSidebar }: { title: string, icon: JS
   </Box>
 )
 
-const Item = ({ label, icon, id, setCurrentPageID }: { label: string; icon: JSX.Element; id: string; setCurrentPageID: Function }) => (
-  <ListItem>
+export const dragableItemId = "dragable-sidebar-item"
+
+const Item = ({ label, icon, id, setCurrentPageID, setContent, content }: { label: string; icon: JSX.Element; id: string; setCurrentPageID: Function, setContent: Function, content: JSX.Element[] }) => {
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: dragableItemId,
+    item: { id },
+    end: (item, monitor) => {
+      const dropResult = monitor.getDropResult<DropLocation>()
+      if (item && dropResult && dropResult.accepted) {
+        setContent([
+          <h1>Hallo</h1>,
+          ...content
+        ])
+        alert(`You dropped ${item.id} into ${dropResult.name}!`)
+      }
+    },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+      handlerId: monitor.getHandlerId(),
+    }),
+  }))
+  return (<ListItem ref={drag}>
     <ListItemButton onClick={() => { setCurrentPageID(id) }}>
       {icon}
       <ListItemContent>
         <Typography level="title-sm">{label}</Typography>
       </ListItemContent>
     </ListItemButton>
-  </ListItem>
-)
+  </ListItem>)
+}
 
 function MainComponent({
   title,
@@ -50,6 +72,8 @@ function MainComponent({
   width,
   drawerItems,
   setVisibility,
+  content,
+  setContent,
   setCurrentPageID
 }: {
   title: string;
@@ -57,6 +81,8 @@ function MainComponent({
   icon: JSX.Element;
   drawerItems: DrawerItem[];
   setVisibility: Function;
+  setContent: Function;
+  content: JSX.Element[];
   setCurrentPageID: Function
 }) {
   return (
@@ -97,7 +123,7 @@ function MainComponent({
           {
             drawerItems.map((e, i) => (
               <ListItem key={i} nested>
-                <Item setCurrentPageID={setCurrentPageID} label={e.label} id={e.id} icon={e.icon} />
+                <Item setCurrentPageID={setCurrentPageID} label={e.label} id={e.id} icon={e.icon} setContent={setContent} content={content} />
               </ListItem>
             ))
           }
@@ -114,7 +140,9 @@ export default function Sidebar({
   drawerItems,
   visibilityState,
   setVisibility,
-  setCurrentPageID
+  setCurrentPageID,
+  content,
+  setContent
 }: {
   title: string;
   width: number;
@@ -123,7 +151,10 @@ export default function Sidebar({
   visibilityState: boolean;
   setVisibility: Function;
   setCurrentPageID: Function;
+  content: JSX.Element[]
+  setContent: Function;
 }) {
+
   return (
     <>
       <Box
@@ -141,6 +172,8 @@ export default function Sidebar({
           drawerItems={drawerItems}
           setVisibility={setVisibility}
           setCurrentPageID={setCurrentPageID}
+          content={content}
+          setContent={setContent}
         />
       </Box>
     </>

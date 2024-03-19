@@ -2,7 +2,7 @@ import * as React from "react";
 import {
   Box,
 } from "@mui/joy";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navigation from "@/components/layout/Header";
 import Sidebar from "@/components/layout/Sidebar";
 import BreadCrumbs from "@/components/layout/Breadcrumbs";
@@ -11,8 +11,9 @@ import config from "../../../configuration";
 import InformationModal from "../modal/InformationModal";
 import SettingsModal from "../modal/SettingsModal";
 import { ThemesInterface } from "@/pages/_app";
+import LayoutProvider from "./LayoutProvider";
 
-export default function Layout({ sidebarData, toggleSearchModalVisibility, toggleActionModalVisibility, breadcrumbsPath, content, setCurrentPageID, setTheme, theme, themes }: { sidebarData: DrawerItem[], toggleSearchModalVisibility: Function, toggleActionModalVisibility: Function, breadcrumbsPath: string[], content: JSX.Element, setCurrentPageID: Function, setTheme: Function; theme: keyof ThemesInterface; themes: ThemesInterface }) {
+export default function Layout({ sidebarData, toggleSearchModalVisibility, toggleActionModalVisibility, breadcrumbsPath, currentPageID, setCurrentPageID, setTheme, theme, themes }: { sidebarData: DrawerItem[], toggleSearchModalVisibility: Function, toggleActionModalVisibility: Function, breadcrumbsPath: string[], currentPageID: string; setCurrentPageID: Function, setTheme: Function; theme: keyof ThemesInterface; themes: ThemesInterface }) {
 
   const sidebarWidth = '300px';
   const [sidebarVisibility, setSidebarVisibility] = useState<boolean>(true);
@@ -20,6 +21,11 @@ export default function Layout({ sidebarData, toggleSearchModalVisibility, toggl
   const [settingsModalVisibility, setSettingsModalVisibility] = useState<boolean>(false);
   // in %
   const [layoutWidth, setLayoutWidth] = useState<number>(config.userConfiguration.defaultLayoutWidth || 75);
+  const [content, setContent] = useState<JSX.Element[]>([])
+
+  useEffect(() => {
+    setContent([<h1>Hallo</h1>])
+  }, [currentPageID])
 
   return (
     <>
@@ -32,6 +38,8 @@ export default function Layout({ sidebarData, toggleSearchModalVisibility, toggl
           setVisibility={setSidebarVisibility}
           drawerItems={sidebarData}
           setCurrentPageID={setCurrentPageID}
+          content={content}
+          setContent={setContent}
         />
         <Box
           sx={{
@@ -75,7 +83,9 @@ export default function Layout({ sidebarData, toggleSearchModalVisibility, toggl
               }}
             >
               <BreadCrumbs path={breadcrumbsPath} />
-              {content}
+              <LayoutProvider name={"Drag"}>
+                {content}
+              </LayoutProvider>
             </Box>
           </Box>
         </Box>
