@@ -12,7 +12,8 @@ import {
   listItemButtonClasses,
 } from "@mui/joy";
 import DrawerItem from "@/types/Drawer";
-import { CloseSharp, KeyboardArrowDown } from "@mui/icons-material";
+import { Clear, CloseSharp, KeyboardArrowDown } from "@mui/icons-material";
+import { useEffect } from "react";
 
 const TitleComponent = ({ title, icon, closeSidebar }: { title: string, icon: JSX.Element, closeSidebar: Function }) => (
   <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
@@ -33,7 +34,7 @@ const TitleComponent = ({ title, icon, closeSidebar }: { title: string, icon: JS
   </Box>
 )
 
-const Item = ({ label, icon, id, setCurrentPageID }: { label: string; icon: JSX.Element; id: string; setCurrentPageID: Function }) => (
+const Item = ({ label, icon, id, setCurrentPageID, drawerItems, setDrawerItems }: { label: string; icon: JSX.Element; drawerItems: DrawerItem[]; id: string; setCurrentPageID: Function, setDrawerItems: Function }) => (
   <ListItem>
     <ListItemButton onClick={() => { setCurrentPageID(id) }}>
       {icon}
@@ -41,6 +42,12 @@ const Item = ({ label, icon, id, setCurrentPageID }: { label: string; icon: JSX.
         <Typography level="title-sm">{label}</Typography>
       </ListItemContent>
     </ListItemButton>
+    <IconButton size="sm" onClick={() => {
+      fetch(`/api/deleteTimestamp?timestamp=${label}`, { method: "DELETE" }).then((res) => {
+        let drawerWithoutId = drawerItems.filter((e) => e.id !== id)
+        setDrawerItems(drawerWithoutId)
+      })
+    }}> <Clear></Clear></IconButton>
   </ListItem>
 )
 
@@ -50,14 +57,16 @@ function MainComponent({
   width,
   drawerItems,
   setVisibility,
-  setCurrentPageID
+  setCurrentPageID,
+  setDrawerItems
 }: {
   title: string;
   width: number;
   icon: JSX.Element;
   drawerItems: DrawerItem[];
   setVisibility: Function;
-  setCurrentPageID: Function
+  setCurrentPageID: Function;
+  setDrawerItems: Function;
 }) {
   return (
     <Sheet
@@ -97,7 +106,7 @@ function MainComponent({
           {
             drawerItems.map((e, i) => (
               <ListItem key={i} nested>
-                <Item setCurrentPageID={setCurrentPageID} label={e.label} id={e.id} icon={e.icon} />
+                <Item drawerItems={drawerItems} setCurrentPageID={setCurrentPageID} setDrawerItems={setDrawerItems} label={e.label} id={e.id} icon={e.icon} />
               </ListItem>
             ))
           }
@@ -114,7 +123,8 @@ export default function Sidebar({
   drawerItems,
   visibilityState,
   setVisibility,
-  setCurrentPageID
+  setCurrentPageID,
+  setDrawerItems
 }: {
   title: string;
   width: number;
@@ -123,6 +133,7 @@ export default function Sidebar({
   visibilityState: boolean;
   setVisibility: Function;
   setCurrentPageID: Function;
+  setDrawerItems: Function;
 }) {
   return (
     <>
@@ -141,6 +152,7 @@ export default function Sidebar({
           drawerItems={drawerItems}
           setVisibility={setVisibility}
           setCurrentPageID={setCurrentPageID}
+          setDrawerItems={setDrawerItems}
         />
       </Box>
     </>
