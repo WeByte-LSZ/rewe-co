@@ -13,6 +13,7 @@ import {
 } from "@mui/joy";
 import DrawerItem from "@/types/Drawer";
 import { CloseSharp, KeyboardArrowDown } from "@mui/icons-material";
+import BasicModalDialog from "./Modal";
 
 const TitleComponent = ({ title, icon, closeSidebar }: { title: string, icon: JSX.Element, closeSidebar: Function }) => (
   <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
@@ -75,6 +76,7 @@ function MainComponent({
       }}
     >
       <TitleComponent title={title} icon={icon} closeSidebar={() => setVisibility(false)} />
+      <BasicModalDialog></BasicModalDialog>
       <Box
         sx={{
           minHeight: 0,
