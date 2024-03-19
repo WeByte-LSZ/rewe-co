@@ -1,4 +1,3 @@
-"use client";
 import Head from "next/head";
 import * as React from "react";
 import {
@@ -6,68 +5,28 @@ import {
   ListItemDecorator,
   Typography,
 } from "@mui/joy";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {
-  KeyboardReturn,
+  KeyboardReturn, ReportSharp,
 } from "@mui/icons-material";
 import SearchModal from "@/components/modal/SearchModal";
 import config from "@/../configuration"
 import DrawerItem, { DrawerPage } from "@/types/Drawer";
-import { Component, Page } from "@/types/Configuration";
 import Layout from "@/components/layout/Layout";
 import { FuseResult, RangeTuple } from "fuse.js";
+import { ThemesInterface } from "./_app";
 
 interface PageContents {
   [id: string]: JSX.Element
 }
 
-function pageStateGeneration(componentList: Array<JSX.Element | Component>): JSX.Element[] {
-  return componentList.map((e, i) => {
-    if ("contents" in e) {
-      return (
-        <Box key={'pageWrapper' + i} sx={{ display: 'flex', flexDirection: e.layout, flexGrow: 1, gap: 2 }}>
-          {pageStateGeneration(e.contents)}
-        </Box>
-      );
-    };
-    return <Box key={'pageComponentWrapper' + i} sx={{ display: 'flex', flexWrap: 'wrap', flexGrow: 1, width: 0 }}>{e}</Box>;
+function prepareDrawerAndSidebar(pages: string[], modalData: { data: object[] }, drawerData: { data: DrawerItem[] }) {
+  return pages.map((e) => {
+    modalData.data.push({ id: e, icon: <ReportSharp /> })
+    drawerData.data.push({ label: e, id: e, icon: <ReportSharp /> })
   })
 }
 
-function prepareDrawerItems(list: Page[], modalData: { data: object[] }, pageContentsRef: PageContents, depthMarker: string = ""): DrawerPage[] {
-  depthMarker = (depthMarker.length > 0 ? depthMarker + "/" : "")
-
-  return list.map((e) => {
-    modalData.data.push({ id: depthMarker + e.title, icon: e.icon })
-    pageContentsRef[depthMarker + e.title] = (
-      <Box sx={{ display: 'flex', flexDirection: 'column' }} >
-        <Typography level="h1">{e.title}</Typography>
-        {("contents" in e.content) ?
-          <Box sx={{ display: 'flex', flexGrow: 1, flexDirection: e.content.layout, width: '100%', height: '100%' }}>
-            {pageStateGeneration(e.content.contents)}
-          </Box>
-          :
-          e.content
-        }
-      </Box>
-    );
-
-    return {
-      label: e.title,
-      icon: e.icon,
-      id: depthMarker + e.title,
-      subItems: prepareDrawerItems(e.subpages, modalData, pageContentsRef, depthMarker + e.title)
-    }
-  })
-}
-
-/* 
- * Steps to underline
- * substring from 0 to match start
- * substring from match end to end
- * in center is new underlines string
- * work with end of new string
- */
 function underlineSearchResults(match: string, indices: readonly RangeTuple[]): (JSX.Element | string)[] {
   let res: (JSX.Element | string)[] = [match];
   let startIndex = 0
@@ -83,35 +42,25 @@ function underlineSearchResults(match: string, indices: readonly RangeTuple[]): 
   return res
 }
 
-export default function Home() {
+export default function Home({ setTheme, theme, themes }: { setTheme: Function; theme: keyof ThemesInterface; themes: ThemesInterface }) {
   const [modalData, setModalData] = useState<Object[]>([]);
   const [sidebarData, setSidebarData] = useState<DrawerItem[]>([]);
-  const [searchModalVisibility, setSearchModalVisibility] = useState(false);
-  const [actionModalVisibility, setActionModalVisibility] = useState(false);
-  const [currentPageID, setCurrentPageID] = useState('Upper Austria');
-  const [currentActionID, setCurrentActionID] = useState('Upper Austria');
+  const [modalVisibility, setSearchModalVisibility] = useState(false);
+  const [currentPageID, setCurrentPageID] = useState('');
   const [pageContentStore, setPageContentStore] = useState<PageContents>({});
 
   useEffect(() => {
-    // emulate pass by reference
-    setSidebarData(() => {
-      let modalRef: { data: Object[] } = { data: [] }
-      let pageContentsRef: PageContents = {};
-      const tmp = (config.categories.map((e) => {
-        return {
-          label: e.title,
-          subItems: prepareDrawerItems(e.pages, modalRef, pageContentsRef)
-        }
-      }))
-      setModalData(modalRef.data);
-      setPageContentStore(pageContentsRef);
-      return tmp;
+    let modalRef: { data: Object[] } = { data: [] };
+    let sidebarRef: { data: DrawerItem[] } = { data: [] };
+
+
+    fetch("/api/getTimestamps").then((e) => e.json()).then((e: { data: string[] }) => {
+    prepareDrawerAndSidebar(e.data, modalRef, sidebarRef)
+    console.log(e.data)
+    setModalData(modalRef.data)
+    setSidebarData(sidebarRef.data)
     })
   }, [])
-
-  useEffect(() => {
-
-  }, [currentActionID])
 
   return (
     <>
@@ -125,40 +74,20 @@ export default function Home() {
         <Layout
           sidebarData={sidebarData}
           toggleSearchModalVisibility={() => { setSearchModalVisibility((old) => !old) }}
-          toggleActionModalVisibility={() => { setActionModalVisibility((old) => !old) }}
           breadcrumbsPath={currentPageID.split('/')}
           content={pageContentStore[currentPageID]}
           setCurrentPageID={setCurrentPageID}
+          toggleActionModalVisibility={() => { }}
+          setTheme={setTheme}
+          theme={theme}
+          themes={themes}
         />
-        <SearchModal title="Search"
-          visibility={searchModalVisibility}
-          setCurrentPageID={setCurrentPageID}
-          setVisibility={setSearchModalVisibility}
-          dataPoints={modalData}
-          setDatapoints={() => { }}
-          keys={['id']}
-          setKeys={() => { }}
-          dataToBeDisplayed={(e: FuseResult<any>, isHovered: boolean) => (
-            <>
-              <ListItemDecorator sx={{ justifyContent: 'flex-start' }}>
-                {e.item.icon}
-              </ListItemDecorator>
-              {
-                <Typography sx={{ color: isHovered ? 'primary.plainColor' : 'text.primary' }}>
-                  {underlineSearchResults(e.item.id, (e.matches) ? e.matches[0].indices : [])}
-                </Typography>
-              }
-              <ListItemDecorator sx={{ display: isHovered ? 'inline-flex' : 'none', justifyContent: 'flex-end', flexGrow: 1, paddingX: 1.5 }}>
-                <KeyboardReturn />
-              </ListItemDecorator>
-            </>
-          )} />
 
         <SearchModal title="Search"
-          visibility={actionModalVisibility}
-          setCurrentPageID={setCurrentActionID}
-          setVisibility={setActionModalVisibility}
+          visibility={modalVisibility}
+          setVisibility={setSearchModalVisibility}
           dataPoints={modalData}
+          setCurrentPageID={(id: string) => { setCurrentPageID(id) }}
           setDatapoints={() => { }}
           keys={['id']}
           setKeys={() => { }}

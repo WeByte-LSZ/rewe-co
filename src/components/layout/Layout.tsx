@@ -2,7 +2,7 @@ import * as React from "react";
 import {
   Box,
 } from "@mui/joy";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Navigation from "@/components/layout/Header";
 import Sidebar from "@/components/layout/Sidebar";
 import BreadCrumbs from "@/components/layout/Breadcrumbs";
@@ -10,8 +10,9 @@ import DrawerItem from "@/types/Drawer";
 import config from "../../../configuration";
 import InformationModal from "../modal/InformationModal";
 import SettingsModal from "../modal/SettingsModal";
+import { ThemesInterface } from "@/pages/_app";
 
-export default function Layout({ sidebarData, toggleSearchModalVisibility, toggleActionModalVisibility, breadcrumbsPath, content, setCurrentPageID }: { sidebarData: DrawerItem[], toggleSearchModalVisibility: Function, toggleActionModalVisibility: Function, breadcrumbsPath: string[], content: JSX.Element, setCurrentPageID: Function }) {
+export default function Layout({ sidebarData, toggleSearchModalVisibility, toggleActionModalVisibility, breadcrumbsPath, content, setCurrentPageID, setTheme, theme, themes }: { sidebarData: DrawerItem[], toggleSearchModalVisibility: Function, toggleActionModalVisibility: Function, breadcrumbsPath: string[], content: JSX.Element, setCurrentPageID: Function, setTheme: Function; theme: keyof ThemesInterface; themes: ThemesInterface }) {
 
   const sidebarWidth = '300px';
   const [sidebarVisibility, setSidebarVisibility] = useState<boolean>(true);
@@ -62,7 +63,8 @@ export default function Layout({ sidebarData, toggleSearchModalVisibility, toggl
               display: "flex",
               position: "relative",
               justifyContent: "center",
-              overflow: 'auto'
+              overflow: 'auto',
+              flexGrow: 1
             }}
           >
             <Box
@@ -79,7 +81,7 @@ export default function Layout({ sidebarData, toggleSearchModalVisibility, toggl
         </Box>
       </Box>
       <InformationModal modalVisible={informationModalVisible} setModalVisible={setInformationModalVisibility} />
-      <SettingsModal visibility={settingsModalVisibility} setVisibility={setSettingsModalVisibility} setLayoutWidth={(n : number) => setLayoutWidth(n)} layoutWidth={layoutWidth}/>
+      <SettingsModal visibility={settingsModalVisibility} setVisibility={setSettingsModalVisibility} setLayoutWidth={(n: number) => setLayoutWidth(n)} layoutWidth={layoutWidth} setTheme={setTheme} theme={theme} themes={themes} />
     </>
   )
 }

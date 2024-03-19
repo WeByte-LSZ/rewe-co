@@ -1,10 +1,7 @@
 import * as React from 'react';
-import Box from '@mui/joy/Box';
-import Button from '@mui/joy/Button';
 import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
 import Typography from '@mui/joy/Typography';
-import { useState } from 'react';
 import { datavisSpecification } from '../../../globals';
 import { Table } from '@mui/joy';
 

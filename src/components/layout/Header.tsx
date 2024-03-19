@@ -7,7 +7,7 @@ import {
   SearchRounded,
   SettingsRounded,
 } from "@mui/icons-material";
-import { Box, Dropdown, IconButton, Link, Menu, MenuButton, MenuItem, Stack, Tooltip } from "@mui/joy";
+import { Box, IconButton, Link, Stack } from "@mui/joy";
 
 import ColorSchemeToggle from "../utils/ColorSchemeToggle";
 import config from "../../../configuration";

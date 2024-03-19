@@ -1,13 +1,37 @@
 import "@/style/globals.css"
-import theme from "@/themes/materialExtended";
-import { CssBaseline, CssVarsProvider } from "@mui/joy";
+import materialExtended from "@/themes/materialExtended";
+import { CssBaseline, CssVarsProvider, Theme } from "@mui/joy";
 import { AppProps } from "next/app";
 import config from "../../configuration";
+import { useEffect, useState } from "react";
+import purpleMix from "@/themes/purpleMix";
+import sky from "@/themes/sky";
+import zinc from "@/themes/zinc";
+
+export interface ThemesInterface {
+  [theme: string]: Theme
+}
+
+const themes: ThemesInterface = {
+  "Material Extended": materialExtended,
+  "Purple Mix": purpleMix,
+  "Sky": sky,
+  "Zinc": zinc
+}
 
 export default function App({ Component, pageProps }: AppProps) {
+  const [theme, setTheme] = useState<keyof ThemesInterface>(config.userConfiguration.defaultColorMode || Object.keys(themes)[0]);
+
+  useEffect(() => {
+    const themeName = localStorage.getItem('themeName');
+    if (themeName) {
+      setTheme(themeName)
+    }
+  }, []);
+
   return (
-    <CssVarsProvider disableTransitionOnChange theme={theme} defaultMode={config.userConfiguration.defaultColorMode || 'light'}>
-      <Component {...pageProps} />
+    <CssVarsProvider disableTransitionOnChange theme={themes[theme]} defaultMode={config.userConfiguration.defaultColorMode || 'light'}>
+      <Component {...pageProps} setTheme={(theme: keyof ThemesInterface) => { localStorage.setItem('themeName', theme as string); setTheme(theme) }} theme={theme} themes={themes} />
       <CssBaseline />
     </CssVarsProvider>
   );

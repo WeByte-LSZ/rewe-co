@@ -1,9 +1,6 @@
 import * as React from "react";
 import {
   Box,
-  Button,
-  Card,
-  Divider,
   IconButton,
   List,
   ListItem,
@@ -11,45 +8,11 @@ import {
   ListItemContent,
   ListSubheader,
   Sheet,
-  Stack,
   Typography,
   listItemButtonClasses,
 } from "@mui/joy";
-import Link from "next/link";
-import DrawerItem, { DrawerPage } from "@/types/Drawer";
+import DrawerItem from "@/types/Drawer";
 import { CloseSharp, KeyboardArrowDown } from "@mui/icons-material";
-
-function Toggler({
-  defaultExpanded = false,
-  renderToggle,
-  children,
-}: {
-  defaultExpanded?: boolean;
-  children: React.ReactNode;
-  renderToggle: (params: {
-    open: boolean;
-    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  }) => React.ReactNode;
-}) {
-  const [open, setOpen] = React.useState(defaultExpanded);
-  return (
-    <>
-      {renderToggle({ open, setOpen })}
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateRows: open ? "1fr" : "0fr",
-          transition: "0.2s ease",
-          "& > *": {
-            overflow: "hidden",
-          },
-        }}
-      >
-        {children}
-      </Box>
-    </>
-  );
-}
 
 const TitleComponent = ({ title, icon, closeSidebar }: { title: string, icon: JSX.Element, closeSidebar: Function }) => (
   <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
@@ -70,44 +33,16 @@ const TitleComponent = ({ title, icon, closeSidebar }: { title: string, icon: JS
   </Box>
 )
 
-const NestedListComponent = ({ items, setCurrentPageID }: { items: DrawerPage[], setCurrentPageID: Function }) => {
-  return items.map((e, i) => {
-    if (e.subItems.length > 0) return (
-      <Toggler key={i} renderToggle={({ open, setOpen }) => (
-        <ListItemButton onClick={() => setOpen(!open)}>
-          {e.icon}
-          <ListItemContent>
-            <Typography level="title-sm">{e.label}</Typography>
-          </ListItemContent>
-          <KeyboardArrowDown
-            sx={{ transform: open ? "none" : "rotate(180deg)" }}
-          />
-        </ListItemButton>
-      )}>
-        <List
-          size="sm"
-          sx={{
-            gap: 0.5,
-          }}>
-
-          <ListItem nested>
-            <NestedListComponent items={e.subItems} setCurrentPageID={setCurrentPageID} />
-          </ListItem>
-        </List>
-      </Toggler>
-    )
-    return (
-      <ListItem key={i}>
-        <ListItemButton onClick={() => { setCurrentPageID(e.id) }}>
-          {e.icon}
-          <ListItemContent>
-            <Typography level="title-sm">{e.label}</Typography>
-          </ListItemContent>
-        </ListItemButton>
-      </ListItem>
-    )
-  })
-}
+const Item = ({ label, icon, id, setCurrentPageID }: { label: string; icon: JSX.Element; id: string; setCurrentPageID: Function }) => (
+  <ListItem>
+    <ListItemButton onClick={() => { setCurrentPageID(id) }}>
+      {icon}
+      <ListItemContent>
+        <Typography level="title-sm">{label}</Typography>
+      </ListItemContent>
+    </ListItemButton>
+  </ListItem>
+)
 
 function MainComponent({
   title,
@@ -162,10 +97,7 @@ function MainComponent({
           {
             drawerItems.map((e, i) => (
               <ListItem key={i} nested>
-                <ListSubheader sx={{ letterSpacing: "2px", fontWeight: "800" }}>
-                  {e.label}
-                </ListSubheader>
-                <NestedListComponent setCurrentPageID={setCurrentPageID} items={e.subItems} />
+                <Item setCurrentPageID={setCurrentPageID} label={e.label} id={e.id} icon={e.icon} />
               </ListItem>
             ))
           }

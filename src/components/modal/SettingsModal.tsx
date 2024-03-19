@@ -1,22 +1,33 @@
 import * as React from 'react';
-import { Modal, ModalDialog, List, Typography, ModalClose, AccordionGroup, accordionDetailsClasses, accordionSummaryClasses, AccordionSummary, Accordion, Avatar, ListItemContent, FormControl, FormLabel, Switch, AccordionDetails, Stack, DialogTitle, Drawer, DialogContent } from "@mui/joy";
-import Slider from '@mui/joy/Slider';
-import { Grid } from '@mui/material';
-import { AirplanemodeActiveRounded, Colorize, WaterDrop, WindowSharp } from '@mui/icons-material';
+import { Typography, ModalClose, AccordionGroup, accordionDetailsClasses, accordionSummaryClasses, AccordionSummary, Accordion, Avatar, ListItemContent, FormControl, FormLabel, Switch, AccordionDetails, Stack, DialogTitle, Drawer, DialogContent, Button, CardOverflow, Card, CardContent, AspectRatio, Divider, Box, Grid } from "@mui/joy";
+import { AirplanemodeActiveRounded, FontDownloadSharp, WaterDrop, WidthNormal } from '@mui/icons-material';
+import { ThemesInterface } from '@/pages/_app';
 
 interface ModalProps {
   visibility: boolean;
   setVisibility: Function;
   layoutWidth: number;
   setLayoutWidth: Function;
+  setTheme: Function;
+  theme: keyof ThemesInterface;
+  themes: ThemesInterface;
 }
 
-const settings = [
+interface SettingsModalContent {
+  title: string;
+  description: string;
+  icon: JSX.Element;
+  color: "primary" | "danger" | "success" | "warning";
+  content: Function
+}
+
+const settings: SettingsModalContent[] = [
   {
-    title: "Themes",
+    title: "Theme",
     description: "Change your color scheme",
+    color: "primary",
     icon: <WaterDrop />,
-    content: <Stack spacing={1.5}>
+    content: () => (<Stack spacing={1.5}>
       <FormControl orientation="horizontal" sx={{ gap: 1 }}>
         <AirplanemodeActiveRounded sx={{ mx: 1 }} />
         <FormLabel>Airplane Mode</FormLabel>
@@ -34,13 +45,14 @@ const settings = [
         <FormLabel>Bluetooth</FormLabel>
         <Switch size="sm" />
       </FormControl>
-    </Stack>
+    </Stack>)
   },
   {
-    title: "Themes",
-    description: "Change your color scheme",
-    icon: <WaterDrop />,
-    content: <Stack spacing={1.5}>
+    title: "Layout Behaivour",
+    description: "Change width of the main layout",
+    color: "warning",
+    icon: <WidthNormal />,
+    content: () => (<Stack spacing={1.5}>
       <FormControl orientation="horizontal" sx={{ gap: 1 }}>
         <AirplanemodeActiveRounded sx={{ mx: 1 }} />
         <FormLabel>Airplane Mode</FormLabel>
@@ -58,37 +70,44 @@ const settings = [
         <FormLabel>Bluetooth</FormLabel>
         <Switch size="sm" />
       </FormControl>
-    </Stack>
+    </Stack>)
   },
   {
-    title: "Themes",
-    description: "Change your color scheme",
-    icon: <WaterDrop />,
-    content: <Stack spacing={1.5}>
-      <FormControl orientation="horizontal" sx={{ gap: 1 }}>
-        <AirplanemodeActiveRounded sx={{ mx: 1 }} />
-        <FormLabel>Airplane Mode</FormLabel>
-        <Switch size="sm" />
-      </FormControl>
-
-      <FormControl orientation="horizontal" sx={{ gap: 1 }}>
-        <AirplanemodeActiveRounded sx={{ mx: 1 }} />
-        <FormLabel>Wi-Fi</FormLabel>
-        <Switch size="sm" />
-      </FormControl>
-
-      <FormControl orientation="horizontal" sx={{ gap: 1 }}>
-        <AirplanemodeActiveRounded sx={{ mx: 1 }} />
-        <FormLabel>Bluetooth</FormLabel>
-        <Switch size="sm" />
-      </FormControl>
-    </Stack>
+    title: "Font",
+    description: "Change the default color scheme",
+    color: "danger",
+    icon: <FontDownloadSharp />,
+    content: ({ theme: theme, themes: themes, setTheme: setTheme }: {
+      setTheme: Function;
+      theme: keyof ThemesInterface;
+      themes: ThemesInterface
+    }) => {
+      return (
+        <Stack>
+          <Grid gap={1} container sx={{ flexGrow: 1 }}>
+            {
+              Object.keys(themes).map((key, i) => {
+                return (
+                  <Grid columnGap={1} sx={{ flexGrow: 1 }} key={`theme-switch-button-${i}`}>
+                    <div onClick={() => { setTheme(key) }}>
+                      <Box sx={{ height: 100, width: 100, flexGrow: 1, flexDirection: 'row', backgroundColor: themes[key].palette.primary['400'] }}>
+                        {key}
+                      </Box>
+                    </div>
+                  </Grid>
+                )
+              })
+            }
+          </Grid >
+        </Stack >
+      )
+    }
   }
 
 
 ]
 
-export default function SettingsModal({ visibility, setVisibility, layoutWidth, setLayoutWidth }: ModalProps) {
+export default function SettingsModal({ visibility, setVisibility, layoutWidth, setLayoutWidth, setTheme, theme, themes }: ModalProps) {
   return (
     <Drawer size='sm' hideBackdrop anchor='right' open={visibility} onClose={() => { setVisibility(false) }}>
       <ModalClose size='lg' />
@@ -109,12 +128,11 @@ export default function SettingsModal({ visibility, setVisibility, layoutWidth, 
             },
           }}
         >
-    
           {
             settings.map((e, i) => (
               <Accordion key={`settingsModalAccordion-${i}`}>
                 <AccordionSummary>
-                  <Avatar color="primary">
+                  <Avatar color={e.color}>
                     {e.icon}
                   </Avatar>
                   <ListItemContent>
@@ -125,7 +143,7 @@ export default function SettingsModal({ visibility, setVisibility, layoutWidth, 
                   </ListItemContent>
                 </AccordionSummary>
                 <AccordionDetails>
-                  {e.content}
+                  {e.content({ theme: theme, themes: themes, setTheme: setTheme })}
                 </AccordionDetails>
               </Accordion>
             ))
