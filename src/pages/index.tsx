@@ -11,10 +11,11 @@ import {
 } from "@mui/icons-material";
 import SearchModal from "@/components/modal/SearchModal";
 import config from "@/../configuration"
-import DrawerItem, { DrawerPage } from "@/types/Drawer";
+import DrawerItem from "@/types/Drawer";
 import Layout from "@/components/layout/Layout";
 import { FuseResult, RangeTuple } from "fuse.js";
 import { ThemesInterface } from "./_app";
+import AreaChartWrapper from "@/components/charts/AreaChart";
 
 interface PageContents {
   [id: string]: JSX.Element
@@ -47,7 +48,6 @@ export default function Home({ setTheme, theme, themes }: { setTheme: Function; 
   const [sidebarData, setSidebarData] = useState<DrawerItem[]>([]);
   const [modalVisibility, setSearchModalVisibility] = useState(false);
   const [currentPageID, setCurrentPageID] = useState('');
-  const [pageContentStore, setPageContentStore] = useState<PageContents>({});
 
   useEffect(() => {
     let modalRef: { data: Object[] } = { data: [] };
@@ -55,10 +55,11 @@ export default function Home({ setTheme, theme, themes }: { setTheme: Function; 
 
 
     fetch("/api/getTimestamps").then((e) => e.json()).then((e: { data: string[] }) => {
-    prepareDrawerAndSidebar(e.data, modalRef, sidebarRef)
-    console.log(e.data)
-    setModalData(modalRef.data)
-    setSidebarData(sidebarRef.data)
+      prepareDrawerAndSidebar(e.data, modalRef, sidebarRef)
+      setModalData(modalRef.data)
+      setSidebarData(sidebarRef.data)
+      e.data.map((e) => {
+      })
     })
   }, [])
 
@@ -75,10 +76,10 @@ export default function Home({ setTheme, theme, themes }: { setTheme: Function; 
           sidebarData={sidebarData}
           toggleSearchModalVisibility={() => { setSearchModalVisibility((old) => !old) }}
           breadcrumbsPath={currentPageID.split('/')}
-          content={pageContentStore[currentPageID]}
           setCurrentPageID={setCurrentPageID}
           toggleActionModalVisibility={() => { }}
           setTheme={setTheme}
+          currentPageID={currentPageID}
           theme={theme}
           themes={themes}
           setDrawerItems={setSidebarData}
