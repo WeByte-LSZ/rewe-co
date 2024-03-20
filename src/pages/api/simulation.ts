@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { join } from 'path';
 import fs, { writeFileSync, readFileSync } from 'fs';
 import { ProductType, Truck, Warehouse } from '@/types/InputTypes';
-import { Report as OurReport, ProductProperties, TruckProperties, WarehouseProperties, ReportStore } from '@/types/Report';
+import { Report, ProductProperties, TruckProperties, WarehouseProperties, ReportStore } from '@/types/Report';
 
 type ResponseData = { data: string } | { err: string }
 
@@ -23,7 +23,7 @@ export default function handler(
 	var productTypes = body.productData as unknown as ProductType[];
 	//var averageKilometersZustellung = req.query.averageKilometersZustellung as unknown as number;
 
-	var report: OurReport = {
+	var report: Report = {
 		title: req.body.title,
 		description: req.body.description,
 		maximum: maximum,
@@ -198,18 +198,12 @@ export default function handler(
 	report.co2_total = report.truck_types.fuel_co2 + report.warehouses.total_co2;
 	report.eur_total = report.truck_types.fuel_eur + report.warehouses.total_eur;
 
-	var timestamp: string = new Date().getTime().toString();
-
-	var report_store: ReportStore = { timestamp: report };
-
-	console.log(report_store);
-
-	writeIntoJson(report_store);
+	writeIntoJson(report);
 
 	return res.status(200).json({ data: "Done." });
 }
 
-function writeIntoJson(json: ReportStore) {
+function writeIntoJson(json: Report) {
 
 	function padTwoDigits(num: number) {
 		return num.toString().padStart(2, "0");

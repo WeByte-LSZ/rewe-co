@@ -150,7 +150,7 @@ function MainComponent({
         icon={icon}
         closeSidebar={() => setVisibility(false)}
       />
-      <BasicModalDialog></BasicModalDialog>
+      <BasicModalDialog />
       <Box
         sx={{
           minHeight: 0,

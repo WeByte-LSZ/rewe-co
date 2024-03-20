@@ -20,34 +20,34 @@ export default function BasicModalDialog() {
   const [title, setTitle] = React.useState<String>("");
   const [description, setDescription] = React.useState<String>("");
   const [truckData, setTruckData] = React.useState<Truck[]>([
-      {
-            type: "Generic Truck",
-            co2EmissionFactor: CO2EmissionsFactor.DIESEL,
-            distanceDriven: 0,
-            additionalWeight: 0,
-            fuelConsumptionRate: 0,
-            cooled: false,
-            solarPanels: false,
-            maxWeight: 0,
-            maxVolume: 0,
-            numtrucks: 0,
-            avarageDistanceFromWarehouseToSupermarket: 0,
-            isDefault: true
-        },
-        {
-            type: "Generic Cooled",
-            co2EmissionFactor: CO2EmissionsFactor.DIESEL,
-            distanceDriven: 0,
-            additionalWeight: 0,
-            fuelConsumptionRate: 0,
-            cooled: true,
-            solarPanels: false,
-            maxWeight: 0,
-            maxVolume: 0,
-            numtrucks: 0,
-            avarageDistanceFromWarehouseToSupermarket: 0,
-            isDefault: true
-        }
+    {
+      type: "Generic Truck",
+      co2EmissionFactor: CO2EmissionsFactor.DIESEL,
+      distanceDriven: 0,
+      additionalWeight: 0,
+      fuelConsumptionRate: 0,
+      cooled: false,
+      solarPanels: false,
+      maxWeight: 0,
+      maxVolume: 0,
+      numtrucks: 0,
+      avarageDistanceFromWarehouseToSupermarket: 0,
+      isDefault: true
+    },
+    {
+      type: "Generic Cooled",
+      co2EmissionFactor: CO2EmissionsFactor.DIESEL,
+      distanceDriven: 0,
+      additionalWeight: 0,
+      fuelConsumptionRate: 0,
+      cooled: true,
+      solarPanels: false,
+      maxWeight: 0,
+      maxVolume: 0,
+      numtrucks: 0,
+      avarageDistanceFromWarehouseToSupermarket: 0,
+      isDefault: true
+    }
 
   ]);
   const [productData, setProductData] = React.useState<ProductType[]>([]);
@@ -95,7 +95,7 @@ export default function BasicModalDialog() {
       warehouseData: warehouseData,
     };
 
-    
+
     try {
       const response = await fetch('/api/simulation', {
         method: 'POST',
