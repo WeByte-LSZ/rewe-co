@@ -2,7 +2,10 @@ import Head from "next/head";
 import * as React from "react";
 import {
   Box,
+  Button,
   ListItemDecorator,
+  Modal,
+  ModalDialog,
   Typography,
 } from "@mui/joy";
 import { useEffect, useState } from "react";
@@ -44,6 +47,7 @@ export default function Home({ setTheme, theme, themes }: { setTheme: Function; 
   const [sidebarData, setSidebarData] = useState<DrawerItem[]>([]);
   const [modalVisibility, setSearchModalVisibility] = useState(false);
   const [currentPageID, setCurrentPageID] = useState('');
+  const [redirect, setRedirect] = useState(true);
 
   useEffect(() => {
     let modalRef: { data: Object[] } = { data: [] };
@@ -66,6 +70,46 @@ export default function Home({ setTheme, theme, themes }: { setTheme: Function; 
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
+        <Modal open={redirect} onClose={() => setRedirect(false)}>
+          <ModalDialog
+            aria-labelledby="nested-modal-title"
+            aria-describedby="nested-modal-description"
+            sx={(theme) => ({
+              [theme.breakpoints.only('xs')]: {
+                top: 'unset',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                borderRadius: 0,
+                transform: 'none',
+                maxWidth: 'unset',
+              },
+            })}
+          >
+            <Typography id="nested-modal-title" level="h2">
+              Interactive demo on texotek.cloud!
+            </Typography>
+            <Typography id="nested-modal-description" textColor="text.tertiary">
+              The demo on the current page is not interactive, visit <a href='https://texotek.cloud/'>this site</a> to create pages.
+            </Typography>
+            <Box
+              sx={{
+                mt: 1,
+                display: 'flex',
+                gap: 1,
+                flexDirection: { xs: 'column', sm: 'row-reverse' },
+              }}
+            >
+              <Button variant="solid" color="primary" href='https://texotek.cloud/' component="a">
+                Redirect
+              </Button>
+              <Button variant="solid" color="primary" onClick={() => setRedirect(false)}>
+                I want to stay here :(
+              </Button>
+
+            </Box>
+          </ModalDialog>
+        </Modal>
         <Layout
           sidebarData={sidebarData}
           toggleSearchModalVisibility={() => { setSearchModalVisibility((old) => !old) }}
