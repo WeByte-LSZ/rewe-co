@@ -84,6 +84,20 @@ export default function BasicModalDialog() {
     });
   };
 
+  const pushReport = async () => {
+    console.log("test");
+    try {
+      const response = await fetch('/api/simulation');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const responseData = await response.json();
+      console.log(responseData);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
   return (
     <React.Fragment>
       <Button
@@ -113,7 +127,7 @@ export default function BasicModalDialog() {
                 <FormLabel>Description</FormLabel>
                 <Input required />
               </FormControl>
-              <Button type="submit">Erstellen</Button>
+              <Button type="submit" onClick={pushReport}>Erstellen</Button>
             </Stack>
             <TruckTable truckData={truckData} setTruckData={setTruckData} setTruckRowData={setTruckRowData} />
             <ProductTable productData={productData} setProductData={setProductData} setProductRowData={setProductRowData} />
