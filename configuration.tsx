@@ -1,7 +1,5 @@
-import AreaChartWrapper from "@/components/charts/AreaChart";
-import PieChartWrapper from "@/components/charts/PieChart";
 import { Configuration } from "@/types/Configuration";
-import { BarChartSharp, HexagonRounded } from "@mui/icons-material";
+import { HexagonRounded } from "@mui/icons-material";
 
 let config: Configuration = {
   title: 'REWE COST OPTIMIZATION',
