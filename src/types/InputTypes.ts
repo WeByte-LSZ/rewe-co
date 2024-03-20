@@ -1,6 +1,6 @@
 export interface Truck {
     type: string,
-    co2EmissionFactor: CO2EmissionsFactor,
+    co2EmissionFactor: number,
     distanceDriven: number,
     additionalWeight: number,
     fuelConsumptionRate: number,

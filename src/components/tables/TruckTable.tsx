@@ -40,15 +40,17 @@ export default function TruckTable({ truckData, setTruckData, setTruckRowData }:
                             ></Input>
                         </td>
                         <td>
-                            <Select onChange={(event) => {
+                            <select onChange={(event:any) => {
                                 if(event == null) return;
                                 const target = event.target as HTMLSelectElement;
-                                setTruckRowData(index, "co2EmissionFactor", target.value);
+                                console.log(target);
+                                setTruckRowData(index, "co2EmissionFactor", event.target.value);
+                                console.log(event.target.value);
                             }}>
-                                <Option value={CO2EmissionsFactor.DIESEL}>Diesel</Option>
-                                <Option value={CO2EmissionsFactor.ULSD}>ULSD</Option>
-                                <Option value={CO2EmissionsFactor.BIO}>Bio</Option>
-                            </Select>
+                                <option value={CO2EmissionsFactor.DIESEL}>Diesel</option>
+                                <option value={CO2EmissionsFactor.ULSD}>ULSD</option>
+                                <option value={CO2EmissionsFactor.BIO}>Bio</option>
+                            </select>
                         </td>
                         <td>
                             <Input

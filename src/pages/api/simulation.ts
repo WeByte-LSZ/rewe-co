@@ -55,6 +55,9 @@ export default function handler(
 			product_types_data: [],
 		},
 	};
+	// report.co2_total = 5000;
+	// console.log(report);
+	// return res.status(200).json({ data: "Done." });
 
 	//run optimization
 	var totalAmountOfItems = 0;
