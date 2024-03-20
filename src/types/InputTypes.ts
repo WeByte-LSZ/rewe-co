@@ -9,7 +9,6 @@ export interface Truck {
     maxWeight: number,
     maxVolume: number,
     numtrucks: number,
-    avarageDistanceFromWarehouseToSupermarket: number,
     isDefault: boolean
 }
 

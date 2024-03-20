@@ -33,7 +33,6 @@ export default function BasicModalDialog() {
       maxWeight: 0,
       maxVolume: 0,
       numtrucks: 0,
-      avarageDistanceFromWarehouseToSupermarket: 0,
       isDefault: true
     },
     {
@@ -47,7 +46,6 @@ export default function BasicModalDialog() {
       maxWeight: 0,
       maxVolume: 0,
       numtrucks: 0,
-      avarageDistanceFromWarehouseToSupermarket: 0,
       isDefault: true
     }
 

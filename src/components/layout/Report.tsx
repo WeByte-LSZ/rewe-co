@@ -61,13 +61,13 @@ function GraphView({ data, unit }: { data: Report, unit: string }) {
     let hot = 0;
     let hst = 0;
     data.truck_types.truck_types_data.forEach((e, i) => {
-      if (data.truck_types.truck_types_data[het].fuel_co2 < e.fuel_co2) {
+      if (data.truck_types.truck_types_data[het]?.fuel_co2 < e.fuel_co2) {
         het = i;
       }
-      if (data.truck_types.truck_types_data[het].fuel_co2 - data.truck_types.truck_types_data[het].optimized_fuel_co2 < e.fuel_co2 - e.optimized_fuel_co2) {
+      if (data.truck_types.truck_types_data[hot]?.fuel_co2 - data.truck_types.truck_types_data[hot].optimized_fuel_co2 < e.fuel_co2 - e.optimized_fuel_co2) {
         hot = i;
       }
-      if (data.truck_types.truck_types_data[hst].solar_co2 < e.solar_co2) {
+      if (data.truck_types.truck_types_data[hst]?.solar_co2 < e.solar_co2) {
         hst = i;
       }
     })
@@ -75,10 +75,10 @@ function GraphView({ data, unit }: { data: Report, unit: string }) {
     let hew = 0;
     let hsw = 0;
     data.warehouses.warehouses_data.forEach((e, i) => {
-      if (data.warehouses.warehouses_data[het].total_co2 < e.total_co2) {
+      if (data.warehouses.warehouses_data[het]?.total_co2 < e.total_co2) {
         hew = i;
       }
-      if (data.warehouses.warehouses_data[hst].solar_co2 < e.solar_co2) {
+      if (data.warehouses.warehouses_data[hst]?.solar_co2 < e.solar_co2) {
         hsw = i;
       }
     })

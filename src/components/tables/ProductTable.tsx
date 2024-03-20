@@ -35,25 +35,28 @@ export default function ProductTable({ productData, setProductData, setProductRo
                         </td>
                         <td>
                             <Input
+                                type="number"
                                 value={row.weight_kg}
                                 onChange={(event) => {
-                                    setProductRowData(index, "weight_kg", event.target.value);
+                                    setProductRowData(index, "weight_kg", Number(event.target.value));
                                 }}
                             ></Input>
                         </td>
                         <td>
                             <Input
+                                type="number"
                                 value={row.volume_l}
                                 onChange={(event) => {
-                                    setProductRowData(index, "volume_l", event.target.value);
+                                    setProductRowData(index, "volume_l", Number(event.target.value));
                                 }}
                             ></Input>
                         </td>
                         <td>
                             <Input
+                                type="number"
                                 value={row.transport_share}
                                 onChange={(event) => {
-                                    setProductRowData(index, "transport_share", event.target.value);
+                                    setProductRowData(index, "transport_share", parseInt(event.target.value));
                                 }}
                             ></Input>
                         </td>

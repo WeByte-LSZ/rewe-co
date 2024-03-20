@@ -267,7 +267,7 @@ function writeIntoJson(json: Report) {
 }
 
 function co2ToEur(co2_kg: number) {
-	return co2_kg / 1000 * 0.45;
+	return co2_kg / 1000 * 45;
 }
 
 function co2WinSolarPanels(squareMeters: number) {

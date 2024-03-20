@@ -46,24 +46,27 @@ export default function WarehouseTable({ warehouseData,setWarehouseData, setWare
                         </td>
                         <td>
                             <Input
+                                type="number"
                                 value={row.area_m2}
                                 onChange={(event) => {
-                                    setWarehouseRowData(index, "area_m2", event.target.value);
+                                    setWarehouseRowData(index, "area_m2", parseInt(event.target.value));
                                 }}
                             ></Input>
                         </td>
                         <td>
                             <Input
+                                type="number"
                                 value={row.area_cooled_m2}
                                 onChange={(event) => {
-                                    setWarehouseRowData(index, "area_cooled_m2", event.target.value);
+                                    setWarehouseRowData(index, "area_cooled_m2", parseInt(event.target.value));
                                 }}
                             ></Input>
                         </td>
                         <td>
                             <Input
+                                type="number"
                                 value={row.itemsdelivered_year} onChange={(event) => {
-                                    setWarehouseRowData(index, "itemsdelivered_year", event.target.value);
+                                    setWarehouseRowData(index, "itemsdelivered_year", parseInt(event.target.value));
                                 }}
                             ></Input>
                         </td>
