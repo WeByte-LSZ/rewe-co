@@ -13,14 +13,16 @@ export default function WarehouseTable({ warehouseData,setWarehouseData, setWare
                     <th style={{ width: "var(--Table-firstColumnWidth)" }}>
                         Warehouse
                     </th>
-                    <th style={{ width: 100 }}>ElectricityEmissionRate</th>
-                    <th style={{ width: 170 }}>Area&nbsp;(m2)</th>
-                    <th style={{ width: 170 }}>Cooled Area&nbsp;(m2)</th>
-                    <th style={{ width: 170 }}>Items Delivered &nbsp;(per year)</th>
-                    <th style={{ width: 100 }}>Solar</th>
+                    <th style={{}}>ElectricityEmissionRate</th>
+                    <th style={{}}>Area&nbsp;(m2)</th>
+                    <th style={{}}>Cooled Area&nbsp;(m2)</th>
+                    <th style={{}}>Items Delivered &nbsp;(per year)</th>
+                    <th style={{
+                        width: "50"
+                    }}>Solar</th>
                     <th
                         aria-label="last"
-                        style={{ width: "var(--Table-lastColumnWidth)" }}
+                        style={{ width: "100" }}
                     />
                 </tr>
             </thead>
@@ -36,11 +38,7 @@ export default function WarehouseTable({ warehouseData,setWarehouseData, setWare
                             ></Input>
                         </td>
                         <td>
-                            <Select onChange={(event) => {
-                                if(event == null) return;
-                                const target = event.target as HTMLSelectElement;
-                                setWarehouseRowData(index, "electricityEmissionRate", target.value);
-                            }}>
+                            <Select onChange={(event, newvalue) => setWarehouseRowData(index, "electricityEmissionRate", newvalue)}>
                                 <Option value={ElecricityEmissionRate.GAS}>Gas</Option>
                                 <Option value={ElecricityEmissionRate.OEL}>Oel</Option>
                                 <Option value={ElecricityEmissionRate.ELECTRIC}>Electric</Option>
@@ -56,7 +54,7 @@ export default function WarehouseTable({ warehouseData,setWarehouseData, setWare
                         </td>
                         <td>
                             <Input
-                                value={row.area_m2}
+                                value={row.area_cooled_m2}
                                 onChange={(event) => {
                                     setWarehouseRowData(index, "area_cooled_m2", event.target.value);
                                 }}
@@ -64,8 +62,7 @@ export default function WarehouseTable({ warehouseData,setWarehouseData, setWare
                         </td>
                         <td>
                             <Input
-                                value={row.itemsdelivered_year}
-                                onChange={(event) => {
+                                value={row.itemsdelivered_year} onChange={(event) => {
                                     setWarehouseRowData(index, "itemsdelivered_year", event.target.value);
                                 }}
                             ></Input>

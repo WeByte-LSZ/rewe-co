@@ -10,7 +10,7 @@ export interface Truck {
     maxVolume: number,
     numtrucks: number,
     avarageDistanceFromWarehouseToSupermarket: number,
-    isDefault?: boolean
+    isDefault: boolean
 }
 
 export interface ProductType {

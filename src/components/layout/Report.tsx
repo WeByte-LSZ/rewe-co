@@ -13,7 +13,7 @@ export default function ReportProvider({ timestamp, content, setContent, index }
     fetch(`/api/getDataPoint?timestamp=${timestamp}`).then((e) => e.json()).then((e: { data: Report }) => {
       setData(e.data || defaultStore)
     })
-  })
+  }, [timestamp])
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>

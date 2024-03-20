@@ -12,13 +12,13 @@ export default function ProductTable({ productData, setProductData, setProductRo
                     <th style={{ width: "var(--Table-firstColumnWidth)" }}>
                         Product Name
                     </th>
-                    <th style={{ width: 170 }}>Weight &nbsp;(kg)</th>
-                    <th style={{ width: 170 }}>Volume&nbsp;(L)</th>
-                    <th style={{ width: 170 }}>Share of Transport &nbsp;(Percent)</th>
-                    <th style={{ width: 170 }}>Needs Cooling</th>
+                    <th style={{}}>Weight &nbsp;(kg)</th>
+                    <th style={{}}>Volume&nbsp;(L)</th>
+                    <th style={{}}>Share of Transport &nbsp;(Percent)</th>
+                    <th style={{}}>Needs Cooling</th>
                     <th
                         aria-label="last"
-                        style={{ width: "var(--Table-lastColumnWidth)" }}
+                        style={{ width: "100" }}
                     />
                 </tr>
             </thead>

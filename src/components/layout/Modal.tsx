@@ -19,6 +19,8 @@ export default function BasicModalDialog() {
   const [open, setOpen] = React.useState<boolean>(false);
   const [title, setTitle] = React.useState<String>("");
   const [description, setDescription] = React.useState<String>("");
+  const [maxmoney, setMaxMoney] = React.useState<number>(0);
+  const [avarageDistance, setAvarageDistance] = React.useState<number>(0);
   const [truckData, setTruckData] = React.useState<Truck[]>([
     {
       type: "Generic Truck",
@@ -93,6 +95,8 @@ export default function BasicModalDialog() {
       truckData: truckData,
       productData: productData,
       warehouseData: warehouseData,
+      maximum: maxmoney,
+      averageKilometersZustellung: avarageDistance,
     };
 
 
@@ -114,13 +118,6 @@ export default function BasicModalDialog() {
     }
   };
 
-  function changeTitle(event: React.ChangeEvent<HTMLInputElement>): void {
-    setTitle(event.target.value);
-  }
-
-  function changeDescription(event: React.ChangeEvent<HTMLInputElement>): void {
-    setDescription(event.target.value);
-  }
 
   return (
     <React.Fragment>
@@ -133,7 +130,7 @@ export default function BasicModalDialog() {
         Neuer Report
       </Button>
       <Modal open={open} onClose={() => setOpen(false)}>
-        <ModalDialog sx={{ display: "flex", width: "100%" }}>
+        <ModalDialog sx={{ display: "flex", width: "100%", overflow: "auto" }}>
           <DialogTitle>Erstelle einen neuen Report.</DialogTitle>
           <DialogContent>Fülle die benötigten Daten dafür aus.</DialogContent>
           <form
@@ -145,11 +142,19 @@ export default function BasicModalDialog() {
             <Stack spacing={2} sx={{ display: "flex" }}>
               <FormControl>
                 <FormLabel>Name</FormLabel>
-                <Input autoFocus required onChange={changeTitle}>{title}</Input>
+                <Input autoFocus required onChange={(event) => setTitle(event.target.value)}>{title}</Input>
               </FormControl>
               <FormControl>
                 <FormLabel>Description</FormLabel>
-                <Input required onChange={changeDescription}>{description}</Input>
+                <Input required onChange={(event) => setDescription(event.target.value)}>{description}</Input>
+              </FormControl>
+              <FormControl>
+                <FormLabel>CO2 Cost Maximum</FormLabel>
+                <Input type="Number" required onChange={(event) => setMaxMoney(Number(event.target.value))}>{description}</Input>
+              </FormControl>
+              <FormControl>
+                <FormLabel>Avarage Delivery Distance (Last Warehouse to Supermarket)</FormLabel>
+                <Input type="Number"required onChange={(event) => setAvarageDistance(Number(event.target.value))}>{description}</Input>
               </FormControl>
               <Button type="submit" onClick={pushReport}>Erstellen</Button>
             </Stack>

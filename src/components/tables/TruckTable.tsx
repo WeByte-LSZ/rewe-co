@@ -24,7 +24,7 @@ export default function TruckTable({ truckData, setTruckData, setTruckRowData }:
                     <th style={{ width: 160 }}>Number of Trucks</th>
                     <th
                         aria-label="last"
-                        style={{ width: "var(--Table-lastColumnWidth)" }}
+                        style={{ width: "100" }}
                     />
                 </tr>
             </thead>
@@ -40,17 +40,11 @@ export default function TruckTable({ truckData, setTruckData, setTruckRowData }:
                             ></Input>
                         </td>
                         <td>
-                            <select onChange={(event:any) => {
-                                if(event == null) return;
-                                const target = event.target as HTMLSelectElement;
-                                console.log(target);
-                                setTruckRowData(index, "co2EmissionFactor", event.target.value);
-                                console.log(event.target.value);
-                            }}>
-                                <option value={CO2EmissionsFactor.DIESEL}>Diesel</option>
-                                <option value={CO2EmissionsFactor.ULSD}>ULSD</option>
-                                <option value={CO2EmissionsFactor.BIO}>Bio</option>
-                            </select>
+                            <Select onChange={(e, newvalue) => setTruckRowData(index, "co2EmissionFactor", newvalue)}>
+                                <Option value={CO2EmissionsFactor.DIESEL}>Diesel</Option>
+                                <Option value={CO2EmissionsFactor.ULSD}>ULSD</Option>
+                                <Option value={CO2EmissionsFactor.BIO}>Bio</Option>
+                            </Select>
                         </td>
                         <td>
                             <Input
@@ -83,14 +77,14 @@ export default function TruckTable({ truckData, setTruckData, setTruckRowData }:
                         </td>
                         <td>
                             <Checkbox checked={row.solarPanels} onChange={(event) => {
-                                setTruckRowData(index, "cooled", event.target.checked)
+                                setTruckRowData(index, "solarPanels", event.target.checked)
                             }}/>
                         </td>
                         <td>
                             <Input
                                 value={row.maxWeight}
                                 onChange={(event) => {
-                                    setTruckRowData(index, "maxValue", event.target.value);
+                                    setTruckRowData(index, "maxWeight", event.target.value);
                                 }}
                             ></Input>
                         </td>
@@ -111,7 +105,7 @@ export default function TruckTable({ truckData, setTruckData, setTruckRowData }:
                             ></Input>
                         </td>
                         <td>
-                            <Box sx={{ display: "flex", gap: 1 }}>
+                            {!row.isDefault ? <Box sx={{ display: "flex", gap: 1 }}>
                                 <Button
                                     size="sm"
                                     variant="soft"
@@ -123,8 +117,8 @@ export default function TruckTable({ truckData, setTruckData, setTruckRowData }:
                                     }}
                                 >
                                     Delete
-                                </Button>
-                            </Box>
+                                </Button> 
+                            </Box>: " "}
                         </td>
                     </tr>
                 ))}
