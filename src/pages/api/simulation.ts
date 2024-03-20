@@ -24,8 +24,8 @@ export default function handler(
 	//var averageKilometersZustellung = req.query.averageKilometersZustellung as unknown as number;
 
 	var report: OurReport = {
-		title: "Report " + new Date().getTime().toString(),
-		description: "placeholder",
+		title: req.body.title,
+		description: req.body.description,
 		maximum: maximum,
 		co2_total: 0,
 		eur_total: 0,
@@ -198,6 +198,8 @@ export default function handler(
 	var timestamp: string = new Date().getTime().toString();
 
 	var report_store: ReportStore = { timestamp: report };
+
+	console.log(report_store);
 
 	// writeIntoJson(report_store);
 

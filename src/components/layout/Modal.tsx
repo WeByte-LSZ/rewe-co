@@ -17,6 +17,8 @@ import WarehouseTable from "../tables/WarehouseTable";
 
 export default function BasicModalDialog() {
   const [open, setOpen] = React.useState<boolean>(false);
+  const [title, setTitle] = React.useState<String>("");
+  const [description, setDescription] = React.useState<String>("");
   const [truckData, setTruckData] = React.useState<Truck[]>([
       {
             type: "Generic Truck",
@@ -85,8 +87,9 @@ export default function BasicModalDialog() {
   };
 
   const pushReport = async () => {
-    console.log("test");
     const data = {
+      title: title,
+      description: description,
       truckData: truckData,
       productData: productData,
       warehouseData: warehouseData,
@@ -111,6 +114,14 @@ export default function BasicModalDialog() {
     }
   };
 
+  function changeTitle(event: React.ChangeEvent<HTMLInputElement>): void {
+    setTitle(event.target.value);
+  }
+
+  function changeDescription(event: React.ChangeEvent<HTMLInputElement>): void {
+    setDescription(event.target.value);
+  }
+
   return (
     <React.Fragment>
       <Button
@@ -134,11 +145,11 @@ export default function BasicModalDialog() {
             <Stack spacing={2} sx={{ display: "flex" }}>
               <FormControl>
                 <FormLabel>Name</FormLabel>
-                <Input autoFocus required />
+                <Input autoFocus required onChange={changeTitle}>{title}</Input>
               </FormControl>
               <FormControl>
                 <FormLabel>Description</FormLabel>
-                <Input required />
+                <Input required onChange={changeDescription}>{description}</Input>
               </FormControl>
               <Button type="submit" onClick={pushReport}>Erstellen</Button>
             </Stack>
