@@ -6,7 +6,7 @@ let config: Configuration = {
   sidebarTitle: 'REWE CO',
   logo: <HexagonRounded />,
   userConfiguration: {
-    defaultColorMode: 'dark',
+    defaultColorMode: 'light',
     defaultColorScheme: 'Material Extended',
     defaultLayoutWidth: 90,
     homepageLink: "https://rewe-group.at/de"
