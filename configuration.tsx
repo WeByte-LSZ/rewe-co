@@ -10,7 +10,7 @@ let config: Configuration = {
   userConfiguration: {
     defaultColorMode: 'dark',
     defaultColorScheme: 'Material Extended',
-    defaultLayoutWidth: 75,
+    defaultLayoutWidth: 90,
     homepageLink: "https://rewe-group.at/de"
   },
 }

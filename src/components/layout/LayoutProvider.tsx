@@ -23,6 +23,7 @@ export default function LayoutProvider({ name, children }: { name: string, child
       display: 'flex',
       width: '100%',
       height: '100%',
+      overflow: 'hidden',
       flexGrow: 1,
       flexDirection: 'row',
       gap: 10

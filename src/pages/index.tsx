@@ -8,7 +8,7 @@ import {
 import { useEffect, useState } from "react";
 import {
   DescriptionSharp,
-  KeyboardReturn, Report, ReportSharp,
+  KeyboardReturn
 } from "@mui/icons-material";
 import SearchModal from "@/components/modal/SearchModal";
 import config from "@/../configuration"
@@ -16,11 +16,6 @@ import DrawerItem from "@/types/Drawer";
 import Layout from "@/components/layout/Layout";
 import { FuseResult, RangeTuple } from "fuse.js";
 import { ThemesInterface } from "./_app";
-import AreaChartWrapper from "@/components/charts/AreaChart";
-
-interface PageContents {
-  [id: string]: JSX.Element
-}
 
 function prepareDrawerAndSidebar(pages: string[], modalData: { data: object[] }, drawerData: { data: DrawerItem[] }) {
   return pages.map((e) => {
@@ -53,7 +48,6 @@ export default function Home({ setTheme, theme, themes }: { setTheme: Function; 
   useEffect(() => {
     let modalRef: { data: Object[] } = { data: [] };
     let sidebarRef: { data: DrawerItem[] } = { data: [] };
-
 
     fetch("/api/getTimestamps").then((e) => e.json()).then((e: { data: string[] }) => {
       prepareDrawerAndSidebar(e.data, modalRef, sidebarRef)

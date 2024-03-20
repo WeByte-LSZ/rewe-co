@@ -1,32 +1,44 @@
 {
   "2009-03-02 15:24:23":{
-    "title": "Test Report",
-    "description": "Hallo",
-    "truck": [
-      {
-        "type": "Benziner",
-        "co2": 123124
-      }
-    ],
-    "warehouse": {
-      "heating_co2": 13124,
-      "cooling_co2": 321412,
-      "light_co2": 234325,
-      "warehouses":   [{
-        "location": "Wiener Neustadt",
-        "heating_co2": 31244,
-        "cooling_co2": 131245,
-        "light_co2": 124135
-      }]
-    },
-    "products": {
-      "co2": 12442,
-      "items": [
+    "title": "Test",
+    "description": "Test",
+    "maximum": -9999,
+    "co2_total": -9999,
+    "eur_total": -9999,
+    "truck_types": {
+      "fuel_co2": 100,
+      "fuel_eur": 100,
+      "solar_co2": 20,
+      "solar_eur": 20,
+      "truck_types_data": [
         {
-          "type": "Milch",
-          "co2": 213
+          "name": "Lieferwagen",
+          "fuel_co2": 200,
+          "fuel_eur": 100,
+          "solar_co2": 200,
+          "solar_eur": 20,
+          "optimized_fuel_co2": 100,
+          "optimized_fuel_eur": 100
         }
       ]
+    },
+    "warehouses": {
+      "total_co2": 100,
+      "total_eur": 100,
+      "solar_co2": 10,
+      "solar_eur": 10,
+      "heating_co2": -9999,
+      "heating_eur": -9999,
+      "cooling_co2": -9999,
+      "cooling_eur": -9999,
+      "air_conditioning_co2": -9999,
+      "air_conditioning_eur": -9999,
+      "warehouses_data": []
+    },
+    "product_types": {
+      "total_co2": -9999,
+      "total_eur": -9999,
+      "product_types_data": []
     }
   }
 }

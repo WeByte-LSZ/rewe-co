@@ -26,7 +26,7 @@ export default function Layout({ sidebarData, toggleSearchModalVisibility, toggl
   const [content, setContent] = useState<JSX.Element[]>([])
 
   useEffect(() => {
-    setContent([<ReportProvider timestamp={currentPageID} setContent={setContent} content={content} index={content.length - 1} key={`item-${currentPageID}`} />])
+    setContent([<ReportProvider timestamp={currentPageID} setContent={setContent} index={0} key={currentPageID} />])
   }, [currentPageID])
 
 
@@ -90,7 +90,7 @@ export default function Layout({ sidebarData, toggleSearchModalVisibility, toggl
               <BreadCrumbs path={breadcrumbsPath} />
               <LayoutProvider name={"Drag"}>
                 {content.map((e, i) => (
-                  <Box key={`flex-wrapper-content-${i}`} sx={{ display: 'flex', flexWrap: 'wrap', flexGrow: 1 }}>
+                  <Box key={`flex-wrapper-content-${i}`} sx={{ overflowY: 'auto', display: 'flex', flexWrap: 'wrap', flexGrow: 1, maxWidth: `${100/content.length}%` }}>
                     {e}
                   </Box>
                 ))}

@@ -74,7 +74,7 @@ const Item = ({
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult<DropLocation>()
       if (dropResult && dropResult.accepted) {
-        setContent((old: JSX.Element[]) => [...old, <ReportProvider timestamp={currentPageID} setContent={setContent} content={content} index={content.length - 1} key={`item-${item.id}`} />
+        setContent((old: JSX.Element[]) => [...old, <ReportProvider timestamp={item.id} setContent={setContent} index={content.length - 1} key={`item-${item.id}`} />
         ])
       }
     },
