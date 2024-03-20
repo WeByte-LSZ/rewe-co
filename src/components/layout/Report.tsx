@@ -112,7 +112,7 @@ function GraphView({ data, unit }: { data: Report, unit: string }) {
         <ReactECharts
           option={{
             title: {
-              text: `Pollution by trucks: ${data.truck_types[`fuel_${unit}`]} ${reverseUnit[unit]}`,
+              text: `Pollution by trucks: ${data.truck_types[`fuel_${unit}` as keyof object]} ${reverseUnit[unit as keyof object]}`,
             },
             tooltip: {
               trigger: 'item'
@@ -123,7 +123,7 @@ function GraphView({ data, unit }: { data: Report, unit: string }) {
             },
             series: [
               {
-                name: `Unit: ${reverseUnit[unit]}`,
+                name: `Unit: ${reverseUnit[unit as keyof object]}`,
                 type: 'pie',
                 radius: ['60%', '70%'],
                 avoidLabelOverlap: true,
@@ -146,7 +146,7 @@ function GraphView({ data, unit }: { data: Report, unit: string }) {
                 labelLine: {
                   show: false
                 },
-                data: [...data.truck_types.truck_types_data.map((e) => { return { name: e.name, value: e[`fuel_${unit}`] } }), { name: 'Saved through solar', value: data.truck_types[`solar_${unit}`] }]
+                data: [...data.truck_types.truck_types_data.map((e) => { return { name: e.name, value: e[`fuel_${unit}` as keyof object] } }), { name: 'Saved through solar', value: data.truck_types[`solar_${unit}` as keyof object] }]
               }
             ]
           }}
@@ -159,7 +159,7 @@ function GraphView({ data, unit }: { data: Report, unit: string }) {
         <ReactECharts
           option={{
             title: {
-              text: `Pollution by warehouses: ${data.warehouses[`total_${unit}`]} ${reverseUnit[unit]}`,
+              text: `Pollution by warehouses: ${data.warehouses[`total_${unit}` as keyof object]} ${reverseUnit[unit as keyof object]}`,
             },
             tooltip: {
               trigger: 'item'
@@ -170,7 +170,7 @@ function GraphView({ data, unit }: { data: Report, unit: string }) {
             },
             series: [
               {
-                name: `Unit: ${reverseUnit[unit]}`,
+                name: `Unit: ${reverseUnit[unit as keyof object]}`,
                 type: 'pie',
                 radius: ['60%', '70%'],
                 avoidLabelOverlap: true,
@@ -193,7 +193,7 @@ function GraphView({ data, unit }: { data: Report, unit: string }) {
                 labelLine: {
                   show: false
                 },
-                data: [...data.warehouses.warehouses_data.map((e) => { return { name: e.name, value: e[`total_${unit}`] } }), { name: 'Saved through solar', value: data.warehouses[`solar_${unit}`] }]
+                data: [...data.warehouses.warehouses_data.map((e) => { return { name: e.name, value: e[`total_${unit}` as keyof object] } }), { name: 'Saved through solar', value: data.warehouses[`solar_${unit}` as keyof object] }]
               }
             ]
           }}
@@ -206,7 +206,7 @@ function GraphView({ data, unit }: { data: Report, unit: string }) {
         <ReactECharts
           option={{
             title: {
-              text: `Pollution in total: ${data[`${unit}_total`]} ${reverseUnit[unit]}`
+              text: `Pollution in total: ${data[`${unit}_total` as keyof object]} ${reverseUnit[unit as keyof object]}`
             },
             tooltip: {
               trigger: 'item'
@@ -217,7 +217,7 @@ function GraphView({ data, unit }: { data: Report, unit: string }) {
             },
             series: [
               {
-                name: `Unit: ${reverseUnit[unit]}`,
+                name: `Unit: ${reverseUnit[unit as keyof object]}`,
                 type: 'pie',
                 radius: ['60%', '70%'],
                 avoidLabelOverlap: true,
@@ -240,7 +240,7 @@ function GraphView({ data, unit }: { data: Report, unit: string }) {
                 labelLine: {
                   show: false
                 },
-                data: [{ name: "Pollution by trucks", value: data.truck_types[`fuel_${unit}`] }, { name: 'Pollution by warehouses', value: data.warehouses[`total_${unit}`] }, { name: "Saved through solar", value: data.truck_types[`solar_${unit}`] + data.warehouses[`solar_${unit}`] }]
+                data: [{ name: "Pollution by trucks", value: data.truck_types[`fuel_${unit}` as keyof object] }, { name: 'Pollution by warehouses', value: data.warehouses[`total_${unit}` as keyof object] }, { name: "Saved through solar", value: data.truck_types[`solar_${unit}` as keyof object] + data.warehouses[`solar_${unit}` as keyof object] }]
               }
             ]
           }}
@@ -284,24 +284,24 @@ function GraphView({ data, unit }: { data: Report, unit: string }) {
           yAxis: [
             {
               type: 'value',
-              name: `Pollution in ${reverseUnit[unit]}`,
+              name: `Pollution in ${reverseUnit[unit as keyof object]}`,
             }
           ],
           series: [
             {
               name: 'CO2 Pollution without optimization',
               type: 'bar',
-              data: data.truck_types.truck_types_data.map((e) => e[`fuel_${unit}`])
+              data: data.truck_types.truck_types_data.map((e) => e[`fuel_${unit}` as keyof object])
             },
             {
               name: 'CO2 Pollution without solar',
               type: 'bar',
-              data: data.truck_types.truck_types_data.map((e) => e[`solar_${unit}`] + e[`fuel_${unit}`])
+              data: data.truck_types.truck_types_data.map((e) => e[`solar_${unit}` as keyof object] + e[`fuel_${unit}` as keyof object])
             },
             {
               name: 'CO2 Pollution with optimization',
               type: 'bar',
-              data: data.truck_types.truck_types_data.map((e) => e[`optimized_fuel_${unit}`])
+              data: data.truck_types.truck_types_data.map((e) => e[`optimized_fuel_${unit}` as keyof object])
             },
           ]
         }}
@@ -408,19 +408,19 @@ function GraphView({ data, unit }: { data: Report, unit: string }) {
           yAxis: [
             {
               type: 'value',
-              name: `Pollution in ${reverseUnit[unit]}`,
+              name: `Pollution in ${reverseUnit[unit as keyof object]}`,
             }
           ],
           series: [
             {
               name: 'CO2 Pollution with solar',
               type: 'bar',
-              data: data.warehouses.warehouses_data.map((e) => e[`total_${unit}`])
+              data: data.warehouses.warehouses_data.map((e) => e[`total_${unit}` as keyof object])
             },
             {
               name: 'CO2 Pollution without solar',
               type: 'bar',
-              data: data.warehouses.warehouses_data.map((e) => e[`solar_${unit}`] + e[`total_${unit}`])
+              data: data.warehouses.warehouses_data.map((e) => e[`solar_${unit}` as keyof object] + e[`total_${unit}` as keyof object])
             }
           ]
         }}
@@ -506,15 +506,13 @@ export default function ReportProvider({ timestamp, setContent, index }: { times
 
         <Tabs
           aria-label="Outlined tabs"
-          onChange={(event, value) => { console.log(value); setUnit(units[Object.keys(units)[value as number]]) }}
+          onChange={(event, value) => { console.log(value); setUnit(units[Object.keys(units)[value as number] as keyof object]) }}
         >
           <TabList variant="outlined" disableUnderline>
             {
               Object.keys(units).map((e, i) => (
                 <Tab
                   key={`unit-switch-${i}`}
-                  variant={unit === units[Object.keys[i]] ? 'soft' : 'plain'}
-                  color={unit === units[Object.keys[i]] ? 'success' : 'neutral'}
                 >
                   {e}
                 </Tab>
@@ -522,7 +520,7 @@ export default function ReportProvider({ timestamp, setContent, index }: { times
             }
           </TabList>
         </Tabs>
-        <div ref={graphRef}>
+        <div ref={graphRef as any}>
           <GraphView data={data} unit={unit} />
         </div>
       </Box>
