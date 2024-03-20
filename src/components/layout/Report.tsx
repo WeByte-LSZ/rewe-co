@@ -1,9 +1,10 @@
 import { Report } from "@/types/Report";
-import { CloseSharp } from "@mui/icons-material";
+import { CloseSharp, DownloadSharp } from "@mui/icons-material";
 import { Box, Divider, Grid, IconButton, Sheet, Tab, TabList, TabPanel, Table, Tabs, Typography } from "@mui/joy";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import StyledGrid from "../styledComponents/StyledGrid";
 import ReactECharts from 'echarts-for-react';
+import { exportHandlerPDF } from "@/lib/exportHandler";
 
 
 const defaultStore: Report = {
@@ -64,7 +65,7 @@ function GraphView({ data, unit }: { data: Report, unit: string }) {
       if (data.truck_types.truck_types_data[het]?.fuel_co2 < e.fuel_co2) {
         het = i;
       }
-      if (data.truck_types.truck_types_data[hot]?.fuel_co2 - data.truck_types.truck_types_data[hot].optimized_fuel_co2 < e.fuel_co2 - e.optimized_fuel_co2) {
+      if (data.truck_types.truck_types_data[hot]?.fuel_co2 - data.truck_types.truck_types_data[hot]?.optimized_fuel_co2 < e.fuel_co2 - e.optimized_fuel_co2) {
         hot = i;
       }
       if (data.truck_types.truck_types_data[hst]?.solar_co2 < e.solar_co2) {
@@ -75,10 +76,10 @@ function GraphView({ data, unit }: { data: Report, unit: string }) {
     let hew = 0;
     let hsw = 0;
     data.warehouses.warehouses_data.forEach((e, i) => {
-      if (data.warehouses.warehouses_data[het]?.total_co2 < e.total_co2) {
+      if (data.warehouses.warehouses_data[hew]?.total_co2 < e.total_co2) {
         hew = i;
       }
-      if (data.warehouses.warehouses_data[hst]?.solar_co2 < e.solar_co2) {
+      if (data.warehouses.warehouses_data[hsw]?.solar_co2 < e.solar_co2) {
         hsw = i;
       }
     })
@@ -97,12 +98,12 @@ function GraphView({ data, unit }: { data: Report, unit: string }) {
       overflowY: 'auto'
     }}>
       <StyledGrid xs={12}>
-        <Sheet sx={{ padding: 4 }}>
+        <Sheet sx={{ padding: 4, borderRadius: 5 }} variant="outlined" color={data.maximum < data.eur_total ? "warning" : 'success'}>
           <Typography level="h2">
-            Estimated Pollution: {data.truck_types.fuel_co2 + data.warehouses.total_co2} KG CO2
+            Estimated Pollution: {data.co2_total} KG CO2
           </Typography>
           <Typography level="h2">
-            Estimated Cost: {data.truck_types.fuel_eur + data.warehouses.total_eur} EURO
+            Estimated Cost: {data.eur_total} OF {data.maximum} EURO
           </Typography>
         </Sheet>
       </StyledGrid>
@@ -158,7 +159,7 @@ function GraphView({ data, unit }: { data: Report, unit: string }) {
         <ReactECharts
           option={{
             title: {
-              text: `Pollution by warehouses : ${data.warehouses[`total_${unit}`]} ${reverseUnit[unit]}`,
+              text: `Pollution by warehouses: ${data.warehouses[`total_${unit}`]} ${reverseUnit[unit]}`,
             },
             tooltip: {
               trigger: 'item'
@@ -205,7 +206,7 @@ function GraphView({ data, unit }: { data: Report, unit: string }) {
         <ReactECharts
           option={{
             title: {
-              text: `Pollution in total`
+              text: `Pollution in total: ${data[`${unit}_total`]} ${reverseUnit[unit]}`
             },
             tooltip: {
               trigger: 'item'
@@ -310,7 +311,7 @@ function GraphView({ data, unit }: { data: Report, unit: string }) {
       <StyledGrid xs={4}>
         <Box sx={{ padding: 1 }}>
           <Typography level="h3">
-            Optimization results
+            Optimization results: Trucks
           </Typography>
           <Divider />
           <Typography level="h4">
@@ -348,7 +349,7 @@ function GraphView({ data, unit }: { data: Report, unit: string }) {
       <StyledGrid xs={4}>
         <Box sx={{ padding: 1 }}>
           <Typography level="h3">
-            Optimization results
+            Optimization results: Warehouses
           </Typography>
           <Divider />
           <Typography level="h4">
@@ -466,6 +467,8 @@ export default function ReportProvider({ timestamp, setContent, index }: { times
   const [data, setData] = useState(defaultStore);
   const [unit, setUnit] = useState('eur');
 
+  let graphRef = useRef<HTMLElement>();
+
   useEffect(() => {
     fetch(`/api/getDataPoint?timestamp=${timestamp}`).then((e) => e.json()).then((e: { data: Report }) => {
       setData(e.data || defaultStore)
@@ -479,6 +482,11 @@ export default function ReportProvider({ timestamp, setContent, index }: { times
         <Box sx={{ display: 'flex', flexDirection: 'row', flexGrow: 1 }}>
           <Typography level="h1">{data.title}</Typography>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', flexGrow: 1 }}>
+            <IconButton onClick={() => {
+              exportHandlerPDF(graphRef)
+            }} sx={{ display: 'flex', alignItems: 'center' }}>
+              <DownloadSharp />
+            </IconButton>
             <IconButton onClick={() => {
               setContent((old: JSX.Element[]) => {
                 if (old.length == 1) return old;
@@ -514,8 +522,9 @@ export default function ReportProvider({ timestamp, setContent, index }: { times
             }
           </TabList>
         </Tabs>
-
-        <GraphView data={data} unit={unit} />
+        <div ref={graphRef}>
+          <GraphView data={data} unit={unit} />
+        </div>
       </Box>
     </Box >
   )

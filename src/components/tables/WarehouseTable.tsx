@@ -28,7 +28,7 @@ export default function WarehouseTable({ warehouseData,setWarehouseData, setWare
             </thead>
             <tbody>
                 {warehouseData.map((row, index) => (
-                    <tr>
+                    <tr key={`randonnefew-${index}`}>
                         <td>
                             <Input
                                 value={row.name}

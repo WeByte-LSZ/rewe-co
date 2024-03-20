@@ -35,7 +35,7 @@ export default function TruckTable({
         </thead>
         <tbody>
           {truckData.map((row, index) => (
-            <tr>
+            <tr key={`rewter1${index}`}>
               <td>
                 <Input
                   value={row.type}
@@ -53,6 +53,9 @@ export default function TruckTable({
                   <Option value={CO2EmissionsFactor.DIESEL}>Diesel</Option>
                   <Option value={CO2EmissionsFactor.ULSD}>ULSD</Option>
                   <Option value={CO2EmissionsFactor.BIO}>Bio</Option>
+                  <Option value={CO2EmissionsFactor.ELEKTRO_VAN}>Elektro Van</Option>
+                  <Option value={CO2EmissionsFactor.ELEKTRO_TRUCK}>Elektro Truck</Option>
+                  <Option value={CO2EmissionsFactor.ELEKTRO_SCHLEPPER}>Elektro Schlepper</Option>
                 </Select>
               </td>
               <td>

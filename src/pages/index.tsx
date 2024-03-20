@@ -17,10 +17,10 @@ import Layout from "@/components/layout/Layout";
 import { FuseResult, RangeTuple } from "fuse.js";
 import { ThemesInterface } from "./_app";
 
-function prepareDrawerAndSidebar(pages: string[], modalData: { data: object[] }, drawerData: { data: DrawerItem[] }) {
+function prepareDrawerAndSidebar(pages: { id: string, name: string }[], modalData: { data: object[] }, drawerData: { data: DrawerItem[] }) {
   return pages.map((e) => {
-    modalData.data.push({ id: e, icon: <DescriptionSharp /> })
-    drawerData.data.push({ label: e, id: e, icon: <DescriptionSharp /> })
+    modalData.data.push({ id: e.id, name: e.name, icon: <DescriptionSharp /> })
+    drawerData.data.push({ label: e.id, id: e.id, icon: <DescriptionSharp /> })
   })
 }
 
@@ -49,11 +49,11 @@ export default function Home({ setTheme, theme, themes }: { setTheme: Function; 
     let modalRef: { data: Object[] } = { data: [] };
     let sidebarRef: { data: DrawerItem[] } = { data: [] };
 
-    fetch("/api/getTimestamps").then((e) => e.json()).then((e: { data: string[] }) => {
+    fetch("/api/getTimestamps").then((e) => e.json()).then((e: { data: { id: string, name: string }[] }) => {
       prepareDrawerAndSidebar(e.data, modalRef, sidebarRef)
       setModalData(modalRef.data)
       setSidebarData(sidebarRef.data)
-      setCurrentPageID(e.data[0])
+      setCurrentPageID(e.data[0].id)
     })
   }, [])
 
@@ -85,7 +85,7 @@ export default function Home({ setTheme, theme, themes }: { setTheme: Function; 
           dataPoints={modalData}
           setCurrentPageID={(id: string) => { setCurrentPageID(id) }}
           setDatapoints={() => { }}
-          keys={['id']}
+          keys={['id', 'name']}
           setKeys={() => { }}
           dataToBeDisplayed={(e: FuseResult<any>, isHovered: boolean) => (
             <>
@@ -93,9 +93,14 @@ export default function Home({ setTheme, theme, themes }: { setTheme: Function; 
                 {e.item.icon}
               </ListItemDecorator>
               {
-                <Typography sx={{ color: isHovered ? 'primary.plainColor' : 'text.primary' }}>
-                  {underlineSearchResults(e.item.id, (e.matches) ? e.matches[0].indices : [])}
-                </Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                  <Typography sx={{ color: isHovered ? 'primary.plainColor' : 'text.primary' }}>
+                    {underlineSearchResults(e.item.name, (e.matches) ? e.matches[0].indices : [])}
+                  </Typography>
+                  <Typography level="body-sm" sx={{ color: isHovered ? 'primary.plainColor' : 'text.primary' }}>
+                    {underlineSearchResults(e.item.id, (e.matches) ? e.matches[0].indices : [])}
+                  </Typography>
+                </Box>
               }
               <ListItemDecorator sx={{ display: isHovered ? 'inline-flex' : 'none', justifyContent: 'flex-end', flexGrow: 1, paddingX: 1.5 }}>
                 <KeyboardReturn />

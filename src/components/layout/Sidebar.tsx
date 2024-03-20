@@ -94,12 +94,13 @@ const Item = ({
     <IconButton
       size="sm"
       onClick={() => {
-        fetch(`/api/deleteTimestamp?timestamp=${label}`, {
-          method: "DELETE",
-        }).then((res) => {
-          let drawerWithoutId = drawerItems.filter((e) => e.id !== id);
-          setDrawerItems(drawerWithoutId);
-        });
+        if (drawerItems.length > 1)
+          fetch(`/api/deleteTimestamp?timestamp=${label}`, {
+            method: "DELETE",
+          }).then((res) => {
+            let drawerWithoutId = drawerItems.filter((e) => e.id !== id);
+            setDrawerItems(drawerWithoutId);
+          });
       }}
     >
       <Clear />

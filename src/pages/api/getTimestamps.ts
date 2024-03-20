@@ -3,18 +3,24 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { join } from 'path';
 
 
-type ResponseData = { data: string[] } | { err: string }
+type ResponseData = { data: { id: string, name: string }[] } | { err: string }
 
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
 ) {
   try {
-    const fileContent = readFileSync(join(process.cwd(), 'data.json'), 'utf8');
+    const fileContent = JSON.parse(readFileSync(join(process.cwd(), 'data.json'), 'utf8'));
 
-    let keys = Object.keys(JSON.parse(fileContent))
+    let keys = Object.keys(fileContent)
 
-    return res.status(200).json({ data: keys });
+    let obj: { id: string, name: string }[] = []
+
+    keys.forEach((e: string) => {
+      obj.push({ id: e, name: fileContent[e].title })
+    });
+
+    return res.status(200).json({ data: obj });
   } catch (error) {
     return res.status(500).json({ err: "Error reading file" });
   }
