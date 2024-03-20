@@ -91,10 +91,10 @@ export default function handler(
 	var defaultTruckCooled: any;
 
 	for (const vehicle of vehicleTypes) {
-		if(vehicle.isDefault) {
-			if(vehicle.cooled) {
+		if (vehicle.isDefault) {
+			if (vehicle.cooled) {
 				defaultTruckCooled = vehicle;
-			}else {
+			} else {
 				defaultTruckUncooled = vehicle;
 			}
 		}
@@ -204,12 +204,43 @@ export default function handler(
 
 	console.log(report_store);
 
-	// writeIntoJson(report_store);
+	writeIntoJson(report_store);
 
 	return res.status(200).json({ data: "Done." });
 }
 
 function writeIntoJson(json: ReportStore) {
+
+	function padTwoDigits(num: number) {
+		return num.toString().padStart(2, "0");
+	}
+
+	function dateInYyyyMmDdHhMmSs(date: Date, dateDiveder: string = "-") {
+		// :::: Exmple Usage ::::
+		// The function takes a Date object as a parameter and formats the date as YYYY-MM-DD hh:mm:ss.
+		// 👇️ 2023-04-11 16:21:23 (yyyy-mm-dd hh:mm:ss)
+		//console.log(dateInYyyyMmDdHhMmSs(new Date()));
+
+		//  👇️️ 2025-05-04 05:24:07 (yyyy-mm-dd hh:mm:ss)
+		// console.log(dateInYyyyMmDdHhMmSs(new Date('May 04, 2025 05:24:07')));
+		// Date divider
+		// 👇️ 01/04/2023 10:20:07 (MM/DD/YYYY hh:mm:ss)
+		// console.log(dateInYyyyMmDdHhMmSs(new Date(), "/"));
+		return (
+			[
+				date.getFullYear(),
+				padTwoDigits(date.getMonth() + 1),
+				padTwoDigits(date.getDate()),
+			].join(dateDiveder) +
+			" " +
+			[
+				padTwoDigits(date.getHours()),
+				padTwoDigits(date.getMinutes()),
+				padTwoDigits(date.getSeconds()),
+			].join(":")
+		);
+	}
+
 	var filePath: string = "data.json";
 	fs.readFile(filePath, 'utf8', (err, data) => {
 		if (err) {
@@ -218,16 +249,17 @@ function writeIntoJson(json: ReportStore) {
 		}
 
 		// Parse the existing JSON data
-		let existingJsonData = [];
+		let existingJsonData: any = {};
 		if (data) {
 			existingJsonData = JSON.parse(data);
 		}
 
 		// Append your JSON object to the existing data
-		existingJsonData.push(json);
+		let timestamp = dateInYyyyMmDdHhMmSs(new Date())
+		existingJsonData[timestamp] = json;
 
 		// Convert the updated JSON data to a string
-		const updatedJsonString = JSON.stringify(existingJsonData, null, 2);
+		const updatedJsonString = JSON.stringify(existingJsonData);
 
 		// Write the updated JSON data back to the file
 		fs.writeFile(filePath, updatedJsonString, 'utf8', (err) => {
