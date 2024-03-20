@@ -84,6 +84,13 @@ export default function BasicModalDialog() {
     });
   };
 
+  const sendDataToApi = (truckData: Truck[], productData: ProductType[], warehouseData: Warehouse[]) => {
+    fetch("/api/createReport", {
+      body: JSON.stringify({ truckData, productData, warehouseData }),
+    })
+    // TODO Markus du musst hier weitermachen
+  }
+
   return (
     <React.Fragment>
       <Button
@@ -113,7 +120,7 @@ export default function BasicModalDialog() {
                 <FormLabel>Description</FormLabel>
                 <Input required />
               </FormControl>
-              <Button type="submit">Erstellen</Button>
+              <Button type="submit" onClick={() => sendDataToApi(truckData, productData, warehouseData)}>Erstellen</Button>
             </Stack>
             <TruckTable truckData={truckData} setTruckData={setTruckData} setTruckRowData={setTruckRowData} />
             <ProductTable productData={productData} setProductData={setProductData} setProductRowData={setProductRowData} />
