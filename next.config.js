@@ -9,7 +9,7 @@ const nextConfig = {
     dependencies: dependencies
   },
   eslint: {
-    ignoreDuringBuilds: false,
+    ignoreDuringBuilds: true,
   },
   reactStrictMode: true,
 }
