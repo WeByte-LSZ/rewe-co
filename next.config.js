@@ -8,6 +8,9 @@ const nextConfig = {
     version: version,
     dependencies: dependencies
   },
+  eslint: {
+    ignoreDuringBuilds: false,
+  },
   reactStrictMode: true,
 }
 
