@@ -23,7 +23,7 @@ export default function BasicModalDialog() {
   const [avarageDistance, setAvarageDistance] = React.useState<number>(0);
   const [truckData, setTruckData] = React.useState<Truck[]>([
     {
-      type: "Generic Truck",
+      type: "Lieferwagen",
       co2EmissionFactor: CO2EmissionsFactor.DIESEL,
       distanceDriven: 0,
       additionalWeight: 0,
@@ -37,7 +37,7 @@ export default function BasicModalDialog() {
       isDefault: true
     },
     {
-      type: "Generic Cooled",
+      type: "Lieferwagen Gekühlt",
       co2EmissionFactor: CO2EmissionsFactor.DIESEL,
       distanceDriven: 0,
       additionalWeight: 0,
