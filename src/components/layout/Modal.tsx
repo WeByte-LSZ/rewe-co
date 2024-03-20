@@ -141,20 +141,20 @@ export default function BasicModalDialog() {
           >
             <Stack spacing={2} sx={{ display: "flex" }}>
               <FormControl>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>Auswertung Name</FormLabel>
                 <Input autoFocus required onChange={(event) => setTitle(event.target.value)}>{title}</Input>
               </FormControl>
               <FormControl>
-                <FormLabel>Description</FormLabel>
+                <FormLabel>Beschreibung</FormLabel>
                 <Input required onChange={(event) => setDescription(event.target.value)}>{description}</Input>
               </FormControl>
               <FormControl>
-                <FormLabel>CO2 Cost Maximum</FormLabel>
-                <Input type="Number" required onChange={(event) => setMaxMoney(Number(event.target.value))}>{description}</Input>
+                <FormLabel>CO2 Kosten Maximum</FormLabel>
+                <Input type="number" required onChange={(event) => setMaxMoney(parseInt(event.target.value))}>{description}</Input>
               </FormControl>
               <FormControl>
-                <FormLabel>Avarage Delivery Distance (Last Warehouse to Supermarket)</FormLabel>
-                <Input type="Number"required onChange={(event) => setAvarageDistance(Number(event.target.value))}>{description}</Input>
+                <FormLabel>Durchschnittliche Lieferdistanz (Letzter Lagerstätte bis Supermarkt)</FormLabel>
+                <Input type="number"required onChange={(event) => setAvarageDistance(parseInt(event.target.value))}>{description}</Input>
               </FormControl>
               <Button type="submit" onClick={pushReport}>Erstellen</Button>
             </Stack>

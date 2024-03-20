@@ -10,18 +10,18 @@ export default function TruckTable({ truckData, setTruckData, setTruckRowData }:
         >
             <thead>
                 <tr>
-                    <th style={{ width: "var(--Table-firstColumnWidth)" }}>
-                        Truck Type
+                    <th style={{ width: "11%" }}>
+                        Fahrzeug Typ
                     </th>
-                    <th style={{ width: 170 }}>CO2 Emission Factor</th>
-                    <th style={{ width: 170 }}>Distance&nbsp;(km)</th>
-                    <th style={{ width: 170 }}>Additional Weight&nbsp;(kg)</th>
-                    <th style={{ width: 250 }}>Fuel Consumption&nbsp;(l/100km)</th>
-                    <th style={{ width: 100 }}>Cooling</th>
-                    <th style={{ width: 100 }}>Solar</th>
-                    <th style={{ width: 100 }}>Max Weight</th>
-                    <th style={{ width: 100 }}>Max Volume</th>
-                    <th style={{ width: 160 }}>Number of Trucks</th>
+                    <th style={{ width: "11%"}}>CO2 Emissions Faktor</th>
+                    <th style={{ width: "9%"}}>Strecke&nbsp;(km)</th>
+                    <th style={{ width: "11%"}}>Additional Weight&nbsp;(kg)</th>
+                    <th style={{ width: "14%"}}>Treibstoffverbrauch&nbsp;(l/100km)</th>
+                    <th style={{}}>Kühlung</th>
+                    <th style={{}}>Solar</th>
+                    <th style={{}}>Max. Gewicht</th>
+                    <th style={{}}>Max. Volumen</th>
+                    <th style={{}}>Anzahl von Fahrzeugen</th>
                     <th
                         aria-label="last"
                         style={{ width: "100" }}
