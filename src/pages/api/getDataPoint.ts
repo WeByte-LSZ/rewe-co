@@ -17,7 +17,7 @@ export default function handler(
 
     let obj = JSON.parse(fileContent) as ReportStore
 
-    console.log("===========\n", timestamp, obj[timestamp], "=========\n")
+    // console.log("===========\n", timestamp, obj[timestamp], "=========\n")
 
     return res.status(200).json({ data: obj[timestamp] });
   } catch (error) {

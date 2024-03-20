@@ -86,8 +86,21 @@ export default function BasicModalDialog() {
 
   const pushReport = async () => {
     console.log("test");
+    const data = {
+      truckData: truckData,
+      productData: productData,
+      warehouseData: warehouseData,
+    };
+
+    
     try {
-      const response = await fetch('/api/simulation');
+      const response = await fetch('/api/simulation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }

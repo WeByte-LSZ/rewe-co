@@ -11,16 +11,17 @@ export default function handler(
 	req: NextApiRequest,
 	res: NextApiResponse<ResponseData>
 ) {
-	if (req.method !== 'DELETE') return res.status(405).json({ err: 'Method not allowed' });
-	console.log("test2");
+	console.log(req.body);
+	const body = req.body;
 
-	var maximum = req.query.maximum as unknown as number;
-	var vehicleTypes = req.query.vehiclesTypes as unknown as Truck[];
-	var warehouses = req.query.warehouses as unknown as Warehouse[];
-	var productTypes = req.query.producttypes as unknown as ProductType[];
-	var defaultTruckUncooled = req.query.defaultTruckUncooled as unknown as Truck;
-	var defaultTruckCooled = req.query.defaultTruckCooled as unknown as Truck;
-	var averageKilometersZustellung = req.query.averageKilometersZustellung as unknown as number;
+	var averageKilometersZustellung = 20;
+	var maximum = 6000000;
+	//var maximum = req.query.maximum as unknown as number;
+
+	var vehicleTypes = body.truckData as unknown as Truck[];
+	var warehouses = body.warehouseData as unknown as Warehouse[];
+	var productTypes = body.productData as unknown as ProductType[];
+	//var averageKilometersZustellung = req.query.averageKilometersZustellung as unknown as number;
 
 	var report: OurReport = {
 		title: "Report " + new Date().getTime().toString(),
@@ -82,6 +83,19 @@ export default function handler(
 	}
 	totalAmountOfUncooledVolume += 0.2 * totalAmountOfItems * percentage; //0.2 representing the average volume in l
 	totalAmountOfWeight += 0.1 * totalAmountOfItems * percentage; //0.1 representing the average weight in kg
+
+	var defaultTruckUncooled: any;
+	var defaultTruckCooled: any;
+
+	for (const vehicle of vehicleTypes) {
+		if(vehicle.isDefault) {
+			if(vehicle.cooled) {
+				defaultTruckCooled = vehicle;
+			}else {
+				defaultTruckUncooled = vehicle;
+			}
+		}
+	}
 
 	var defaultTruckUncooledVolume: number = defaultTruckUncooled.maxVolume;
 	var defaultTruckCooledVolume: number = defaultTruckCooled.maxVolume;
@@ -185,7 +199,7 @@ export default function handler(
 
 	var report_store: ReportStore = { timestamp: report };
 
-	writeIntoJson(report_store);
+	// writeIntoJson(report_store);
 
 	return res.status(200).json({ data: "Done." });
 }
