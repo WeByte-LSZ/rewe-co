@@ -90,7 +90,7 @@ export default function Home({ setTheme, theme, themes }: { setTheme: Function; 
               Interactive demo on texotek.cloud!
             </Typography>
             <Typography id="nested-modal-description" textColor="text.tertiary">
-              The demo on the current page is not interactive, visit <a href='https://texotek.cloud/'>this site</a> to create pages.
+              The demo on the current page is not interactive, visit <a href='http://texotek.cloud/'>this site</a> to create pages.
             </Typography>
             <Box
               sx={{
@@ -100,7 +100,7 @@ export default function Home({ setTheme, theme, themes }: { setTheme: Function; 
                 flexDirection: { xs: 'column', sm: 'row-reverse' },
               }}
             >
-              <Button variant="solid" color="primary" href='https://texotek.cloud/' component="a">
+              <Button variant="solid" color="primary" href='http://texotek.cloud/' component="a">
                 Redirect
               </Button>
               <Button variant="solid" color="primary" onClick={() => setRedirect(false)}>
