@@ -4,6 +4,9 @@ import { join } from 'path';
 import fs, { writeFileSync, readFileSync } from 'fs';
 import { ProductType, Truck, Warehouse } from '@/types/InputTypes';
 import { Report, ProductProperties, TruckProperties, WarehouseProperties, ReportStore } from '@/types/Report';
+import { Calculation, ElectricVehicleCalculation, Fuel, FuelVehicleCalculation } from './calculation/types/types';
+
+import {calculate} from './calculation/main';
 
 type ResponseData = { data: string } | { err: string }
 
@@ -11,6 +14,22 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
 ) {
+
+  var e: FuelVehicleCalculation = {
+    weight: 100,
+    distance: 100,
+    id: "a",
+    fuel: Fuel.PETROLEUM,
+    fuelConsumptionRate: 100,
+  }
+
+  var calc: Calculation = {
+    calculations: [e],
+  }
+
+  calculate(calc);
+
+  return;
   console.log(req.body);
   const body = req.body;
 
