@@ -70,10 +70,13 @@ export function calculate(calculation: Calculation) {
 	}
 
 	for (const calc of calculation.calculations) {
-		calc.function(report);
+		calc.function(report, calc);
 	}
 
+	const co2_kg: number = report.vehicles.co2_kg + report.cooling.co2_kg + report.heating.co2_kg - report.solar_panels.co2_kg + report.electricity.co2_kg;
 	const eur: number = co2ToEur(report.co2_kg);
+
+	report.co2_kg = co2_kg;
 	report.eur = eur;
 
 	return report;
