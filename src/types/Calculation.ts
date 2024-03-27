@@ -16,7 +16,7 @@ export interface SingleCalculation {
 export interface VehicleCalculation extends SingleCalculation {
 	distance: number, //kilometers
 	weight: number, //kilograms
-	kWhUsedForCooling?: number,
+	kWhUsedForCooling: number,
 }
 
 export interface ElectricVehicleCalculation extends VehicleCalculation {
@@ -29,11 +29,11 @@ export interface FuelVehicleCalculation extends VehicleCalculation {
 }
 
 export enum Fuel {
-	PETROLEUM,
-	BIODIESEL,
-	SYNTHETIC_DIESEL,
-	GASOLINE,
-	COMPRESSED_NATURAL_GAS,
+	PETROLEUM = 1,
+	BIODIESEL = 1,
+	SYNTHETIC_DIESEL = 1,
+	GASOLINE = 1,
+	COMPRESSED_NATURAL_GAS = 1,
 }
 
 
@@ -52,9 +52,9 @@ export interface HeatingCalculation extends SingleCalculation {
 }
 
 export enum HeatingFuel {
-	NATURAL_GAS,
-	PROPANE,
-	OIL,
+	NATURAL_GAS = 1,
+	PROPANE = 1,
+	OIL = 1,
 }
 
 
@@ -67,14 +67,14 @@ export interface SolarPanelCalculation extends SingleCalculation {
 
 
 // --Electricity--
-export interface Electricity extends SingleCalculation {
+export interface ElectricityCalculation extends SingleCalculation {
 	kWh: number, //excluding kWh included in other calculations: for example cooling or vehicle kWh cooling
 	electricityType: ElectricityType,
 }
 
 export enum ElectricityType {
-	RENEWABLE_ENERGY,
-	NATURAL_GAS,
-	OIL,
-	CONVENTIONAL_ENERGY_MIX,
+	RENEWABLE_ENERGY = 1,
+	NATURAL_GAS = 1,
+	OIL = 1,
+	CONVENTIONAL_ENERGY_MIX = 1,
 }
