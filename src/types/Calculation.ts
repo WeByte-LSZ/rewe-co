@@ -1,10 +1,13 @@
 // --Overall Calculation--
 export interface Calculation {
+	title: string,
+	description: string,
 	calculations: SingleCalculation[],
 }
 
 export interface SingleCalculation {
 	id: string,
+	function: Function,
 }
 
 
@@ -15,7 +18,7 @@ export interface VehicleCalculation extends SingleCalculation {
 	weight: number, //kilograms
 	kWhUsedForCooling?: number,
 }
- 
+
 export interface ElectricVehicleCalculation extends VehicleCalculation {
 	energyEfficiency: number, //kWh used per 100 kilometers
 }
